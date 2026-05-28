@@ -14,7 +14,66 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      saved_searches: {
+        Row: {
+          city: string
+          created_at: string
+          id: string
+          query: string
+          tag: string
+          user_id: string
+        }
+        Insert: {
+          city?: string
+          created_at?: string
+          id?: string
+          query?: string
+          tag?: string
+          user_id: string
+        }
+        Update: {
+          city?: string
+          created_at?: string
+          id?: string
+          query?: string
+          tag?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_preferences: {
+        Row: {
+          created_at: string
+          id: string
+          last_detected_city: string | null
+          last_query: string | null
+          preferred_city: string | null
+          preferred_tag: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          last_detected_city?: string | null
+          last_query?: string | null
+          preferred_city?: string | null
+          preferred_tag?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          last_detected_city?: string | null
+          last_query?: string | null
+          preferred_city?: string | null
+          preferred_tag?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
