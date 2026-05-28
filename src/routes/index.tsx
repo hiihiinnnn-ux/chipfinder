@@ -71,7 +71,7 @@ function Index() {
   const [tag, setTag] = useState<string>("All services");
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [dark, setDark] = useState(false);
+  const [dark, setDark] = useState(true);
   const [user, setUser] = useState<AppUser | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [authMode, setAuthMode] = useState<"phone" | "otp">("phone");
@@ -89,7 +89,7 @@ function Index() {
 
   useEffect(() => {
     const saved = window.localStorage.getItem("chipfinder-theme");
-    const nextDark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const nextDark = saved ? saved === "dark" : true;
     setDark(nextDark);
     document.documentElement.classList.toggle("dark", nextDark);
   }, []);
