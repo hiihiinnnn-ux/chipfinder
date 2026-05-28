@@ -37,39 +37,51 @@
   --color-steel-500: var(--steel-500);
   --color-steel-700: var(--steel-700);
   --color-steel-900: var(--steel-900);
-  --background: var(--steel-200);
-  --foreground: var(--steel-900);
-  --card: var(--steel-50);
+  --color-blue-50: var(--blue-50);
+  --color-blue-100: var(--blue-100);
+  --color-blue-500: var(--blue-500);
+  --color-blue-600: var(--blue-600);
+  --color-blue-700: var(--blue-700);
+}
+
+:root {
   --radius: 0.5rem;
 
   /* Slate & Steel palette */
-  --steel-900: oklch(0.27 0.02 250);   /* #2d3748 */
-  --steel-700: oklch(0.38 0.02 250);   /* #4a5568 */
-  --steel-500: oklch(0.55 0.015 250);  /* #718096 */
-  --steel-300: oklch(0.74 0.012 250);  /* #a0aec0 */
+  --steel-900: oklch(0.27 0.02 250);
+  --steel-700: oklch(0.38 0.02 250);
+  --steel-500: oklch(0.55 0.015 250);
+  --steel-300: oklch(0.74 0.012 250);
   --steel-200: oklch(0.86 0.008 250);
   --steel-100: oklch(0.94 0.005 250);
   --steel-50:  oklch(0.98 0.003 250);
 
-  --background: var(--steel-50);
+  /* Blue accents */
+  --blue-700: oklch(0.46 0.16 255);
+  --blue-600: oklch(0.55 0.18 255);
+  --blue-500: oklch(0.63 0.18 255);
+  --blue-100: oklch(0.93 0.04 255);
+  --blue-50:  oklch(0.97 0.02 255);
+
+  --background: var(--steel-200);
   --foreground: var(--steel-900);
-  --card: oklch(1 0 0);
+  --card: var(--steel-50);
   --card-foreground: var(--steel-900);
-  --popover: oklch(1 0 0);
+  --popover: var(--steel-50);
   --popover-foreground: var(--steel-900);
-  --primary: var(--steel-900);
-  --primary-foreground: var(--steel-50);
+  --primary: var(--blue-700);
+  --primary-foreground: oklch(1 0 0);
   --secondary: var(--steel-100);
   --secondary-foreground: var(--steel-900);
   --muted: var(--steel-100);
   --muted-foreground: var(--steel-500);
-  --accent: var(--steel-200);
-  --accent-foreground: var(--steel-900);
+  --accent: var(--blue-100);
+  --accent-foreground: var(--blue-700);
   --destructive: oklch(0.6 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: var(--steel-200);
-  --input: var(--steel-200);
-  --ring: var(--steel-700);
+  --border: var(--steel-300);
+  --input: var(--steel-300);
+  --ring: var(--blue-600);
 }
 
 @layer base {
@@ -81,4 +93,22 @@
     -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
+}
+
+@keyframes splash-fade {
+  0%   { opacity: 0; transform: translateY(8px); }
+  15%  { opacity: 1; transform: translateY(0); }
+  75%  { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-4px); }
+}
+@keyframes splash-bar {
+  0%   { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
+.splash-overlay {
+  animation: splash-fade 2.2s ease forwards;
+}
+.splash-bar {
+  transform-origin: left;
+  animation: splash-bar 1.8s ease-out forwards;
 }
