@@ -37,9 +37,9 @@
   --color-steel-500: var(--steel-500);
   --color-steel-700: var(--steel-700);
   --color-steel-900: var(--steel-900);
-}
-
-:root {
+  --background: var(--steel-200);
+  --foreground: var(--steel-900);
+  --card: var(--steel-50);
   --radius: 0.5rem;
 
   /* Slate & Steel palette */
