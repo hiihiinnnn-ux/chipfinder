@@ -266,7 +266,9 @@ function Index() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search shop, service, or address…"
+                  placeholder="Search shop, service, or address… (press /)"
+                  id="cf-search"
+
                   className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
