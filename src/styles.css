@@ -95,23 +95,36 @@
     --steel-50:  oklch(0.98 0.003 250);
     --blue-700: oklch(0.46 0.16 255);
     --blue-600: oklch(0.55 0.18 255);
-    --blue-500: oklch(0.63 0.18 255);
-    --blue-100: oklch(0.93 0.04 255);
-    --blue-50:  oklch(0.97 0.02 255);
-    --background: oklch(0.22 0.04 255);
-    --primary-foreground: oklch(1 0 0);
-    --destructive: oklch(0.6 0.22 25);
-    --destructive-foreground: oklch(0.98 0 0);
-  }
+@keyframes splash-fade {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@-webkit-keyframes splash-fade {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@keyframes splash-bar {
+  0%   { -webkit-transform: scaleX(0); transform: scaleX(0); }
+  100% { -webkit-transform: scaleX(1); transform: scaleX(1); }
+}
+.splash-overlay {
+  -webkit-animation: splash-fade 2.2s ease forwards;
+  animation: splash-fade 2.2s ease forwards;
+  will-change: opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.splash-bar {
+  -webkit-transform-origin: left;
+  transform-origin: left;
+  -webkit-animation: splash-bar 1.8s ease-out forwards;
+  animation: splash-bar 1.8s ease-out forwards;
 }
 
-@layer base {
-  * { border-color: var(--color-border); }
-  html, body { font-family: var(--font-sans); }
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    -webkit-font-smoothing: antialiased;
   }
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
