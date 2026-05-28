@@ -240,7 +240,6 @@ function Index() {
 
             <div className="min-w-0 space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
 
-            <div className="space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
               {results.length === 0 ? (
                 <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
                   No shops match those filters. Try clearing the city or service.
