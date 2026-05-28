@@ -102,10 +102,10 @@ function Index() {
                 <div className="flex animate-[marquee_40s_linear_infinite] gap-8 whitespace-nowrap text-xs text-white/85">
                   {(() => {
                     const top = [...SHOPS].sort((a, b) => b.rating - a.rating)[0];
-                    const biggest = [...ALL_CITIES].sort((a, b) => (cityCountsStatic.get(b) ?? 0) - (cityCountsStatic.get(a) ?? 0))[0];
+                    const biggest = [...ALL_CITIES].sort((a, b) => (cityCounts.get(b) ?? 0) - (cityCounts.get(a) ?? 0))[0];
                     const items = [
                       { icon: Star, text: `Top rated: ${top.name} — ${top.rating.toFixed(1)}★` },
-                      { icon: Building2, text: `Most shops in ${biggest} (${cityCountsStatic.get(biggest)} listed)` },
+                      { icon: Building2, text: `Most shops in ${biggest} (${cityCounts.get(biggest)} listed)` },
                       { icon: Package, text: `Repair parts catalog now open — browse CPUs, GPUs, SSDs` },
                       { icon: Cpu, text: `${SHOPS.length} verified shops across ${ALL_CITIES.length} cities` },
                       { icon: Wrench, text: `Same-day repairs available in Baghdad & Erbil` },
