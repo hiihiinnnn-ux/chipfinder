@@ -86,6 +86,8 @@ function Index() {
   const lastSavedKeyRef = useRef("");
   const saveSearchProfile = useServerFn(saveUserSearchProfile);
   const loadSearchProfile = useServerFn(getUserSearchProfile);
+  const saveThemePref = useServerFn(saveUserTheme);
+  const lastSavedThemeRef = useRef<string | null>(null);
 
   useEffect(() => {
     const saved = window.localStorage.getItem("chipfinder-theme");
@@ -97,7 +99,15 @@ function Index() {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
     window.localStorage.setItem("chipfinder-theme", dark ? "dark" : "light");
-  }, [dark]);
+    if (!user || !loadedCloudPrefs) return;
+    const themeValue = dark ? "dark" : "light";
+    if (lastSavedThemeRef.current === themeValue) return;
+    lastSavedThemeRef.current = themeValue;
+    saveThemePref({ data: { theme: themeValue } }).catch(() => {
+      lastSavedThemeRef.current = null;
+    });
+  }, [dark, loadedCloudPrefs, saveThemePref, user]);
+
 
   useEffect(() => {
     let active = true;
