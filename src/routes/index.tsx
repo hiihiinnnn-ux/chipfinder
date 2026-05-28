@@ -10,7 +10,7 @@ import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
-import { getUserSearchProfile, saveUserSearchProfile } from "@/lib/user-preferences.functions";
+import { getUserSearchProfile, saveUserSearchProfile, saveUserTheme } from "@/lib/user-preferences.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -86,6 +86,8 @@ function Index() {
   const lastSavedKeyRef = useRef("");
   const saveSearchProfile = useServerFn(saveUserSearchProfile);
   const loadSearchProfile = useServerFn(getUserSearchProfile);
+  const saveThemePref = useServerFn(saveUserTheme);
+  const lastSavedThemeRef = useRef<string | null>(null);
 
   useEffect(() => {
     const saved = window.localStorage.getItem("chipfinder-theme");
@@ -97,7 +99,15 @@ function Index() {
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
     window.localStorage.setItem("chipfinder-theme", dark ? "dark" : "light");
-  }, [dark]);
+    if (!user || !loadedCloudPrefs) return;
+    const themeValue = dark ? "dark" : "light";
+    if (lastSavedThemeRef.current === themeValue) return;
+    lastSavedThemeRef.current = themeValue;
+    saveThemePref({ data: { theme: themeValue } }).catch(() => {
+      lastSavedThemeRef.current = null;
+    });
+  }, [dark, loadedCloudPrefs, saveThemePref, user]);
+
 
   useEffect(() => {
     let active = true;
@@ -251,21 +261,26 @@ function Index() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
-
   useEffect(() => {
     if (!user || loadedCloudPrefs) return;
     loadSearchProfile()
       .then((profile) => {
-        const prefs = profile.preferences;
+        const prefs = profile.preferences as (typeof profile.preferences & { theme?: string | null }) | null;
         if (prefs?.preferred_city && ALL_CITIES.includes(prefs.preferred_city)) setCity(prefs.preferred_city);
         if (prefs?.preferred_tag && ALL_TAGS.includes(prefs.preferred_tag)) setTag(prefs.preferred_tag);
         if (prefs?.last_query) setQuery(prefs.last_query);
         setDetectedCity(prefs?.last_detected_city ?? null);
+        if (prefs?.theme === "dark" || prefs?.theme === "light") {
+          lastSavedThemeRef.current = prefs.theme;
+          setDark(prefs.theme === "dark");
+        }
         setSavedSearches(profile.searches ?? []);
       })
       .catch(() => {})
       .finally(() => setLoadedCloudPrefs(true));
   }, [loadSearchProfile, loadedCloudPrefs, user]);
+
+
 
   useEffect(() => {
     if (!user || !loadedCloudPrefs) return;

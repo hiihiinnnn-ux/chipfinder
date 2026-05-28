@@ -49,6 +49,7 @@ export type Database = {
           last_query: string | null
           preferred_city: string | null
           preferred_tag: string | null
+          theme: string | null
           updated_at: string
           user_id: string
         }
@@ -59,6 +60,7 @@ export type Database = {
           last_query?: string | null
           preferred_city?: string | null
           preferred_tag?: string | null
+          theme?: string | null
           updated_at?: string
           user_id: string
         }
@@ -69,6 +71,7 @@ export type Database = {
           last_query?: string | null
           preferred_city?: string | null
           preferred_tag?: string | null
+          theme?: string | null
           updated_at?: string
           user_id?: string
         }

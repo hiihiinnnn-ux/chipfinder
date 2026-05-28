@@ -8,7 +8,22 @@ const PreferenceSchema = z.object({
   city: z.string().min(1).max(80).default("All cities"),
   tag: z.string().min(1).max(80).default("All services"),
   detectedCity: z.string().max(80).nullable().optional(),
+  theme: z.enum(["dark", "light"]).optional(),
 });
+
+const ThemeSchema = z.object({ theme: z.enum(["dark", "light"]) });
+
+export const saveUserTheme = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input) => ThemeSchema.parse(input))
+  .handler(async ({ data, context }) => {
+    const { supabase, userId } = context;
+    const { error } = await supabase
+      .from("user_preferences")
+      .upsert({ user_id: userId, theme: data.theme }, { onConflict: "user_id" });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
 
 export const getUserSearchProfile = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -16,7 +31,7 @@ export const getUserSearchProfile = createServerFn({ method: "GET" })
     const { supabase, userId } = context;
 
     const [{ data: preferences, error: preferencesError }, { data: searches, error: searchesError }] = await Promise.all([
-      supabase.from("user_preferences").select("preferred_city, preferred_tag, last_query, last_detected_city").eq("user_id", userId).maybeSingle(),
+      supabase.from("user_preferences").select("preferred_city, preferred_tag, last_query, last_detected_city, theme").eq("user_id", userId).maybeSingle(),
       supabase.from("saved_searches").select("id, query, city, tag, created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(5),
     ]);
 
