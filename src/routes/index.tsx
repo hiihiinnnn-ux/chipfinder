@@ -448,20 +448,21 @@ function Index() {
                         </Link>
                       </li>
                       <li>
-                        <a href={gmailComposeUrl("Suggest a shop")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
+                        <a href={telegramUrl} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop (Telegram)
                         </a>
                       </li>
                       <li>
-                        <a href={gmailComposeUrl("Report an issue")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue
+                        <a href={telegramUrl} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue (Telegram)
                         </a>
                       </li>
                       <li>
-                        <a href={gmailComposeUrl("Help")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Help & support
+                        <a href={phoneTelUrl} onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Call {OWNER_PHONE_LOCAL}
                         </a>
                       </li>
+
                       <li className="my-1 border-t" />
                       <li className="px-2.5 py-2 text-[11px] text-muted-foreground">
                         <p className="mb-1 flex items-center gap-1.5 font-semibold text-foreground">
