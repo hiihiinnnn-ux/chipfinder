@@ -191,9 +191,11 @@ function Index() {
             </span>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-[200px_1fr_1fr]">
+          <div className="grid gap-4 lg:grid-cols-[180px_1.1fr_1fr]">
+
             {/* Cities side menu */}
-            <aside id="cities" className="lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
+            <aside id="cities" className="min-w-0 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
+
               <div className="rounded-xl border bg-card p-3">
                 <h3 className="mb-2 flex items-center gap-1.5 px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   <Building2 className="h-3.5 w-3.5" /> Cities
@@ -236,8 +238,8 @@ function Index() {
               </div>
             </aside>
 
-            {/* List */}
-            <div className="space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
+            <div className="min-w-0 space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
+
               {results.length === 0 ? (
                 <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
                   No shops match those filters. Try clearing the city or service.
