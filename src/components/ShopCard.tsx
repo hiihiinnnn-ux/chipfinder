@@ -44,10 +44,20 @@ export function ShopCard({ shop, active, onHover }: Props) {
         ))}
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
+      <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px] text-muted-foreground">
         <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{shop.hours}</span>
         <span className="flex items-center gap-1"><Phone className="h-3 w-3" />{shop.phone}</span>
+        <a
+          href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${shop.name}, ${shop.address}, ${shop.city}, Iraq`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="ml-auto flex items-center gap-1 rounded-md bg-primary px-2 py-1 text-[11px] font-semibold text-primary-foreground hover:bg-blue-600"
+        >
+          <MapPin className="h-3 w-3" /> Directions
+        </a>
       </div>
+
     </article>
   );
 }
