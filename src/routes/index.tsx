@@ -72,7 +72,10 @@ function Index() {
     setQuery(s.name);
     setMenuOpen(false);
     document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+  };
+
   useEffect(() => {
+
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "/" && !["INPUT", "TEXTAREA", "SELECT"].includes((e.target as HTMLElement)?.tagName)) {
         e.preventDefault();
