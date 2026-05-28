@@ -1,12 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles } from "lucide-react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail } from "lucide-react";
 
 
 import { SHOPS, ALL_CITIES, ALL_TAGS } from "@/data/shops";
 import { ShopCard } from "@/components/ShopCard";
 import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
+import { getUserSearchProfile, saveUserSearchProfile } from "@/lib/user-preferences.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -29,6 +33,38 @@ const CATEGORY_ICONS: Record<string, typeof Wrench> = {
   Networking: Network,
   Parts: Cpu,
 };
+
+const OWNER_EMAIL = "hiihiinnnn@gmail.com";
+
+const gmailComposeUrl = (subject: string) =>
+  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(OWNER_EMAIL)}&su=${encodeURIComponent(subject)}`;
+
+type AppUser = { id: string; email?: string; phone?: string };
+type SavedSearch = { id: string; query: string; city: string; tag: string; created_at: string };
+
+const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
+  Baghdad: { lat: 33.3152, lng: 44.3661 },
+  Erbil: { lat: 36.1911, lng: 44.0092 },
+  Basra: { lat: 30.5085, lng: 47.7804 },
+  Mosul: { lat: 36.3489, lng: 43.1577 },
+  Najaf: { lat: 31.9996, lng: 44.3148 },
+  Karbala: { lat: 32.6160, lng: 44.0249 },
+  Sulaymaniyah: { lat: 35.5558, lng: 45.4351 },
+  Kirkuk: { lat: 35.4681, lng: 44.3922 },
+  Duhok: { lat: 36.8665, lng: 42.9885 },
+  Hillah: { lat: 32.4770, lng: 44.4200 },
+};
+
+const distanceKm = (a: { lat: number; lng: number }, b: { lat: number; lng: number }) => {
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+};
+
 function Index() {
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<string>("All cities");
@@ -36,11 +72,51 @@ function Index() {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
+  const [user, setUser] = useState<AppUser | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"phone" | "otp">("phone");
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [authMessage, setAuthMessage] = useState("");
+  const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
+  const [detectedCity, setDetectedCity] = useState<string | null>(null);
+  const [loadedCloudPrefs, setLoadedCloudPrefs] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const saveTimerRef = useRef<number | null>(null);
+  const lastSavedKeyRef = useRef("");
+  const saveSearchProfile = useServerFn(saveUserSearchProfile);
+  const loadSearchProfile = useServerFn(getUserSearchProfile);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("chipfinder-theme");
+    const nextDark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setDark(nextDark);
+    document.documentElement.classList.toggle("dark", nextDark);
+  }, []);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
+    window.localStorage.setItem("chipfinder-theme", dark ? "dark" : "light");
   }, [dark]);
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (!active) return;
+      setUser(data.user ? { id: data.user.id, email: data.user.email, phone: data.user.phone } : null);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ? { id: session.user.id, email: session.user.email, phone: session.user.phone } : null);
+      if (!session?.user) {
+        setSavedSearches([]);
+        setLoadedCloudPrefs(false);
+      }
+    });
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
@@ -74,6 +150,96 @@ function Index() {
     document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const signInWithGoogle = async () => {
+    setAuthMessage("");
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+      extraParams: { prompt: "select_account" },
+    });
+    if (result.error) setAuthMessage("Google sign-in did not finish. Please try again.");
+  };
+
+  const sendPhoneCode = async () => {
+    setAuthMessage("");
+    const cleanPhone = phone.trim();
+    if (!/^\+[1-9]\d{7,14}$/.test(cleanPhone)) {
+      setAuthMessage("Use international format, like +9647xxxxxxxxx.");
+      return;
+    }
+    const { error } = await supabase.auth.signInWithOtp({ phone: cleanPhone });
+    if (error) setAuthMessage(error.message);
+    else {
+      setAuthMode("otp");
+      setAuthMessage("Code sent. Check your SMS messages.");
+    }
+  };
+
+  const verifyPhoneCode = async () => {
+    setAuthMessage("");
+    const { error } = await supabase.auth.verifyOtp({ phone: phone.trim(), token: otp.trim(), type: "sms" });
+    if (error) setAuthMessage(error.message);
+    else {
+      setAuthOpen(false);
+      setMenuOpen(false);
+      setOtp("");
+      setAuthMode("phone");
+    }
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setMenuOpen(false);
+  };
+
+  const useMyLocation = () => {
+    if (!navigator.geolocation) {
+      setAuthMessage("Location is not available in this browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const current = { lat: coords.latitude, lng: coords.longitude };
+        const nearest = ALL_CITIES.reduce((best, c) => {
+          const coordsForCity = CITY_COORDS[c];
+          if (!coordsForCity) return best;
+          const distance = distanceKm(current, coordsForCity);
+          return distance < best.distance ? { city: c, distance } : best;
+        }, { city: "All cities", distance: Number.POSITIVE_INFINITY });
+        setDetectedCity(nearest.city);
+        setCity(nearest.city);
+        setMenuOpen(false);
+        document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+      },
+      () => setAuthMessage("Location permission was blocked. You can still choose a city manually."),
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 1000 * 60 * 30 },
+    );
+  };
+
+  const applySavedSearch = (saved: SavedSearch) => {
+    setQuery(saved.query);
+    setCity(saved.city);
+    setTag(saved.tag);
+    setMenuOpen(false);
+    document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const saveCurrentSearch = () => {
+    if (!user) {
+      setAuthOpen(true);
+      setMenuOpen(false);
+      return;
+    }
+    const key = `${query.trim()}|${city}|${tag}|${detectedCity ?? ""}`;
+    lastSavedKeyRef.current = "";
+    saveSearchProfile({ data: { query, city, tag, detectedCity } })
+      .then(() => {
+        lastSavedKeyRef.current = key;
+        return loadSearchProfile();
+      })
+      .then((profile) => setSavedSearches(profile.searches ?? []))
+      .catch(() => {});
+  };
+
   useEffect(() => {
 
     const onKey = (e: KeyboardEvent) => {
@@ -85,6 +251,37 @@ function Index() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
+
+  useEffect(() => {
+    if (!user || loadedCloudPrefs) return;
+    loadSearchProfile()
+      .then((profile) => {
+        const prefs = profile.preferences;
+        if (prefs?.preferred_city && ALL_CITIES.includes(prefs.preferred_city)) setCity(prefs.preferred_city);
+        if (prefs?.preferred_tag && ALL_TAGS.includes(prefs.preferred_tag)) setTag(prefs.preferred_tag);
+        if (prefs?.last_query) setQuery(prefs.last_query);
+        setDetectedCity(prefs?.last_detected_city ?? null);
+        setSavedSearches(profile.searches ?? []);
+      })
+      .catch(() => {})
+      .finally(() => setLoadedCloudPrefs(true));
+  }, [loadSearchProfile, loadedCloudPrefs, user]);
+
+  useEffect(() => {
+    if (!user || !loadedCloudPrefs) return;
+    const key = `${query.trim()}|${city}|${tag}|${detectedCity ?? ""}`;
+    if (key === lastSavedKeyRef.current) return;
+    if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = window.setTimeout(() => {
+      lastSavedKeyRef.current = key;
+      saveSearchProfile({ data: { query, city, tag, detectedCity } }).catch(() => {
+        lastSavedKeyRef.current = "";
+      });
+    }, 1200);
+    return () => {
+      if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current);
+    };
+  }, [city, detectedCity, loadedCloudPrefs, query, saveSearchProfile, tag, user]);
 
 
 
@@ -131,6 +328,13 @@ function Index() {
               <Link to="/list-shop" className="hover:text-white">For shop owners</Link>
             </nav>
             <div className="flex items-center gap-2">
+              <button
+                onClick={() => (user ? signOut() : setAuthOpen(true))}
+                className="hidden items-center gap-1.5 rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 md:flex"
+              >
+                {user ? <LogOut className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
+                {user ? "Sign out" : "Sign in"}
+              </button>
               <Link
                 to="/list-shop"
                 className="hidden items-center gap-1.5 rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:flex"
@@ -174,6 +378,11 @@ function Index() {
                         </button>
                       </li>
                       <li>
+                        <button onClick={useMyLocation} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                          <LocateFixed className="h-4 w-4 text-emerald-600" /> Use my city
+                        </button>
+                      </li>
+                      <li>
                         <button
                           onClick={() => { setDark((v) => !v); setMenuOpen(false); }}
                           className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted"
@@ -183,23 +392,56 @@ function Index() {
                         </button>
                       </li>
                       <li className="my-1 border-t" />
+                      {user ? (
+                        <li>
+                          <button onClick={signOut} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                            <LogOut className="h-4 w-4 text-rose-600" /> Sign out
+                          </button>
+                        </li>
+                      ) : (
+                        <li>
+                          <button onClick={() => { setAuthOpen(true); setMenuOpen(false); }} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                            <LogIn className="h-4 w-4 text-blue-600" /> Sign in to save searches
+                          </button>
+                        </li>
+                      )}
+                      <li>
+                        <button onClick={saveCurrentSearch} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                          <History className="h-4 w-4 text-violet-600" /> Save this search
+                        </button>
+                      </li>
+                      {user && savedSearches.length > 0 && (
+                        <li className="px-2.5 py-2">
+                          <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                            <History className="h-3.5 w-3.5" /> Recent
+                          </p>
+                          <div className="space-y-1">
+                            {savedSearches.slice(0, 3).map((saved) => (
+                              <button key={saved.id} onClick={() => applySavedSearch(saved)} className="block w-full truncate rounded-md bg-muted px-2 py-1.5 text-left text-[11px] hover:bg-accent">
+                                {saved.query || saved.tag} · {saved.city}
+                              </button>
+                            ))}
+                          </div>
+                        </li>
+                      )}
+                      <li className="my-1 border-t" />
                       <li>
                         <Link to="/list-shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
                           <Store className="h-4 w-4 text-emerald-600" /> List your shop
                         </Link>
                       </li>
                       <li>
-                        <a href="mailto:hiihiinnnn@gmail.com?subject=Suggest%20a%20shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                        <a href={gmailComposeUrl("Suggest a shop")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
                           <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
                         </a>
                       </li>
                       <li>
-                        <a href="mailto:hiihiinnnn@gmail.com?subject=Report%20an%20issue" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                        <a href={gmailComposeUrl("Report an issue")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
                           <Flag className="h-4 w-4 text-rose-600" /> Report an issue
                         </a>
                       </li>
                       <li>
-                        <a href="mailto:hiihiinnnn@gmail.com?subject=Help" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                        <a href={gmailComposeUrl("Help")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
                           <LifeBuoy className="h-4 w-4 text-violet-600" /> Help & support
                         </a>
                       </li>
@@ -256,6 +498,64 @@ function Index() {
           </div>
 
         </header>
+
+        {authOpen && (
+          <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/45 px-4 backdrop-blur-sm" role="dialog" aria-modal="true">
+            <div className="w-full max-w-md rounded-xl border bg-card p-5 text-card-foreground shadow-2xl">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-700">
+                    <Sparkles className="h-3.5 w-3.5" /> Personal ChipFinder
+                  </p>
+                  <h2 className="mt-1 font-display text-2xl font-bold text-foreground">Sign in</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">Save searches, remember your city, and pick up where you left off.</p>
+                </div>
+                <button onClick={() => setAuthOpen(false)} className="rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-muted">Close</button>
+              </div>
+
+              <button onClick={signInWithGoogle} className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-blue-600">
+                <Mail className="h-4 w-4" /> Continue with Google
+              </button>
+
+              <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
+                <span className="h-px flex-1 bg-border" /> or phone number <span className="h-px flex-1 bg-border" />
+              </div>
+
+              {authMode === "phone" ? (
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground" htmlFor="phone-login">Phone number</label>
+                  <input
+                    id="phone-login"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+9647xxxxxxxxx"
+                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <button onClick={sendPhoneCode} className="h-10 w-full rounded-lg border border-input bg-background text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+                    Send SMS code
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground" htmlFor="otp-login">SMS code</label>
+                  <input
+                    id="otp-login"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="123456"
+                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <button onClick={verifyPhoneCode} className="h-10 w-full rounded-lg border border-input bg-background text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+                    Verify code
+                  </button>
+                  <button onClick={() => setAuthMode("phone")} className="w-full text-xs text-muted-foreground hover:text-foreground">Use a different number</button>
+                </div>
+              )}
+
+              {authMessage && <p className="mt-3 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">{authMessage}</p>}
+            </div>
+          </div>
+        )}
 
         {/* Hero search bar */}
         <section className="border-b bg-gradient-to-b from-blue-50 via-steel-100 to-background">
