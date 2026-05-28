@@ -34,10 +34,12 @@ const CATEGORY_ICONS: Record<string, typeof Wrench> = {
   Parts: Cpu,
 };
 
-const OWNER_EMAIL = "hiihiinnnn@gmail.com";
+const OWNER_TELEGRAM = "i64vn";
+const OWNER_PHONE_INTL = "+9647803861785";
+const OWNER_PHONE_LOCAL = "07803861785";
+const telegramUrl = `https://t.me/${OWNER_TELEGRAM}`;
+const phoneTelUrl = `tel:${OWNER_PHONE_INTL}`;
 
-const gmailComposeUrl = (subject: string) =>
-  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(OWNER_EMAIL)}&su=${encodeURIComponent(subject)}`;
 
 type AppUser = { id: string; email?: string; phone?: string };
 type SavedSearch = { id: string; query: string; city: string; tag: string; created_at: string };
@@ -446,20 +448,21 @@ function Index() {
                         </Link>
                       </li>
                       <li>
-                        <a href={gmailComposeUrl("Suggest a shop")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
+                        <a href={telegramUrl} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop (Telegram)
                         </a>
                       </li>
                       <li>
-                        <a href={gmailComposeUrl("Report an issue")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue
+                        <a href={telegramUrl} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue (Telegram)
                         </a>
                       </li>
                       <li>
-                        <a href={gmailComposeUrl("Help")} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Help & support
+                        <a href={phoneTelUrl} onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Call {OWNER_PHONE_LOCAL}
                         </a>
                       </li>
+
                       <li className="my-1 border-t" />
                       <li className="px-2.5 py-2 text-[11px] text-muted-foreground">
                         <p className="mb-1 flex items-center gap-1.5 font-semibold text-foreground">
@@ -725,7 +728,9 @@ function Index() {
               <Link to="/about" className="hover:text-foreground">About</Link>
               <Link to="/parts" className="hover:text-foreground">Parts</Link>
               <Link to="/list-shop" className="hover:text-foreground">List your shop</Link>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hiihiinnnn%40gmail.com&su=ChipFinder%20feedback" target="_blank" rel="noreferrer" className="hover:text-foreground">Contact</a>
+              <a href={telegramUrl} target="_blank" rel="noreferrer" className="hover:text-foreground">Telegram @{OWNER_TELEGRAM}</a>
+              <a href={phoneTelUrl} className="hover:text-foreground">{OWNER_PHONE_LOCAL}</a>
+
             </nav>
             <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
           </div>

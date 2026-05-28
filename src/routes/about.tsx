@@ -63,16 +63,25 @@ function AboutPage() {
           <h2 className="font-display text-2xl font-semibold pt-4">Suggest a shop or report an issue</h2>
           <p>
             ChipFinder is maintained by Ali Raed. If you know a great shop that's missing,
-            or something on the site looks wrong, send a quick email.
+            or something on the site looks wrong, reach out on Telegram or by phone.
           </p>
-          <a
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=hiihiinnnn%40gmail.com&su=ChipFinder%20feedback"
-            target="_blank"
-            rel="noreferrer"
-            className="mt-2 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-blue-600"
-          >
-            <Mail className="h-4 w-4" /> Email feedback
-          </a>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <a
+              href="https://t.me/i64vn"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-blue-600"
+            >
+              <Mail className="h-4 w-4" /> Telegram @i64vn
+            </a>
+            <a
+              href="tel:+9647803861785"
+              className="inline-flex items-center gap-2 rounded-md border px-4 py-2 text-sm font-medium hover:bg-muted"
+            >
+              07803861785 · +964 780 386 1785
+            </a>
+          </div>
+
         </section>
       </main>
 
