@@ -53,14 +53,14 @@
   --steel-300: #a8adb8;
   --steel-200: #d4d7dd;
   --steel-100: #ebedf0;
-  --steel-50:  #f7f8fa;
+  --steel-50: #f7f8fa;
 
   /* Blue accents */
   --blue-700: #1d4ed8;
   --blue-600: #2563eb;
   --blue-500: #3b82f6;
   --blue-100: #dbe7fe;
-  --blue-50:  #eff4ff;
+  --blue-50: #eff4ff;
 
   --background: #1a2540;
   --foreground: var(--steel-900);
@@ -92,14 +92,14 @@
     --steel-300: oklch(0.74 0.012 250);
     --steel-200: oklch(0.86 0.008 250);
     --steel-100: oklch(0.94 0.005 250);
-    --steel-50:  oklch(0.98 0.003 250);
+    --steel-50: oklch(0.98 0.003 250);
     --blue-700: oklch(0.46 0.16 255);
     --blue-600: oklch(0.55 0.18 255);
     --blue-500: oklch(0.64 0.18 255);
     --blue-100: oklch(0.91 0.05 255);
-    --blue-50:  oklch(0.97 0.02 255);
+    --blue-50: oklch(0.97 0.02 255);
     --background: oklch(0.25 0.05 260);
-    --destructive: oklch(0.55 0.20 25);
+    --destructive: oklch(0.55 0.2 25);
     --destructive-foreground: oklch(0.985 0 0);
   }
 }
@@ -124,27 +124,57 @@ h4 {
 }
 
 @keyframes splash-fade {
-  0%   { opacity: 0; }
-  12%  { opacity: 1; }
-  78%  { opacity: 1; }
-  100% { opacity: 0; visibility: hidden; }
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 @-webkit-keyframes splash-fade {
-  0%   { opacity: 0; }
-  12%  { opacity: 1; }
-  78%  { opacity: 1; }
-  100% { opacity: 0; visibility: hidden; }
+  0% {
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  78% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    visibility: hidden;
+  }
 }
 
 @keyframes splash-bar {
-  0%   { -webkit-transform: scaleX(0); transform: scaleX(0); }
-  100% { -webkit-transform: scaleX(1); transform: scaleX(1); }
+  0% {
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
 }
 
 @-webkit-keyframes splash-bar {
-  0%   { -webkit-transform: scaleX(0); transform: scaleX(0); }
-  100% { -webkit-transform: scaleX(1); transform: scaleX(1); }
+  0% {
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+  }
+  100% {
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
+  }
 }
 
 .splash-overlay {

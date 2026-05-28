@@ -32,7 +32,9 @@ export function Splash() {
         <div className="splash-track h-px w-40 overflow-hidden">
           <div className="splash-bar h-full w-full" />
         </div>
-        <p className="splash-muted text-sm">Created by <span className="splash-strong font-semibold">Ali Raed</span></p>
+        <p className="splash-muted text-sm">
+          Created by <span className="splash-strong font-semibold">Ali Raed</span>
+        </p>
       </div>
     </div>
   );
