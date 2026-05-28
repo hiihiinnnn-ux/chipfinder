@@ -14,7 +14,6 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: "Search local computer shops across Iraq by city and service." },
     ],
   }),
-  }),
   component: Index,
 });
 
@@ -74,7 +73,6 @@ function Index() {
             </h1>
             <p className="mt-3 text-base text-muted-foreground lg:text-lg">
               Search local repair labs, custom build experts, and used-gear specialists from Baghdad to Erbil.
-            </p>
             </p>
           </div>
 
