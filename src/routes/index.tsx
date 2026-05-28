@@ -92,6 +92,13 @@ function Index() {
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [detectedCity, setDetectedCity] = useState<string | null>(null);
   const [loadedCloudPrefs, setLoadedCloudPrefs] = useState(false);
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [listTab, setListTab] = useState<ListTab>("all");
+  const addFavFn = useServerFn(addFavorite);
+  const removeFavFn = useServerFn(removeFavorite);
+  const listFavFn = useServerFn(listFavorites);
+
   const menuRef = useRef<HTMLDivElement>(null);
   const saveTimerRef = useRef<number | null>(null);
   const lastSavedKeyRef = useRef("");
