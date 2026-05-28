@@ -8,11 +8,12 @@ import { ShopMap } from "@/components/ShopMap";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "ChipFinder — Find Computer Shops Near You" },
-      { name: "description", content: "Search local computer shops by city, services, and ratings. Repairs, custom builds, Apple, gaming and more." },
-      { property: "og:title", content: "ChipFinder — Find Computer Shops Near You" },
-      { property: "og:description", content: "Search local computer shops by city, services, and ratings." },
+      { title: "ChipFinder Iraq — Find Computer Shops Across Iraq" },
+      { name: "description", content: "Search local computer shops across Iraq — Baghdad, Erbil, Basra, Mosul, Najaf and more. Repairs, custom builds, used gear and parts." },
+      { property: "og:title", content: "ChipFinder Iraq — Find Computer Shops Across Iraq" },
+      { property: "og:description", content: "Search local computer shops across Iraq by city and service." },
     ],
+  }),
   }),
   component: Index,
 });
@@ -47,7 +48,7 @@ function Index() {
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <Cpu className="h-4 w-4" />
             </div>
-            <span className="font-display text-lg font-bold tracking-tight">ChipFinder</span>
+            <span className="font-display text-lg font-bold tracking-tight">ChipFinder Iraq</span>
           </div>
           <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
             <a href="#" className="hover:text-foreground">Browse</a>
@@ -66,13 +67,14 @@ function Index() {
           <div className="max-w-2xl">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
               <span className="h-1.5 w-1.5 rounded-full bg-foreground" />
-              {SHOPS.length} verified shops across {ALL_CITIES.length} cities
+              {SHOPS.length} verified shops across {ALL_CITIES.length} Iraqi cities
             </span>
             <h1 className="mt-4 font-display text-4xl font-bold leading-tight tracking-tight text-foreground lg:text-5xl">
-              Find the right computer shop, fast.
+              Find the right computer shop in Iraq.
             </h1>
             <p className="mt-3 text-base text-muted-foreground lg:text-lg">
-              Search local repair labs, custom build experts, and used-gear specialists by city or service.
+              Search local repair labs, custom build experts, and used-gear specialists from Baghdad to Erbil.
+            </p>
             </p>
           </div>
 
@@ -123,7 +125,7 @@ function Index() {
             {results.length} {results.length === 1 ? "shop" : "shops"} found
           </h2>
           <span className="text-xs text-muted-foreground">
-            {city === "All cities" ? "Worldwide" : city}
+            {city === "All cities" ? "All of Iraq" : city}
             {tag !== "All services" ? ` · ${tag}` : ""}
           </span>
         </div>
@@ -148,7 +150,7 @@ function Index() {
 
       <footer className="border-t bg-card">
         <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
-          <p>© {new Date().getFullYear()} ChipFinder. Demo directory.</p>
+          <p>© {new Date().getFullYear()} ChipFinder Iraq. Demo directory.</p>
           <p>Built with care for tinkerers, repairers, and builders.</p>
         </div>
       </footer>
