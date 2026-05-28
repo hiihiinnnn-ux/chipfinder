@@ -208,7 +208,8 @@ function Index() {
                         <p className="mb-1 flex items-center gap-1.5 font-semibold text-foreground">
                           <Keyboard className="h-3.5 w-3.5" /> Shortcuts
                         </p>
-                        <p>Press <kbd className="rounded border bg-muted px-1">/</kbd> to search · <kbd className="rounded border bg-muted px-1">Esc</kbd> closes menu</p>
+                        <p>Press <kbd className="rounded border bg-muted px-1">{"/"}</kbd> to search · <kbd className="rounded border bg-muted px-1">Esc</kbd> closes menu</p>
+
                       </li>
                     </ul>
                   </div>
