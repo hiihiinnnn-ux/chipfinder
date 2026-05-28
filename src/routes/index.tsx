@@ -1,11 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2 } from "lucide-react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package } from "lucide-react";
 import { SHOPS, ALL_CITIES, ALL_TAGS } from "@/data/shops";
 import { ShopCard } from "@/components/ShopCard";
 import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -73,11 +72,15 @@ function Index() {
               <a href="#browse" className="hover:text-white">Browse</a>
               <a href="#cities" className="hover:text-white">Cities</a>
               <a href="#services" className="hover:text-white">Services</a>
+              <Link to="/parts" className="hover:text-white">Repair parts</Link>
               <a href="#owners" className="hover:text-white">For shop owners</a>
             </nav>
-            <button className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
-              List your shop
-            </button>
+            <Link
+              to="/parts"
+              className="flex items-center gap-1.5 rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+            >
+              <Package className="h-4 w-4" /> Find parts
+            </Link>
           </div>
 
           {/* Category quick-menu */}
