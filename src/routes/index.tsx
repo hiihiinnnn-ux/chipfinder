@@ -818,8 +818,9 @@ function Index() {
                   </p>
                 </div>
               </div>
-            <div className="min-w-0 space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
+            </aside>
 
+            <div className="min-w-0 space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
               {visibleResults.length === 0 ? (
                 <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
                   {listTab === "favorites"
@@ -843,15 +844,13 @@ function Index() {
               )}
             </div>
 
-              )}
-            </div>
-
             {/* Map */}
             <div className="sticky top-32 h-[420px] lg:h-[calc(100vh-200px)]">
-              <ShopMap shops={results} activeId={hoverId} onHover={setHoverId} />
+              <ShopMap shops={visibleResults} activeId={hoverId} onHover={setHoverId} />
             </div>
           </div>
         </section>
+
 
         <footer id="owners" className="border-t bg-card">
           <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
