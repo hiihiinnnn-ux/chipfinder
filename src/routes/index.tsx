@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles } from "lucide-react";
+
 
 import { SHOPS, ALL_CITIES, ALL_TAGS } from "@/data/shops";
 import { ShopCard } from "@/components/ShopCard";
