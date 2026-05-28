@@ -191,7 +191,8 @@ function Index() {
             </span>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-[180px_minmax(0,1.1fr)_minmax(0,1fr)]">
+          <div className="grid gap-4 lg:grid-cols-[180px_1.1fr_1fr]">
+
             {/* Cities side menu */}
             <aside id="cities" className="min-w-0 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
 
