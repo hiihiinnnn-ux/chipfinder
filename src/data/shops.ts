@@ -27,6 +27,9 @@ export const SHOPS: Shop[] = [
   { id: "12", name: "Sulaymaniyah Silicon", city: "Sulaymaniyah", address: "Salim St, near Azadi Park", rating: 4.8, reviews: 301, tags: ["Custom Builds", "Workstations", "Gaming"], hours: "Daily 10–10", phone: "+964 778 234 5678", x: 0.74, y: 0.28 },
   { id: "13", name: "Kirkuk Chip Shop", city: "Kirkuk", address: "Al-Jumhuriya St", rating: 4.4, reviews: 132, tags: ["Repairs", "Used Gear"], hours: "Sat–Thu 10–8", phone: "+964 779 345 6789", x: 0.60, y: 0.32 },
   { id: "14", name: "Duhok Tech Bazaar", city: "Duhok", address: "Nahda Quarter, main market", rating: 4.6, reviews: 167, tags: ["Repairs", "Parts", "Networking"], hours: "Sat–Thu 9–8", phone: "+964 750 456 7891", x: 0.52, y: 0.10 },
+  { id: "15", name: "Babylon Byte House", city: "Hillah", address: "Al-Hilla St, near Babel University", rating: 4.7, reviews: 224, tags: ["Custom Builds", "Repairs", "Gaming"], hours: "Sat–Thu 10–9", phone: "+964 781 456 7892", x: 0.54, y: 0.52 },
+  { id: "16", name: "Hillah Hardware Hub", city: "Hillah", address: "40 St, city center", rating: 4.5, reviews: 168, tags: ["Repairs", "Used Gear", "Parts"], hours: "Daily 10–8", phone: "+964 782 567 8903", x: 0.55, y: 0.54 },
+  { id: "17", name: "Mesopotamia Micro", city: "Hillah", address: "Babylon Ruins Rd", rating: 4.6, reviews: 142, tags: ["Apple", "Repairs", "Networking"], hours: "Sat–Thu 9–8", phone: "+964 783 678 9014", x: 0.53, y: 0.53 },
 ];
 
 export const ALL_CITIES = Array.from(new Set(SHOPS.map((s) => s.city))).sort();
