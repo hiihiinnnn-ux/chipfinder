@@ -664,18 +664,27 @@ function Index() {
                     </button>
                   </li>
                   {ALL_CITIES.map((c) => (
-                    <li key={c}>
+                    <li key={c} className="flex items-center gap-1">
                       <button
                         onClick={() => setCity(c)}
-                        className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+                        className={`flex flex-1 items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors ${
                           city === c ? "bg-accent text-accent-foreground font-medium" : "hover:bg-muted"
                         }`}
                       >
                         <span>{c}</span>
                         <span className="text-xs text-muted-foreground">{cityCounts.get(c)}</span>
                       </button>
+                      <Link
+                        to="/cities/$city"
+                        params={{ city: c }}
+                        className="rounded-md px-1.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-muted hover:text-foreground"
+                        title={`Open ${c} page`}
+                      >
+                        Open
+                      </Link>
                     </li>
                   ))}
+
                 </ul>
 
                 <div className="mt-4 rounded-lg border border-blue-700/20 bg-blue-50 p-3">
