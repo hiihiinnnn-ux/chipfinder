@@ -90,6 +90,7 @@ function Index() {
                 <Package className="h-4 w-4" /> Find parts
               </Link>
             </div>
+          </div>
 
 
           {/* Category quick-menu */}
