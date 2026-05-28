@@ -1,12 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles } from "lucide-react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail } from "lucide-react";
 
 
 import { SHOPS, ALL_CITIES, ALL_TAGS } from "@/data/shops";
 import { ShopCard } from "@/components/ShopCard";
 import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
+import { supabase } from "@/integrations/supabase/client";
+import { lovable } from "@/integrations/lovable/index";
+import { getUserSearchProfile, saveUserSearchProfile } from "@/lib/user-preferences.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -29,6 +33,38 @@ const CATEGORY_ICONS: Record<string, typeof Wrench> = {
   Networking: Network,
   Parts: Cpu,
 };
+
+const OWNER_EMAIL = "hiihiinnnn@gmail.com";
+
+const gmailComposeUrl = (subject: string) =>
+  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(OWNER_EMAIL)}&su=${encodeURIComponent(subject)}`;
+
+type AppUser = { id: string; email?: string; phone?: string };
+type SavedSearch = { id: string; query: string; city: string; tag: string; created_at: string };
+
+const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
+  Baghdad: { lat: 33.3152, lng: 44.3661 },
+  Erbil: { lat: 36.1911, lng: 44.0092 },
+  Basra: { lat: 30.5085, lng: 47.7804 },
+  Mosul: { lat: 36.3489, lng: 43.1577 },
+  Najaf: { lat: 31.9996, lng: 44.3148 },
+  Karbala: { lat: 32.6160, lng: 44.0249 },
+  Sulaymaniyah: { lat: 35.5558, lng: 45.4351 },
+  Kirkuk: { lat: 35.4681, lng: 44.3922 },
+  Duhok: { lat: 36.8665, lng: 42.9885 },
+  Hillah: { lat: 32.4770, lng: 44.4200 },
+};
+
+const distanceKm = (a: { lat: number; lng: number }, b: { lat: number; lng: number }) => {
+  const toRad = (v: number) => (v * Math.PI) / 180;
+  const dLat = toRad(b.lat - a.lat);
+  const dLng = toRad(b.lng - a.lng);
+  const lat1 = toRad(a.lat);
+  const lat2 = toRad(b.lat);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+};
+
 function Index() {
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<string>("All cities");
