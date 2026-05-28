@@ -1,11 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2 } from "lucide-react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package } from "lucide-react";
 import { SHOPS, ALL_CITIES, ALL_TAGS } from "@/data/shops";
 import { ShopCard } from "@/components/ShopCard";
 import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
-
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -68,13 +67,19 @@ function Index() {
                 <Cpu className="h-4 w-4" />
               </div>
               <span className="font-display text-lg font-bold tracking-tight">ChipFinder Iraq</span>
-            </div>
             <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
               <a href="#browse" className="hover:text-white">Browse</a>
               <a href="#cities" className="hover:text-white">Cities</a>
               <a href="#services" className="hover:text-white">Services</a>
+              <Link to="/parts" className="hover:text-white">Repair parts</Link>
               <a href="#owners" className="hover:text-white">For shop owners</a>
             </nav>
+            <Link
+              to="/parts"
+              className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+            >
+              Find repair parts
+            </Link>
             <button className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
               List your shop
             </button>
