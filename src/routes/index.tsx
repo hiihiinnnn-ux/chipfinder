@@ -499,6 +499,64 @@ function Index() {
 
         </header>
 
+        {authOpen && (
+          <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/45 px-4 backdrop-blur-sm" role="dialog" aria-modal="true">
+            <div className="w-full max-w-md rounded-xl border bg-card p-5 text-card-foreground shadow-2xl">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-700">
+                    <Sparkles className="h-3.5 w-3.5" /> Personal ChipFinder
+                  </p>
+                  <h2 className="mt-1 font-display text-2xl font-bold text-foreground">Sign in</h2>
+                  <p className="mt-1 text-sm text-muted-foreground">Save searches, remember your city, and pick up where you left off.</p>
+                </div>
+                <button onClick={() => setAuthOpen(false)} className="rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-muted">Close</button>
+              </div>
+
+              <button onClick={signInWithGoogle} className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-blue-600">
+                <Mail className="h-4 w-4" /> Continue with Google
+              </button>
+
+              <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
+                <span className="h-px flex-1 bg-border" /> or phone number <span className="h-px flex-1 bg-border" />
+              </div>
+
+              {authMode === "phone" ? (
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground" htmlFor="phone-login">Phone number</label>
+                  <input
+                    id="phone-login"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="+9647xxxxxxxxx"
+                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <button onClick={sendPhoneCode} className="h-10 w-full rounded-lg border border-input bg-background text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+                    Send SMS code
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <label className="text-xs font-semibold text-foreground" htmlFor="otp-login">SMS code</label>
+                  <input
+                    id="otp-login"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
+                    placeholder="123456"
+                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                  <button onClick={verifyPhoneCode} className="h-10 w-full rounded-lg border border-input bg-background text-sm font-semibold text-foreground transition-colors hover:bg-muted">
+                    Verify code
+                  </button>
+                  <button onClick={() => setAuthMode("phone")} className="w-full text-xs text-muted-foreground hover:text-foreground">Use a different number</button>
+                </div>
+              )}
+
+              {authMessage && <p className="mt-3 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">{authMessage}</p>}
+            </div>
+          </div>
+        )}
+
         {/* Hero search bar */}
         <section className="border-b bg-gradient-to-b from-blue-50 via-steel-100 to-background">
           <div className="mx-auto max-w-[1600px] px-4 py-10 lg:px-6 lg:py-14">
