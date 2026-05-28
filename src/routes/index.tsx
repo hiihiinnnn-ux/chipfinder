@@ -62,7 +62,7 @@ function Index() {
       <div className="min-h-screen bg-background">
         {/* Header */}
         <header className="sticky top-0 z-20 border-b border-blue-700/20 bg-gradient-to-r from-steel-900 via-blue-700 to-steel-700 text-primary-foreground shadow-sm">
-          <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-6">
+          <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 lg:px-6">
             <div className="flex items-center gap-2">
               <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white/15 ring-1 ring-white/20 backdrop-blur">
                 <Cpu className="h-4 w-4" />
@@ -95,7 +95,7 @@ function Index() {
 
           {/* Category quick-menu */}
           <div id="services" className="border-t border-white/10 bg-black/10">
-            <div className="mx-auto flex max-w-7xl items-center gap-1 overflow-x-auto px-4 py-2 lg:px-6">
+            <div className="mx-auto flex max-w-[1600px] items-center gap-1 overflow-x-auto px-4 py-2 lg:px-6">
               <button
                 onClick={() => setTag("All services")}
                 className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
@@ -125,7 +125,7 @@ function Index() {
 
         {/* Hero search bar */}
         <section className="border-b bg-gradient-to-b from-blue-50 via-steel-100 to-background">
-          <div className="mx-auto max-w-7xl px-4 py-10 lg:px-6 lg:py-14">
+          <div className="mx-auto max-w-[1600px] px-4 py-10 lg:px-6 lg:py-14">
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-700/20 bg-card px-3 py-1 text-xs text-blue-700">
                 <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
@@ -180,7 +180,7 @@ function Index() {
         </section>
 
         {/* Main layout: cities sidebar + list + map */}
-        <section id="browse" className="mx-auto max-w-7xl px-4 py-6 lg:px-6">
+        <section id="browse" className="mx-auto max-w-[1600px] px-4 py-6 lg:px-6">
           <div className="mb-4 flex items-baseline justify-between">
             <h2 className="font-display text-lg font-semibold">
               {results.length} {results.length === 1 ? "shop" : "shops"} found
@@ -257,7 +257,7 @@ function Index() {
         </section>
 
         <footer id="owners" className="border-t bg-card">
-          <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
+          <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
             <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
             <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
           </div>

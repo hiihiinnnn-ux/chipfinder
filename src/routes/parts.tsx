@@ -48,7 +48,7 @@ function PartsPage() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-20 border-b border-blue-700/20 bg-gradient-to-r from-steel-900 via-blue-700 to-steel-700 text-primary-foreground shadow-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-6">
+        <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 lg:px-6">
           <Link to="/" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white/15 ring-1 ring-white/20 backdrop-blur">
               <Cpu className="h-4 w-4" />
@@ -66,7 +66,7 @@ function PartsPage() {
 
       {/* Hero */}
       <section className="border-b bg-gradient-to-b from-blue-50 via-steel-100 to-background">
-        <div className="mx-auto max-w-7xl px-4 py-8 lg:px-6 lg:py-12">
+        <div className="mx-auto max-w-[1600px] px-4 py-8 lg:px-6 lg:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-700/20 bg-card px-3 py-1 text-xs text-blue-700">
             <Package className="h-3.5 w-3.5" />
             {PARTS.length} parts indexed across {SHOPS.length} shops
@@ -99,7 +99,7 @@ function PartsPage() {
       </section>
 
       {/* Body: filters + results */}
-      <section className="mx-auto max-w-7xl px-4 py-6 lg:px-6">
+      <section className="mx-auto max-w-[1600px] px-4 py-6 lg:px-6">
         <div className="grid gap-4 lg:grid-cols-[240px_1fr]">
           {/* Filters */}
           <aside className="space-y-4">
@@ -190,7 +190,7 @@ function PartsPage() {
       </section>
 
       <footer className="border-t bg-card">
-        <div className="mx-auto flex max-w-7xl flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
+        <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
           <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
           <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
         </div>
