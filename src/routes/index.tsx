@@ -252,6 +252,37 @@ function Index() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  useEffect(() => {
+    if (!user || loadedCloudPrefs) return;
+    loadSearchProfile()
+      .then((profile) => {
+        const prefs = profile.preferences;
+        if (prefs?.preferred_city && ALL_CITIES.includes(prefs.preferred_city)) setCity(prefs.preferred_city);
+        if (prefs?.preferred_tag && ALL_TAGS.includes(prefs.preferred_tag)) setTag(prefs.preferred_tag);
+        if (prefs?.last_query) setQuery(prefs.last_query);
+        setDetectedCity(prefs?.last_detected_city ?? null);
+        setSavedSearches(profile.searches ?? []);
+      })
+      .catch(() => {})
+      .finally(() => setLoadedCloudPrefs(true));
+  }, [loadSearchProfile, loadedCloudPrefs, user]);
+
+  useEffect(() => {
+    if (!user || !loadedCloudPrefs) return;
+    const key = `${query.trim()}|${city}|${tag}|${detectedCity ?? ""}`;
+    if (key === lastSavedKeyRef.current) return;
+    if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current);
+    saveTimerRef.current = window.setTimeout(() => {
+      lastSavedKeyRef.current = key;
+      saveSearchProfile({ data: { query, city, tag, detectedCity } }).catch(() => {
+        lastSavedKeyRef.current = "";
+      });
+    }, 1200);
+    return () => {
+      if (saveTimerRef.current) window.clearTimeout(saveTimerRef.current);
+    };
+  }, [city, detectedCity, loadedCloudPrefs, query, saveSearchProfile, tag, user]);
+
 
 
 
