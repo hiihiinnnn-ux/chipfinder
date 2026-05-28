@@ -191,9 +191,10 @@ function Index() {
             </span>
           </div>
 
-          <div className="grid gap-4 lg:grid-cols-[200px_1fr_1fr]">
+          <div className="grid gap-4 lg:grid-cols-[180px_minmax(0,1.1fr)_minmax(0,1fr)]">
             {/* Cities side menu */}
-            <aside id="cities" className="lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
+            <aside id="cities" className="min-w-0 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto">
+
               <div className="rounded-xl border bg-card p-3">
                 <h3 className="mb-2 flex items-center gap-1.5 px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                   <Building2 className="h-3.5 w-3.5" /> Cities
