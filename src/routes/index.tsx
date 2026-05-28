@@ -34,10 +34,12 @@ const CATEGORY_ICONS: Record<string, typeof Wrench> = {
   Parts: Cpu,
 };
 
-const OWNER_EMAIL = "hiihiinnnn@gmail.com";
+const OWNER_TELEGRAM = "i64vn";
+const OWNER_PHONE_INTL = "+9647803861785";
+const OWNER_PHONE_LOCAL = "07803861785";
+const telegramUrl = `https://t.me/${OWNER_TELEGRAM}`;
+const phoneTelUrl = `tel:${OWNER_PHONE_INTL}`;
 
-const gmailComposeUrl = (subject: string) =>
-  `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(OWNER_EMAIL)}&su=${encodeURIComponent(subject)}`;
 
 type AppUser = { id: string; email?: string; phone?: string };
 type SavedSearch = { id: string; query: string; city: string; tag: string; created_at: string };
