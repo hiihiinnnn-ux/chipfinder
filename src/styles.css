@@ -63,7 +63,7 @@
   --blue-100: oklch(0.93 0.04 255);
   --blue-50:  oklch(0.97 0.02 255);
 
-  --background: var(--steel-200);
+  --background: oklch(0.22 0.04 255);
   --foreground: var(--steel-900);
   --card: var(--steel-50);
   --card-foreground: var(--steel-900);
