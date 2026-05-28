@@ -716,6 +716,8 @@ function Index() {
               <ShopMap shops={results} activeId={hoverId} onHover={setHoverId} />
             </div>
           </div>
+        </section>
+
         <footer id="owners" className="border-t bg-card">
           <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
             <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
@@ -729,8 +731,6 @@ function Index() {
           </div>
         </footer>
 
-          </div>
-        </footer>
       </div>
     </>
   );
