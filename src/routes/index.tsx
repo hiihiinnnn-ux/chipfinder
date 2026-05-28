@@ -818,18 +818,31 @@ function Index() {
                   </p>
                 </div>
               </div>
-            </aside>
-
             <div className="min-w-0 space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
 
-              {results.length === 0 ? (
+              {visibleResults.length === 0 ? (
                 <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
-                  No shops match those filters. Try clearing the city or service.
+                  {listTab === "favorites"
+                    ? "No favorites yet. Tap the heart on any shop to save it here."
+                    : listTab === "recent"
+                    ? "Shops you open will show up here."
+                    : "No shops match those filters. Try clearing the city or service."}
                 </div>
               ) : (
-                results.map((s) => (
-                  <ShopCard key={s.id} shop={s} active={hoverId === s.id} onHover={setHoverId} />
+                visibleResults.map((s) => (
+                  <ShopCard
+                    key={s.id}
+                    shop={s}
+                    active={hoverId === s.id}
+                    onHover={setHoverId}
+                    isFavorite={favorites.has(s.id)}
+                    onToggleFavorite={toggleFavorite}
+                    onOpen={openShop}
+                  />
                 ))
+              )}
+            </div>
+
               )}
             </div>
 
