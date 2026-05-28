@@ -1,7 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail } from "lucide-react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail, Heart, Clock } from "lucide-react";
+
 
 
 import { SHOPS, ALL_CITIES, ALL_TAGS } from "@/data/shops";
@@ -11,6 +12,14 @@ import { Splash } from "@/components/Splash";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { getUserSearchProfile, saveUserSearchProfile, saveUserTheme } from "@/lib/user-preferences.functions";
+import { listFavorites, addFavorite, removeFavorite } from "@/lib/favorites.functions";
+import type { Shop } from "@/data/shops";
+
+const FAV_KEY = "chipfinder-favorites";
+const RECENT_KEY = "chipfinder-recent";
+const RECENT_MAX = 8;
+type ListTab = "all" | "favorites" | "recent";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -83,6 +92,13 @@ function Index() {
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [detectedCity, setDetectedCity] = useState<string | null>(null);
   const [loadedCloudPrefs, setLoadedCloudPrefs] = useState(false);
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [recentIds, setRecentIds] = useState<string[]>([]);
+  const [listTab, setListTab] = useState<ListTab>("all");
+  const addFavFn = useServerFn(addFavorite);
+  const removeFavFn = useServerFn(removeFavorite);
+  const listFavFn = useServerFn(listFavorites);
+
   const menuRef = useRef<HTMLDivElement>(null);
   const saveTimerRef = useRef<number | null>(null);
   const lastSavedKeyRef = useRef("");
@@ -109,6 +125,59 @@ function Index() {
       lastSavedThemeRef.current = null;
     });
   }, [dark, loadedCloudPrefs, saveThemePref, user]);
+
+  // Load recently viewed from localStorage on mount
+  useEffect(() => {
+    try {
+      const r = JSON.parse(window.localStorage.getItem(RECENT_KEY) || "[]");
+      if (Array.isArray(r)) setRecentIds(r.filter((x) => typeof x === "string"));
+      const f = JSON.parse(window.localStorage.getItem(FAV_KEY) || "[]");
+      if (Array.isArray(f)) setFavorites(new Set(f.filter((x) => typeof x === "string")));
+    } catch {}
+  }, []);
+
+  // Sync favorites from cloud when user logs in; merge with local
+  useEffect(() => {
+    if (!user) return;
+    listFavFn()
+      .then((res) => {
+        const cloud = new Set((res.favorites ?? []).map((f: { shop_id: string }) => f.shop_id));
+        setFavorites((local) => {
+          const merged = new Set([...cloud, ...local]);
+          // push any local-only favorites to the cloud
+          for (const id of local) {
+            if (!cloud.has(id)) addFavFn({ data: { shop_id: id } }).catch(() => {});
+          }
+          return merged;
+        });
+      })
+      .catch(() => {});
+  }, [user, listFavFn, addFavFn]);
+
+  const toggleFavorite = (shop: Shop) => {
+    setFavorites((prev) => {
+      const next = new Set(prev);
+      const wasFav = next.has(shop.id);
+      if (wasFav) next.delete(shop.id);
+      else next.add(shop.id);
+      window.localStorage.setItem(FAV_KEY, JSON.stringify([...next]));
+      if (user) {
+        const action = wasFav ? removeFavFn : addFavFn;
+        action({ data: { shop_id: shop.id } }).catch(() => {});
+      }
+      return next;
+    });
+  };
+
+  const openShop = (shop: Shop) => {
+    setRecentIds((prev) => {
+      const next = [shop.id, ...prev.filter((id) => id !== shop.id)].slice(0, RECENT_MAX);
+      window.localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
+
 
 
   useEffect(() => {
@@ -317,6 +386,28 @@ function Index() {
       );
     });
   }, [query, city, tag]);
+
+  const shopById = useMemo(() => {
+    const m = new Map<string, Shop>();
+    for (const s of SHOPS) m.set(s.id, s);
+    return m;
+  }, []);
+
+  const favoriteShops = useMemo(
+    () => [...favorites].map((id) => shopById.get(id)).filter((s): s is Shop => Boolean(s)),
+    [favorites, shopById],
+  );
+  const recentShops = useMemo(
+    () => recentIds.map((id) => shopById.get(id)).filter((s): s is Shop => Boolean(s)),
+    [recentIds, shopById],
+  );
+
+  const visibleResults = useMemo(() => {
+    if (listTab === "favorites") return favoriteShops;
+    if (listTab === "recent") return recentShops;
+    return results;
+  }, [listTab, results, favoriteShops, recentShops]);
+
 
   const cityCounts = useMemo(() => {
     const m = new Map<string, number>();
@@ -636,15 +727,42 @@ function Index() {
 
         {/* Main layout: cities sidebar + list + map */}
         <section id="browse" className="mx-auto max-w-[1600px] px-4 py-6 lg:px-6">
-          <div className="mb-4 flex items-baseline justify-between">
-            <h2 className="font-display text-lg font-semibold">
-              {results.length} {results.length === 1 ? "shop" : "shops"} found
-            </h2>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              {([
+                { id: "all" as ListTab, label: "All", count: results.length, icon: Store },
+                { id: "favorites" as ListTab, label: "Favorites", count: favoriteShops.length, icon: Heart },
+                { id: "recent" as ListTab, label: "Recent", count: recentShops.length, icon: Clock },
+              ]).map((t) => {
+                const Icon = t.icon;
+                const active = listTab === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setListTab(t.id)}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                      active
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5" /> {t.label}
+                    <span className={`rounded-full px-1.5 text-[10px] ${active ? "bg-white/20" : "bg-muted"}`}>{t.count}</span>
+                  </button>
+                );
+              })}
+            </div>
             <span className="text-xs text-muted-foreground">
-              {city === "All cities" ? "All of Iraq" : city}
-              {tag !== "All services" ? ` · ${tag}` : ""}
+              {listTab === "all"
+                ? `${city === "All cities" ? "All of Iraq" : city}${tag !== "All services" ? ` · ${tag}` : ""}`
+                : listTab === "favorites"
+                ? user
+                  ? "Saved to your account"
+                  : "Saved on this device · sign in to sync"
+                : "Recently opened on this device"}
             </span>
           </div>
+
 
           <div className="grid gap-4 lg:grid-cols-[180px_1.1fr_1fr]">
 
@@ -703,24 +821,36 @@ function Index() {
             </aside>
 
             <div className="min-w-0 space-y-3 lg:max-h-[calc(100vh-200px)] lg:overflow-y-auto lg:pr-2">
-
-              {results.length === 0 ? (
+              {visibleResults.length === 0 ? (
                 <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
-                  No shops match those filters. Try clearing the city or service.
+                  {listTab === "favorites"
+                    ? "No favorites yet. Tap the heart on any shop to save it here."
+                    : listTab === "recent"
+                    ? "Shops you open will show up here."
+                    : "No shops match those filters. Try clearing the city or service."}
                 </div>
               ) : (
-                results.map((s) => (
-                  <ShopCard key={s.id} shop={s} active={hoverId === s.id} onHover={setHoverId} />
+                visibleResults.map((s) => (
+                  <ShopCard
+                    key={s.id}
+                    shop={s}
+                    active={hoverId === s.id}
+                    onHover={setHoverId}
+                    isFavorite={favorites.has(s.id)}
+                    onToggleFavorite={toggleFavorite}
+                    onOpen={openShop}
+                  />
                 ))
               )}
             </div>
 
             {/* Map */}
             <div className="sticky top-32 h-[420px] lg:h-[calc(100vh-200px)]">
-              <ShopMap shops={results} activeId={hoverId} onHover={setHoverId} />
+              <ShopMap shops={visibleResults} activeId={hoverId} onHover={setHoverId} />
             </div>
           </div>
         </section>
+
 
         <footer id="owners" className="border-t bg-card">
           <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
