@@ -72,11 +72,49 @@ function Index() {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [dark, setDark] = useState(false);
+  const [user, setUser] = useState<AppUser | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState<"phone" | "otp">("phone");
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
+  const [authMessage, setAuthMessage] = useState("");
+  const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
+  const [detectedCity, setDetectedCity] = useState<string | null>(null);
+  const [loadedCloudPrefs, setLoadedCloudPrefs] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const saveSearchProfile = useServerFn(saveUserSearchProfile);
+  const loadSearchProfile = useServerFn(getUserSearchProfile);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem("chipfinder-theme");
+    const nextDark = saved ? saved === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches;
+    setDark(nextDark);
+    document.documentElement.classList.toggle("dark", nextDark);
+  }, []);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
+    window.localStorage.setItem("chipfinder-theme", dark ? "dark" : "light");
   }, [dark]);
+
+  useEffect(() => {
+    let active = true;
+    supabase.auth.getUser().then(({ data }) => {
+      if (!active) return;
+      setUser(data.user ? { id: data.user.id, email: data.user.email, phone: data.user.phone } : null);
+    });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ? { id: session.user.id, email: session.user.email, phone: session.user.phone } : null);
+      if (!session?.user) {
+        setSavedSearches([]);
+        setLoadedCloudPrefs(false);
+      }
+    });
+    return () => {
+      active = false;
+      subscription.unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (!menuOpen) return;
