@@ -29,12 +29,52 @@ const CATEGORY_ICONS: Record<string, typeof Wrench> = {
   Networking: Network,
   Parts: Cpu,
 };
-
 function Index() {
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<string>("All cities");
   const [tag, setTag] = useState<string>("All services");
   const [hoverId, setHoverId] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dark, setDark] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  const shareSite = async () => {
+    const url = typeof window !== "undefined" ? window.location.origin : "";
+    try {
+      if (navigator.share) await navigator.share({ title: "ChipFinder Iraq", url });
+      else { await navigator.clipboard.writeText(url); alert("Link copied!"); }
+    } catch {}
+    setMenuOpen(false);
+  };
+
+  const surpriseMe = () => {
+    const s = SHOPS[Math.floor(Math.random() * SHOPS.length)];
+    setCity(s.city);
+    setTag("All services");
+    setQuery(s.name);
+    setMenuOpen(false);
+    document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
