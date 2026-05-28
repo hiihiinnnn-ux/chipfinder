@@ -189,17 +189,17 @@ function Index() {
                         </Link>
                       </li>
                       <li>
-                        <a href="mailto:hello@chipfinder.space?subject=Suggest%20a%20shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                        <a href="mailto:hiihiinnnn@gmail.com?subject=Suggest%20a%20shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
                           <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
                         </a>
                       </li>
                       <li>
-                        <a href="mailto:hello@chipfinder.space?subject=Report%20an%20issue" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                        <a href="mailto:hiihiinnnn@gmail.com?subject=Report%20an%20issue" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
                           <Flag className="h-4 w-4 text-rose-600" /> Report an issue
                         </a>
                       </li>
                       <li>
-                        <a href="mailto:hello@chipfinder.space?subject=Help" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                        <a href="mailto:hiihiinnnn@gmail.com?subject=Help" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
                           <LifeBuoy className="h-4 w-4 text-violet-600" /> Help & support
                         </a>
                       </li>
