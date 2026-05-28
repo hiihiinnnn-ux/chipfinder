@@ -46,51 +46,85 @@
 
 :root {
   --radius: 0.5rem;
-
-  /* Slate & Steel palette */
-  --steel-900: oklch(0.27 0.02 250);
-  --steel-700: oklch(0.38 0.02 250);
-  --steel-500: oklch(0.55 0.015 250);
-  --steel-300: oklch(0.74 0.012 250);
-  --steel-200: oklch(0.86 0.008 250);
-  --steel-100: oklch(0.94 0.005 250);
-  --steel-50:  oklch(0.98 0.003 250);
+  /* Slate & Steel palette — sRGB fallbacks first for older iOS Safari */
+  --steel-900: #2a3140;
+  --steel-700: #424a5c;
+  --steel-500: #6b7280;
+  --steel-300: #a8adb8;
+  --steel-200: #d4d7dd;
+  --steel-100: #ebedf0;
+  --steel-50:  #f7f8fa;
 
   /* Blue accents */
-  --blue-700: oklch(0.46 0.16 255);
-  --blue-600: oklch(0.55 0.18 255);
-  --blue-500: oklch(0.63 0.18 255);
-  --blue-100: oklch(0.93 0.04 255);
-  --blue-50:  oklch(0.97 0.02 255);
+  --blue-700: #1d4ed8;
+  --blue-600: #2563eb;
+  --blue-500: #3b82f6;
+  --blue-100: #dbe7fe;
+  --blue-50:  #eff4ff;
 
-  --background: oklch(0.22 0.04 255);
+  --background: #1a2540;
   --foreground: var(--steel-900);
   --card: var(--steel-50);
   --card-foreground: var(--steel-900);
   --popover: var(--steel-50);
   --popover-foreground: var(--steel-900);
   --primary: var(--blue-700);
-  --primary-foreground: oklch(1 0 0);
+  --primary-foreground: #ffffff;
   --secondary: var(--steel-100);
   --secondary-foreground: var(--steel-900);
   --muted: var(--steel-100);
   --muted-foreground: var(--steel-500);
   --accent: var(--blue-100);
   --accent-foreground: var(--blue-700);
-  --destructive: oklch(0.6 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
+  --destructive: #dc2626;
+  --destructive-foreground: #fafafa;
   --border: var(--steel-300);
   --input: var(--steel-300);
   --ring: var(--blue-600);
 }
 
-@layer base {
-  * { border-color: var(--color-border); }
-  html, body { font-family: var(--font-sans); }
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-    -webkit-font-smoothing: antialiased;
+/* Progressive enhancement: use oklch where supported (modern browsers) */
+@supports (color: oklch(0 0 0)) {
+  :root {
+    --steel-900: oklch(0.27 0.02 250);
+    --steel-700: oklch(0.38 0.02 250);
+    --steel-500: oklch(0.55 0.015 250);
+    --steel-300: oklch(0.74 0.012 250);
+    --steel-200: oklch(0.86 0.008 250);
+    --steel-100: oklch(0.94 0.005 250);
+    --steel-50:  oklch(0.98 0.003 250);
+    --blue-700: oklch(0.46 0.16 255);
+    --blue-600: oklch(0.55 0.18 255);
+@keyframes splash-fade {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@-webkit-keyframes splash-fade {
+  0%   { opacity: 0; }
+  10%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@keyframes splash-bar {
+  0%   { -webkit-transform: scaleX(0); transform: scaleX(0); }
+  100% { -webkit-transform: scaleX(1); transform: scaleX(1); }
+}
+.splash-overlay {
+  -webkit-animation: splash-fade 2.2s ease forwards;
+  animation: splash-fade 2.2s ease forwards;
+  will-change: opacity;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+.splash-bar {
+  -webkit-transform-origin: left;
+  transform-origin: left;
+  -webkit-animation: splash-bar 1.8s ease-out forwards;
+  animation: splash-bar 1.8s ease-out forwards;
+}
+
   }
   h1, h2, h3, h4 { font-family: var(--font-display); letter-spacing: -0.02em; }
 }
