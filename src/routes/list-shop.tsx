@@ -203,7 +203,7 @@ function ListShopPage() {
       </section>
 
       <footer className="border-t bg-card">
-        <div className="mx-auto max-w-7xl px-4 py-6 text-xs text-muted-foreground lg:px-6">
+        <div className="mx-auto max-w-[1600px] px-4 py-6 text-xs text-muted-foreground lg:px-6">
           Created by <span className="font-semibold text-blue-700">Ali Raed</span>
         </div>
       </footer>
@@ -246,7 +246,7 @@ function Badge({ children }: { children: React.ReactNode }) {
 function Header() {
   return (
     <header className="sticky top-0 z-20 border-b border-blue-700/20 bg-gradient-to-r from-steel-900 via-blue-700 to-steel-700 text-primary-foreground shadow-sm">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 lg:px-6">
+      <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 lg:px-6">
         <Link to="/" className="flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white/15 ring-1 ring-white/20 backdrop-blur">
             <Cpu className="h-4 w-4" />
