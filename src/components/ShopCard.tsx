@@ -1,17 +1,21 @@
-import { MapPin, Star, Clock, Phone } from "lucide-react";
+import { MapPin, Star, Clock, Phone, Heart } from "lucide-react";
 import type { Shop } from "@/data/shops";
 
 interface Props {
   shop: Shop;
   active: boolean;
   onHover: (id: string | null) => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: (shop: Shop) => void;
+  onOpen?: (shop: Shop) => void;
 }
 
-export function ShopCard({ shop, active, onHover }: Props) {
+export function ShopCard({ shop, active, onHover, isFavorite, onToggleFavorite, onOpen }: Props) {
   return (
     <article
       onMouseEnter={() => onHover(shop.id)}
       onMouseLeave={() => onHover(null)}
+      onClick={() => onOpen?.(shop)}
       className={`group cursor-pointer rounded-xl border bg-card p-4 transition-all ${
         active ? "border-primary shadow-md" : "hover:border-steel-300"
       }`}
@@ -26,10 +30,29 @@ export function ShopCard({ shop, active, onHover }: Props) {
             <span className="truncate">{shop.address} · {shop.city}</span>
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-1 rounded-md bg-secondary px-2 py-1">
-          <Star className="h-3.5 w-3.5 fill-foreground text-foreground" />
-          <span className="text-xs font-semibold">{shop.rating}</span>
-          <span className="text-[10px] text-muted-foreground">({shop.reviews})</span>
+        <div className="flex shrink-0 items-center gap-1.5">
+          {onToggleFavorite && (
+            <button
+              type="button"
+              aria-label={isFavorite ? "Remove from favorites" : "Save to favorites"}
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleFavorite(shop);
+              }}
+              className={`rounded-md p-1.5 transition ${
+                isFavorite
+                  ? "bg-rose-500/10 text-rose-500 hover:bg-rose-500/20"
+                  : "bg-secondary text-muted-foreground hover:text-rose-500"
+              }`}
+            >
+              <Heart className={`h-3.5 w-3.5 ${isFavorite ? "fill-current" : ""}`} />
+            </button>
+          )}
+          <div className="flex items-center gap-1 rounded-md bg-secondary px-2 py-1">
+            <Star className="h-3.5 w-3.5 fill-foreground text-foreground" />
+            <span className="text-xs font-semibold">{shop.rating}</span>
+            <span className="text-[10px] text-muted-foreground">({shop.reviews})</span>
+          </div>
         </div>
       </div>
 
