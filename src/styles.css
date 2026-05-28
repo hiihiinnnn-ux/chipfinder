@@ -219,3 +219,30 @@ h4 {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/* Dark mode tokens — activated when <html class="dark"> */
+.dark {
+  --background: #0b1220;
+  --foreground: #e6e9ef;
+  --card: #131c2e;
+  --card-foreground: #e6e9ef;
+  --popover: #131c2e;
+  --popover-foreground: #e6e9ef;
+  --primary: #3b82f6;
+  --primary-foreground: #ffffff;
+  --secondary: #1e2a44;
+  --secondary-foreground: #e6e9ef;
+  --muted: #1e2a44;
+  --muted-foreground: #9aa3b2;
+  --accent: #1e3a8a;
+  --accent-foreground: #dbe7fe;
+  --border: #2a3654;
+  --input: #2a3654;
+  --ring: #3b82f6;
+  --steel-50: #131c2e;
+  --steel-100: #1e2a44;
+  --steel-200: #2a3654;
+  --blue-50: #1e3a8a;
+  --blue-100: #1e40af;
+}
+.dark body { background: var(--background); color: var(--foreground); }
