@@ -72,14 +72,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "chipfinder" },
+      { name: "description", content: "Look for computer shops and computer parts on Ali Raed's website" },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "chipfinder" },
+      { property: "og:description", content: "Look for computer shops and computer parts on Ali Raed's website" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "chipfinder" },
+      { name: "twitter:description", content: "Look for computer shops and computer parts on Ali Raed's website" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3675fce0-7448-4697-8d76-dcafc10bdd05/id-preview-d0851c98--b2bb571a-a53b-431d-a161-68e4cae0890b.lovable.app-1779988131761.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/3675fce0-7448-4697-8d76-dcafc10bdd05/id-preview-d0851c98--b2bb571a-a53b-431d-a161-68e4cae0890b.lovable.app-1779988131761.png" },
     ],
     links: [
       {
