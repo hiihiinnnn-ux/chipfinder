@@ -716,12 +716,19 @@ function Index() {
               <ShopMap shops={results} activeId={hoverId} onHover={setHoverId} />
             </div>
           </div>
-        </section>
-
         <footer id="owners" className="border-t bg-card">
-          <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
+          <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
             <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
+            <nav className="flex flex-wrap items-center gap-4">
+              <Link to="/about" className="hover:text-foreground">About</Link>
+              <Link to="/parts" className="hover:text-foreground">Parts</Link>
+              <Link to="/list-shop" className="hover:text-foreground">List your shop</Link>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hiihiinnnn%40gmail.com&su=ChipFinder%20feedback" target="_blank" rel="noreferrer" className="hover:text-foreground">Contact</a>
+            </nav>
             <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
+          </div>
+        </footer>
+
           </div>
         </footer>
       </div>
