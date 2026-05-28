@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles } from "lucide-react";
+
 
 import { SHOPS, ALL_CITIES, ALL_TAGS } from "@/data/shops";
 import { ShopCard } from "@/components/ShopCard";
@@ -28,12 +29,65 @@ const CATEGORY_ICONS: Record<string, typeof Wrench> = {
   Networking: Network,
   Parts: Cpu,
 };
-
 function Index() {
   const [query, setQuery] = useState("");
   const [city, setCity] = useState<string>("All cities");
   const [tag, setTag] = useState<string>("All services");
   const [hoverId, setHoverId] = useState<string | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [dark, setDark] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+    const onClick = (e: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMenuOpen(false);
+    document.addEventListener("mousedown", onClick);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onClick);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [menuOpen]);
+
+  const shareSite = async () => {
+    const url = typeof window !== "undefined" ? window.location.origin : "";
+    try {
+      if (navigator.share) await navigator.share({ title: "ChipFinder Iraq", url });
+      else { await navigator.clipboard.writeText(url); alert("Link copied!"); }
+    } catch {}
+    setMenuOpen(false);
+  };
+
+  const surpriseMe = () => {
+    const s = SHOPS[Math.floor(Math.random() * SHOPS.length)];
+    setCity(s.city);
+    setTag("All services");
+    setQuery(s.name);
+    setMenuOpen(false);
+    document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "/" && !["INPUT", "TEXTAREA", "SELECT"].includes((e.target as HTMLElement)?.tagName)) {
+        e.preventDefault();
+        document.getElementById("cf-search")?.focus();
+      }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, []);
+
+
+
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -89,7 +143,79 @@ function Index() {
               >
                 <Package className="h-4 w-4" /> Find parts
               </Link>
+
+              {/* Cool stuff menu */}
+              <div ref={menuRef} className="relative">
+                <button
+                  onClick={() => setMenuOpen((v) => !v)}
+                  aria-label="Open menu"
+                  aria-expanded={menuOpen}
+                  className="flex h-9 w-9 items-center justify-center rounded-md border border-white/30 text-white transition-colors hover:bg-white/10"
+                >
+                  <Menu className="h-4 w-4" />
+                </button>
+                {menuOpen && (
+                  <div className="absolute right-0 top-11 z-30 w-64 overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-xl ring-1 ring-black/5">
+                    <div className="border-b bg-gradient-to-r from-blue-50 to-card px-3 py-2.5">
+                      <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-700">
+                        <Sparkles className="h-3.5 w-3.5" /> Quick tools
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">Handy extras for power users</p>
+                    </div>
+                    <ul className="p-1 text-sm">
+                      <li>
+                        <button onClick={surpriseMe} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                          <Lightbulb className="h-4 w-4 text-amber-500" /> Surprise me — random shop
+                        </button>
+                      </li>
+                      <li>
+                        <button onClick={shareSite} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                          <Share2 className="h-4 w-4 text-blue-600" /> Share ChipFinder
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => { setDark((v) => !v); setMenuOpen(false); }}
+                          className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted"
+                        >
+                          {dark ? <Sun className="h-4 w-4 text-amber-500" /> : <Moon className="h-4 w-4 text-slate-700" />}
+                          {dark ? "Light mode" : "Dark mode"}
+                        </button>
+                      </li>
+                      <li className="my-1 border-t" />
+                      <li>
+                        <Link to="/list-shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Store className="h-4 w-4 text-emerald-600" /> List your shop
+                        </Link>
+                      </li>
+                      <li>
+                        <a href="mailto:hello@chipfinder.space?subject=Suggest%20a%20shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
+                        </a>
+                      </li>
+                      <li>
+                        <a href="mailto:hello@chipfinder.space?subject=Report%20an%20issue" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue
+                        </a>
+                      </li>
+                      <li>
+                        <a href="mailto:hello@chipfinder.space?subject=Help" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Help & support
+                        </a>
+                      </li>
+                      <li className="my-1 border-t" />
+                      <li className="px-2.5 py-2 text-[11px] text-muted-foreground">
+                        <p className="mb-1 flex items-center gap-1.5 font-semibold text-foreground">
+                          <Keyboard className="h-3.5 w-3.5" /> Shortcuts
+                        </p>
+                        <p>Press <kbd className="rounded border bg-muted px-1">/</kbd> to search · <kbd className="rounded border bg-muted px-1">Esc</kbd> closes menu</p>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
+
           </div>
 
           {/* Live highlights ticker */}
@@ -153,7 +279,9 @@ function Index() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search shop, service, or address…"
+                  placeholder="Search shop, service, or address… (press /)"
+                  id="cf-search"
+
                   className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
