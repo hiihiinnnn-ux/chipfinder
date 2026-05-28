@@ -10,7 +10,15 @@ import { ShopCard } from "@/components/ShopCard";
 import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
+import { getUserSearchProfile, saveUserSearchProfile, saveUserTheme } from "@/lib/user-preferences.functions";
+import { listFavorites, addFavorite, removeFavorite } from "@/lib/favorites.functions";
+import type { Shop } from "@/data/shops";
+
+const FAV_KEY = "chipfinder-favorites";
+const RECENT_KEY = "chipfinder-recent";
+const RECENT_MAX = 8;
+type ListTab = "all" | "favorites" | "recent";
+
 import { getUserSearchProfile, saveUserSearchProfile, saveUserTheme } from "@/lib/user-preferences.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
