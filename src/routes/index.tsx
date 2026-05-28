@@ -82,6 +82,8 @@ function Index() {
   const [detectedCity, setDetectedCity] = useState<string | null>(null);
   const [loadedCloudPrefs, setLoadedCloudPrefs] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const saveTimerRef = useRef<number | null>(null);
+  const lastSavedKeyRef = useRef("");
   const saveSearchProfile = useServerFn(saveUserSearchProfile);
   const loadSearchProfile = useServerFn(getUserSearchProfile);
 
@@ -146,6 +148,96 @@ function Index() {
     setQuery(s.name);
     setMenuOpen(false);
     document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const signInWithGoogle = async () => {
+    setAuthMessage("");
+    const result = await lovable.auth.signInWithOAuth("google", {
+      redirect_uri: window.location.origin,
+      extraParams: { prompt: "select_account" },
+    });
+    if (result.error) setAuthMessage("Google sign-in did not finish. Please try again.");
+  };
+
+  const sendPhoneCode = async () => {
+    setAuthMessage("");
+    const cleanPhone = phone.trim();
+    if (!/^\+[1-9]\d{7,14}$/.test(cleanPhone)) {
+      setAuthMessage("Use international format, like +9647xxxxxxxxx.");
+      return;
+    }
+    const { error } = await supabase.auth.signInWithOtp({ phone: cleanPhone });
+    if (error) setAuthMessage(error.message);
+    else {
+      setAuthMode("otp");
+      setAuthMessage("Code sent. Check your SMS messages.");
+    }
+  };
+
+  const verifyPhoneCode = async () => {
+    setAuthMessage("");
+    const { error } = await supabase.auth.verifyOtp({ phone: phone.trim(), token: otp.trim(), type: "sms" });
+    if (error) setAuthMessage(error.message);
+    else {
+      setAuthOpen(false);
+      setMenuOpen(false);
+      setOtp("");
+      setAuthMode("phone");
+    }
+  };
+
+  const signOut = async () => {
+    await supabase.auth.signOut();
+    setMenuOpen(false);
+  };
+
+  const useMyLocation = () => {
+    if (!navigator.geolocation) {
+      setAuthMessage("Location is not available in this browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        const current = { lat: coords.latitude, lng: coords.longitude };
+        const nearest = ALL_CITIES.reduce((best, c) => {
+          const coordsForCity = CITY_COORDS[c];
+          if (!coordsForCity) return best;
+          const distance = distanceKm(current, coordsForCity);
+          return distance < best.distance ? { city: c, distance } : best;
+        }, { city: "All cities", distance: Number.POSITIVE_INFINITY });
+        setDetectedCity(nearest.city);
+        setCity(nearest.city);
+        setMenuOpen(false);
+        document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+      },
+      () => setAuthMessage("Location permission was blocked. You can still choose a city manually."),
+      { enableHighAccuracy: false, timeout: 8000, maximumAge: 1000 * 60 * 30 },
+    );
+  };
+
+  const applySavedSearch = (saved: SavedSearch) => {
+    setQuery(saved.query);
+    setCity(saved.city);
+    setTag(saved.tag);
+    setMenuOpen(false);
+    document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const saveCurrentSearch = () => {
+    if (!user) {
+      setAuthOpen(true);
+      setMenuOpen(false);
+      return;
+    }
+    const key = `${query.trim()}|${city}|${tag}|${detectedCity ?? ""}`;
+    lastSavedKeyRef.current = "";
+    saveSearchProfile({ data: { query, city, tag, detectedCity } })
+      .then(() => {
+        lastSavedKeyRef.current = key;
+        return loadSearchProfile();
+      })
+      .then((profile) => setSavedSearches(profile.searches ?? []))
+      .catch(() => {});
   };
 
   useEffect(() => {
