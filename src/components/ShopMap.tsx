@@ -36,15 +36,21 @@ export function ShopMap({ shops, activeId, onHover }: Props) {
       {shops.map((s) => {
         const isActive = s.id === activeId;
         return (
-          <button
+        const isActive = s.id === activeId;
+        const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${s.name}, ${s.address}, ${s.city}, Iraq`)}`;
+        return (
+          <a
             key={s.id}
+            href={directionsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
             onMouseEnter={() => onHover(s.id)}
             onMouseLeave={() => onHover(null)}
             className="group absolute -translate-x-1/2 -translate-y-full"
             style={{ left: `${s.x * 100}%`, top: `${s.y * 100}%` }}
-            aria-label={s.name}
+            aria-label={`Get directions to ${s.name} on Google Maps`}
           >
-            <div
+
               className={`flex h-8 w-8 items-center justify-center rounded-full border-2 border-card font-display text-xs font-semibold shadow-md transition-all ${
                 isActive
                   ? "scale-125 bg-primary text-primary-foreground"
