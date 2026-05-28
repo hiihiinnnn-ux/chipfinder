@@ -130,7 +130,79 @@ function Index() {
               >
                 <Package className="h-4 w-4" /> Find parts
               </Link>
+
+              {/* Cool stuff menu */}
+              <div ref={menuRef} className="relative">
+                <button
+                  onClick={() => setMenuOpen((v) => !v)}
+                  aria-label="Open menu"
+                  aria-expanded={menuOpen}
+                  className="flex h-9 w-9 items-center justify-center rounded-md border border-white/30 text-white transition-colors hover:bg-white/10"
+                >
+                  <Menu className="h-4 w-4" />
+                </button>
+                {menuOpen && (
+                  <div className="absolute right-0 top-11 z-30 w-64 overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-xl ring-1 ring-black/5">
+                    <div className="border-b bg-gradient-to-r from-blue-50 to-card px-3 py-2.5">
+                      <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-700">
+                        <Sparkles className="h-3.5 w-3.5" /> Quick tools
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">Handy extras for power users</p>
+                    </div>
+                    <ul className="p-1 text-sm">
+                      <li>
+                        <button onClick={surpriseMe} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                          <Lightbulb className="h-4 w-4 text-amber-500" /> Surprise me — random shop
+                        </button>
+                      </li>
+                      <li>
+                        <button onClick={shareSite} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
+                          <Share2 className="h-4 w-4 text-blue-600" /> Share ChipFinder
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          onClick={() => { setDark((v) => !v); setMenuOpen(false); }}
+                          className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted"
+                        >
+                          {dark ? <Sun className="h-4 w-4 text-amber-500" /> : <Moon className="h-4 w-4 text-slate-700" />}
+                          {dark ? "Light mode" : "Dark mode"}
+                        </button>
+                      </li>
+                      <li className="my-1 border-t" />
+                      <li>
+                        <Link to="/list-shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Store className="h-4 w-4 text-emerald-600" /> List your shop
+                        </Link>
+                      </li>
+                      <li>
+                        <a href="mailto:hello@chipfinder.space?subject=Suggest%20a%20shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
+                        </a>
+                      </li>
+                      <li>
+                        <a href="mailto:hello@chipfinder.space?subject=Report%20an%20issue" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue
+                        </a>
+                      </li>
+                      <li>
+                        <a href="mailto:hello@chipfinder.space?subject=Help" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Help & support
+                        </a>
+                      </li>
+                      <li className="my-1 border-t" />
+                      <li className="px-2.5 py-2 text-[11px] text-muted-foreground">
+                        <p className="mb-1 flex items-center gap-1.5 font-semibold text-foreground">
+                          <Keyboard className="h-3.5 w-3.5" /> Shortcuts
+                        </p>
+                        <p>Press <kbd className="rounded border bg-muted px-1">/</kbd> to search · <kbd className="rounded border bg-muted px-1">Esc</kbd> closes menu</p>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
             </div>
+
           </div>
 
           {/* Live highlights ticker */}
