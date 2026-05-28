@@ -214,3 +214,8 @@ h4 {
   animation: splash-bar 1.8s ease-out forwards;
   -webkit-animation: splash-bar 1.8s ease-out forwards;
 }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
