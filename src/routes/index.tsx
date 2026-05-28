@@ -10,7 +10,7 @@ import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
-import { getUserSearchProfile, saveUserSearchProfile } from "@/lib/user-preferences.functions";
+import { getUserSearchProfile, saveUserSearchProfile, saveUserTheme } from "@/lib/user-preferences.functions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
