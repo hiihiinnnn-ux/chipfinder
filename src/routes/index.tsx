@@ -387,6 +387,28 @@ function Index() {
     });
   }, [query, city, tag]);
 
+  const shopById = useMemo(() => {
+    const m = new Map<string, Shop>();
+    for (const s of SHOPS) m.set(s.id, s);
+    return m;
+  }, []);
+
+  const favoriteShops = useMemo(
+    () => [...favorites].map((id) => shopById.get(id)).filter((s): s is Shop => Boolean(s)),
+    [favorites, shopById],
+  );
+  const recentShops = useMemo(
+    () => recentIds.map((id) => shopById.get(id)).filter((s): s is Shop => Boolean(s)),
+    [recentIds, shopById],
+  );
+
+  const visibleResults = useMemo(() => {
+    if (listTab === "favorites") return favoriteShops;
+    if (listTab === "recent") return recentShops;
+    return results;
+  }, [listTab, results, favoriteShops, recentShops]);
+
+
   const cityCounts = useMemo(() => {
     const m = new Map<string, number>();
     for (const s of SHOPS) m.set(s.city, (m.get(s.city) ?? 0) + 1);
