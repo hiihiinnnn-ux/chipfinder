@@ -67,6 +67,7 @@ function Index() {
                 <Cpu className="h-4 w-4" />
               </div>
               <span className="font-display text-lg font-bold tracking-tight">ChipFinder Iraq</span>
+            </div>
             <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
               <a href="#browse" className="hover:text-white">Browse</a>
               <a href="#cities" className="hover:text-white">Cities</a>
@@ -76,13 +77,10 @@ function Index() {
             </nav>
             <Link
               to="/parts"
-              className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+              className="flex items-center gap-1.5 rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
             >
-              Find repair parts
+              <Package className="h-4 w-4" /> Find parts
             </Link>
-            <button className="rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50">
-              List your shop
-            </button>
           </div>
 
           {/* Category quick-menu */}
