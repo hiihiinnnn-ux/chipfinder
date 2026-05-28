@@ -92,35 +92,42 @@ function Index() {
             </div>
           </div>
 
-
-          {/* Category quick-menu */}
-          <div id="services" className="border-t border-white/10 bg-black/10">
-            <div className="mx-auto flex max-w-[1600px] items-center gap-1 overflow-x-auto px-4 py-2 lg:px-6">
-              <button
-                onClick={() => setTag("All services")}
-                className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                  tag === "All services" ? "bg-white text-blue-700" : "text-white/80 hover:bg-white/10"
-                }`}
-              >
-                <SlidersHorizontal className="h-3.5 w-3.5" /> All services
-              </button>
-              {ALL_TAGS.map((t) => {
-                const Icon = CATEGORY_ICONS[t] ?? Cpu;
-                const active = tag === t;
-                return (
-                  <button
-                    key={t}
-                    onClick={() => setTag(active ? "All services" : t)}
-                    className={`flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors ${
-                      active ? "bg-white text-blue-700" : "text-white/80 hover:bg-white/10"
-                    }`}
-                  >
-                    <Icon className="h-3.5 w-3.5" /> {t}
-                  </button>
-                );
-              })}
+          {/* Live highlights ticker */}
+          <div className="border-t border-white/10 bg-black/20">
+            <div className="mx-auto flex max-w-[1600px] items-center gap-2 px-4 py-2 lg:px-6">
+              <span className="hidden shrink-0 items-center gap-1 rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-white sm:flex">
+                <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" /> Live
+              </span>
+              <div className="relative flex-1 overflow-hidden">
+                <div className="flex animate-[marquee_40s_linear_infinite] gap-8 whitespace-nowrap text-xs text-white/85">
+                  {(() => {
+                    const top = [...SHOPS].sort((a, b) => b.rating - a.rating)[0];
+                    const biggest = [...ALL_CITIES].sort((a, b) => (cityCountsStatic.get(b) ?? 0) - (cityCountsStatic.get(a) ?? 0))[0];
+                    const items = [
+                      { icon: Star, text: `Top rated: ${top.name} — ${top.rating.toFixed(1)}★` },
+                      { icon: Building2, text: `Most shops in ${biggest} (${cityCountsStatic.get(biggest)} listed)` },
+                      { icon: Package, text: `Repair parts catalog now open — browse CPUs, GPUs, SSDs` },
+                      { icon: Cpu, text: `${SHOPS.length} verified shops across ${ALL_CITIES.length} cities` },
+                      { icon: Wrench, text: `Same-day repairs available in Baghdad & Erbil` },
+                      { icon: Gamepad2, text: `Custom gaming builds trending this week` },
+                      { icon: Store, text: `Shop owner? List your store free — get found on the map` },
+                    ];
+                    return [...items, ...items].map((it, i) => {
+                      const Icon = it.icon;
+                      return (
+                        <span key={i} className="flex items-center gap-1.5">
+                          <Icon className="h-3.5 w-3.5 text-blue-200" />
+                          <span>{it.text}</span>
+                          <span className="text-white/30">•</span>
+                        </span>
+                      );
+                    });
+                  })()}
+                </div>
+              </div>
             </div>
           </div>
+
         </header>
 
         {/* Hero search bar */}
