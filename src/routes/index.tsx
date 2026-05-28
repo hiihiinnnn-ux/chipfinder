@@ -280,7 +280,7 @@ function Index() {
       .finally(() => setLoadedCloudPrefs(true));
   }, [loadSearchProfile, loadedCloudPrefs, user]);
 
-  }, [loadSearchProfile, loadedCloudPrefs, user]);
+
 
   useEffect(() => {
     if (!user || !loadedCloudPrefs) return;
