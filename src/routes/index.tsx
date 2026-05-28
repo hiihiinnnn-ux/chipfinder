@@ -728,7 +728,9 @@ function Index() {
               <Link to="/about" className="hover:text-foreground">About</Link>
               <Link to="/parts" className="hover:text-foreground">Parts</Link>
               <Link to="/list-shop" className="hover:text-foreground">List your shop</Link>
-              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hiihiinnnn%40gmail.com&su=ChipFinder%20feedback" target="_blank" rel="noreferrer" className="hover:text-foreground">Contact</a>
+              <a href={telegramUrl} target="_blank" rel="noreferrer" className="hover:text-foreground">Telegram @{OWNER_TELEGRAM}</a>
+              <a href={phoneTelUrl} className="hover:text-foreground">{OWNER_PHONE_LOCAL}</a>
+
             </nav>
             <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
           </div>
