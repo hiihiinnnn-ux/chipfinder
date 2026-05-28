@@ -30,6 +30,21 @@ export const SHOPS: Shop[] = [
   { id: "15", name: "Babylon Byte House", city: "Hillah", address: "Al-Hilla St, near Babel University", rating: 4.7, reviews: 224, tags: ["Custom Builds", "Repairs", "Gaming"], hours: "Sat–Thu 10–9", phone: "+964 781 456 7892", x: 0.54, y: 0.52 },
   { id: "16", name: "Hillah Hardware Hub", city: "Hillah", address: "40 St, city center", rating: 4.5, reviews: 168, tags: ["Repairs", "Used Gear", "Parts"], hours: "Daily 10–8", phone: "+964 782 567 8903", x: 0.55, y: 0.54 },
   { id: "17", name: "Mesopotamia Micro", city: "Hillah", address: "Babylon Ruins Rd", rating: 4.6, reviews: 142, tags: ["Apple", "Repairs", "Networking"], hours: "Sat–Thu 9–8", phone: "+964 783 678 9014", x: 0.53, y: 0.53 },
+  // More Baghdad shops
+  { id: "18", name: "Karrada Compu-Mall", city: "Baghdad", address: "Karrada Kharij, opposite Babylon Hotel", rating: 4.7, reviews: 388, tags: ["Custom Builds", "Gaming", "Parts"], hours: "Daily 10–10", phone: "+964 770 111 2233", x: 0.56, y: 0.46 },
+  { id: "19", name: "Bab Al-Sharqi Electronics", city: "Baghdad", address: "Bab Al-Sharqi, Tahrir Sq area", rating: 4.3, reviews: 245, tags: ["Used Gear", "Parts", "Repairs"], hours: "Sat–Thu 9–8", phone: "+964 771 222 3344", x: 0.58, y: 0.45 },
+  { id: "20", name: "Zayouna Gaming Den", city: "Baghdad", address: "Zayouna, near Al-Rasheed Mall", rating: 4.8, reviews: 511, tags: ["Gaming", "Custom Builds", "Workstations"], hours: "Daily 12–11", phone: "+964 780 333 4455", x: 0.59, y: 0.46 },
+  { id: "21", name: "Al-Jadriya Mac Bar", city: "Baghdad", address: "Al-Jadriya, near University of Baghdad", rating: 4.7, reviews: 198, tags: ["Apple", "Repairs"], hours: "Sat–Thu 10–9", phone: "+964 781 444 5566", x: 0.56, y: 0.48 },
+  { id: "22", name: "Adhamiya Repair Lab", city: "Baghdad", address: "Adhamiya, Antar Sq", rating: 4.4, reviews: 162, tags: ["Repairs", "Parts"], hours: "Sat–Thu 9–7", phone: "+964 782 555 6677", x: 0.56, y: 0.43 },
+  { id: "23", name: "Dora Tech Market", city: "Baghdad", address: "Dora, Mechanic St", rating: 4.2, reviews: 119, tags: ["Used Gear", "Networking"], hours: "Sat–Thu 10–8", phone: "+964 783 666 7788", x: 0.55, y: 0.50 },
+  { id: "24", name: "Harthiya Workstations", city: "Baghdad", address: "Harthiya, Kindi St", rating: 4.6, reviews: 213, tags: ["Workstations", "Custom Builds", "Apple"], hours: "Sat–Thu 10–9", phone: "+964 784 777 8899", x: 0.53, y: 0.46 },
+  // More Hillah shops
+  { id: "25", name: "Hillah Gamer Lounge", city: "Hillah", address: "Al-Tahmaziya, near old bridge", rating: 4.7, reviews: 196, tags: ["Gaming", "Custom Builds"], hours: "Daily 12–11", phone: "+964 785 888 9900", x: 0.55, y: 0.53 },
+  { id: "26", name: "Furat PC World", city: "Hillah", address: "Al-Mahdiya Quarter, main road", rating: 4.5, reviews: 154, tags: ["Custom Builds", "Parts", "Repairs"], hours: "Sat–Thu 10–9", phone: "+964 786 999 0011", x: 0.54, y: 0.54 },
+  { id: "27", name: "Babel Apple Service", city: "Hillah", address: "Al-Jamaa St, near Babel Hospital", rating: 4.8, reviews: 187, tags: ["Apple", "Repairs"], hours: "Sat–Thu 10–8", phone: "+964 787 000 1122", x: 0.53, y: 0.52 },
+  { id: "28", name: "Hillah Used Tech Souq", city: "Hillah", address: "Al-Jumhuri St, central market", rating: 4.3, reviews: 211, tags: ["Used Gear", "Parts"], hours: "Sat–Thu 9–8", phone: "+964 788 111 2233", x: 0.55, y: 0.52 },
+  { id: "29", name: "Nader Networks Hillah", city: "Hillah", address: "Al-Wardiya, near Babylon College", rating: 4.6, reviews: 138, tags: ["Networking", "Repairs", "Workstations"], hours: "Sat–Thu 10–8", phone: "+964 789 222 3344", x: 0.54, y: 0.53 },
+
 ];
 
 export const ALL_CITIES = Array.from(new Set(SHOPS.map((s) => s.city))).sort();
