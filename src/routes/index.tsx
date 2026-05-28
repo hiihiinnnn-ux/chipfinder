@@ -261,20 +261,25 @@ function Index() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, []);
-
   useEffect(() => {
     if (!user || loadedCloudPrefs) return;
     loadSearchProfile()
       .then((profile) => {
-        const prefs = profile.preferences;
+        const prefs = profile.preferences as (typeof profile.preferences & { theme?: string | null }) | null;
         if (prefs?.preferred_city && ALL_CITIES.includes(prefs.preferred_city)) setCity(prefs.preferred_city);
         if (prefs?.preferred_tag && ALL_TAGS.includes(prefs.preferred_tag)) setTag(prefs.preferred_tag);
         if (prefs?.last_query) setQuery(prefs.last_query);
         setDetectedCity(prefs?.last_detected_city ?? null);
+        if (prefs?.theme === "dark" || prefs?.theme === "light") {
+          lastSavedThemeRef.current = prefs.theme;
+          setDark(prefs.theme === "dark");
+        }
         setSavedSearches(profile.searches ?? []);
       })
       .catch(() => {})
       .finally(() => setLoadedCloudPrefs(true));
+  }, [loadSearchProfile, loadedCloudPrefs, user]);
+
   }, [loadSearchProfile, loadedCloudPrefs, user]);
 
   useEffect(() => {
