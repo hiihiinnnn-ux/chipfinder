@@ -35,8 +35,6 @@ export function ShopMap({ shops, activeId, onHover }: Props) {
 
       {shops.map((s) => {
         const isActive = s.id === activeId;
-        return (
-        const isActive = s.id === activeId;
         const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(`${s.name}, ${s.address}, ${s.city}, Iraq`)}`;
         return (
           <a
@@ -50,7 +48,7 @@ export function ShopMap({ shops, activeId, onHover }: Props) {
             style={{ left: `${s.x * 100}%`, top: `${s.y * 100}%` }}
             aria-label={`Get directions to ${s.name} on Google Maps`}
           >
-
+            <div
               className={`flex h-8 w-8 items-center justify-center rounded-full border-2 border-card font-display text-xs font-semibold shadow-md transition-all ${
                 isActive
                   ? "scale-125 bg-primary text-primary-foreground"
@@ -66,9 +64,10 @@ export function ShopMap({ shops, activeId, onHover }: Props) {
             >
               {s.name}
             </div>
-          </button>
+          </a>
         );
       })}
+
 
       <div className="absolute bottom-3 left-3 rounded-md border bg-card/90 px-2 py-1 text-[10px] font-medium uppercase tracking-wider text-muted-foreground backdrop-blur">
         Live Map · Demo
