@@ -126,6 +126,59 @@ function Index() {
     });
   }, [dark, loadedCloudPrefs, saveThemePref, user]);
 
+  // Load recently viewed from localStorage on mount
+  useEffect(() => {
+    try {
+      const r = JSON.parse(window.localStorage.getItem(RECENT_KEY) || "[]");
+      if (Array.isArray(r)) setRecentIds(r.filter((x) => typeof x === "string"));
+      const f = JSON.parse(window.localStorage.getItem(FAV_KEY) || "[]");
+      if (Array.isArray(f)) setFavorites(new Set(f.filter((x) => typeof x === "string")));
+    } catch {}
+  }, []);
+
+  // Sync favorites from cloud when user logs in; merge with local
+  useEffect(() => {
+    if (!user) return;
+    listFavFn()
+      .then((res) => {
+        const cloud = new Set((res.favorites ?? []).map((f: { shop_id: string }) => f.shop_id));
+        setFavorites((local) => {
+          const merged = new Set([...cloud, ...local]);
+          // push any local-only favorites to the cloud
+          for (const id of local) {
+            if (!cloud.has(id)) addFavFn({ data: { shop_id: id } }).catch(() => {});
+          }
+          return merged;
+        });
+      })
+      .catch(() => {});
+  }, [user, listFavFn, addFavFn]);
+
+  const toggleFavorite = (shop: Shop) => {
+    setFavorites((prev) => {
+      const next = new Set(prev);
+      const wasFav = next.has(shop.id);
+      if (wasFav) next.delete(shop.id);
+      else next.add(shop.id);
+      window.localStorage.setItem(FAV_KEY, JSON.stringify([...next]));
+      if (user) {
+        const action = wasFav ? removeFavFn : addFavFn;
+        action({ data: { shop_id: shop.id } }).catch(() => {});
+      }
+      return next;
+    });
+  };
+
+  const openShop = (shop: Shop) => {
+    setRecentIds((prev) => {
+      const next = [shop.id, ...prev.filter((id) => id !== shop.id)].slice(0, RECENT_MAX);
+      window.localStorage.setItem(RECENT_KEY, JSON.stringify(next));
+      return next;
+    });
+  };
+
+
+
 
   useEffect(() => {
     let active = true;
