@@ -64,7 +64,7 @@ function ListShopPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-screen bg-background">
+      <div className="min-h-screen overflow-x-hidden bg-background">
         <Header />
         <div className="mx-auto max-w-2xl px-4 py-20 text-center lg:px-6">
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-blue-100 text-blue-700">
@@ -95,7 +95,7 @@ function ListShopPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen overflow-x-hidden bg-background">
       <Header />
 
       {/* Hero */}
