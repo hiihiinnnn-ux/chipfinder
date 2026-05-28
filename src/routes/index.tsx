@@ -727,15 +727,42 @@ function Index() {
 
         {/* Main layout: cities sidebar + list + map */}
         <section id="browse" className="mx-auto max-w-[1600px] px-4 py-6 lg:px-6">
-          <div className="mb-4 flex items-baseline justify-between">
-            <h2 className="font-display text-lg font-semibold">
-              {results.length} {results.length === 1 ? "shop" : "shops"} found
-            </h2>
+          <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              {([
+                { id: "all" as ListTab, label: "All", count: results.length, icon: Store },
+                { id: "favorites" as ListTab, label: "Favorites", count: favoriteShops.length, icon: Heart },
+                { id: "recent" as ListTab, label: "Recent", count: recentShops.length, icon: Clock },
+              ]).map((t) => {
+                const Icon = t.icon;
+                const active = listTab === t.id;
+                return (
+                  <button
+                    key={t.id}
+                    onClick={() => setListTab(t.id)}
+                    className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition ${
+                      active
+                        ? "border-primary bg-primary text-primary-foreground"
+                        : "border-border bg-card text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <Icon className="h-3.5 w-3.5" /> {t.label}
+                    <span className={`rounded-full px-1.5 text-[10px] ${active ? "bg-white/20" : "bg-muted"}`}>{t.count}</span>
+                  </button>
+                );
+              })}
+            </div>
             <span className="text-xs text-muted-foreground">
-              {city === "All cities" ? "All of Iraq" : city}
-              {tag !== "All services" ? ` · ${tag}` : ""}
+              {listTab === "all"
+                ? `${city === "All cities" ? "All of Iraq" : city}${tag !== "All services" ? ` · ${tag}` : ""}`
+                : listTab === "favorites"
+                ? user
+                  ? "Saved to your account"
+                  : "Saved on this device · sign in to sync"
+                : "Recently opened on this device"}
             </span>
           </div>
+
 
           <div className="grid gap-4 lg:grid-cols-[180px_1.1fr_1fr]">
 
