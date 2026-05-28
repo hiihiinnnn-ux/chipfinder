@@ -448,20 +448,21 @@ function Index() {
                         </Link>
                       </li>
                       <li>
-                        <a href={telegramUrl} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop (Telegram)
-                        </a>
+                        <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
+                        </Link>
                       </li>
                       <li>
-                        <a href={telegramUrl} target="_blank" rel="noreferrer" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue (Telegram)
-                        </a>
+                        <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue
+                        </Link>
                       </li>
                       <li>
-                        <a href={phoneTelUrl} onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Call {OWNER_PHONE_LOCAL}
-                        </a>
+                        <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Contact & help
+                        </Link>
                       </li>
+
 
                       <li className="my-1 border-t" />
                       <li className="px-2.5 py-2 text-[11px] text-muted-foreground">
