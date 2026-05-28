@@ -664,18 +664,27 @@ function Index() {
                     </button>
                   </li>
                   {ALL_CITIES.map((c) => (
-                    <li key={c}>
+                    <li key={c} className="flex items-center gap-1">
                       <button
                         onClick={() => setCity(c)}
-                        className={`flex w-full items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors ${
+                        className={`flex flex-1 items-center justify-between rounded-md px-2.5 py-1.5 text-sm transition-colors ${
                           city === c ? "bg-accent text-accent-foreground font-medium" : "hover:bg-muted"
                         }`}
                       >
                         <span>{c}</span>
                         <span className="text-xs text-muted-foreground">{cityCounts.get(c)}</span>
                       </button>
+                      <Link
+                        to="/cities/$city"
+                        params={{ city: c }}
+                        className="rounded-md px-1.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground hover:bg-muted hover:text-foreground"
+                        title={`Open ${c} page`}
+                      >
+                        Open
+                      </Link>
                     </li>
                   ))}
+
                 </ul>
 
                 <div className="mt-4 rounded-lg border border-blue-700/20 bg-blue-50 p-3">
@@ -710,11 +719,18 @@ function Index() {
         </section>
 
         <footer id="owners" className="border-t bg-card">
-          <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
+          <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
             <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
+            <nav className="flex flex-wrap items-center gap-4">
+              <Link to="/about" className="hover:text-foreground">About</Link>
+              <Link to="/parts" className="hover:text-foreground">Parts</Link>
+              <Link to="/list-shop" className="hover:text-foreground">List your shop</Link>
+              <a href="https://mail.google.com/mail/?view=cm&fs=1&to=hiihiinnnn%40gmail.com&su=ChipFinder%20feedback" target="_blank" rel="noreferrer" className="hover:text-foreground">Contact</a>
+            </nav>
             <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
           </div>
         </footer>
+
       </div>
     </>
   );
