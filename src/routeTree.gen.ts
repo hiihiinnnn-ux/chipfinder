@@ -13,6 +13,7 @@ import { Route as PartsRouteImport } from './routes/parts'
 import { Route as ListShopRouteImport } from './routes/list-shop'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CitiesCityRouteImport } from './routes/cities.$city'
 
 const PartsRoute = PartsRouteImport.update({
   id: '/parts',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CitiesCityRoute = CitiesCityRouteImport.update({
+  id: '/cities/$city',
+  path: '/cities/$city',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/list-shop': typeof ListShopRoute
   '/parts': typeof PartsRoute
+  '/cities/$city': typeof CitiesCityRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/list-shop': typeof ListShopRoute
   '/parts': typeof PartsRoute
+  '/cities/$city': typeof CitiesCityRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/list-shop': typeof ListShopRoute
   '/parts': typeof PartsRoute
+  '/cities/$city': typeof CitiesCityRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/list-shop' | '/parts'
+  fullPaths: '/' | '/about' | '/list-shop' | '/parts' | '/cities/$city'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/list-shop' | '/parts'
-  id: '__root__' | '/' | '/about' | '/list-shop' | '/parts'
+  to: '/' | '/about' | '/list-shop' | '/parts' | '/cities/$city'
+  id: '__root__' | '/' | '/about' | '/list-shop' | '/parts' | '/cities/$city'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   ListShopRoute: typeof ListShopRoute
   PartsRoute: typeof PartsRoute
+  CitiesCityRoute: typeof CitiesCityRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cities/$city': {
+      id: '/cities/$city'
+      path: '/cities/$city'
+      fullPath: '/cities/$city'
+      preLoaderRoute: typeof CitiesCityRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   ListShopRoute: ListShopRoute,
   PartsRoute: PartsRoute,
+  CitiesCityRoute: CitiesCityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
