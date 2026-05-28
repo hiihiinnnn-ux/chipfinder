@@ -31,7 +31,7 @@ export const getUserSearchProfile = createServerFn({ method: "GET" })
     const { supabase, userId } = context;
 
     const [{ data: preferences, error: preferencesError }, { data: searches, error: searchesError }] = await Promise.all([
-      supabase.from("user_preferences").select("preferred_city, preferred_tag, last_query, last_detected_city").eq("user_id", userId).maybeSingle(),
+      supabase.from("user_preferences").select("preferred_city, preferred_tag, last_query, last_detected_city, theme").eq("user_id", userId).maybeSingle(),
       supabase.from("saved_searches").select("id, query, city, tag, created_at").eq("user_id", userId).order("created_at", { ascending: false }).limit(5),
     ]);
 
