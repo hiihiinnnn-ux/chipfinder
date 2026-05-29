@@ -509,7 +509,7 @@ function Index() {
                 to="/list-shop"
                 className="hidden items-center gap-1.5 rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:flex"
               >
-                <Store className="h-4 w-4" /> List your shop
+                <Store className="h-4 w-4" /> {t.listYourShop}
               </Link>
               <Link
                 to="/parts"
