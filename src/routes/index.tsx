@@ -548,6 +548,11 @@ function Index() {
                     </div>
                     <ul className="p-1 text-sm">
                       <li>
+                        <Link to="/about" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
+                          <Info className="h-4 w-4 text-blue-600" /> About
+                        </Link>
+                      </li>
+                      <li>
                         <button onClick={surpriseMe} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
                           <Lightbulb className="h-4 w-4 text-amber-500" /> Surprise me — random shop
                         </button>
