@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail, Heart, Clock } from "lucide-react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail, Heart, Clock, Languages, Info, Phone } from "lucide-react";
 
 
 
@@ -18,7 +18,57 @@ import type { Shop } from "@/data/shops";
 const FAV_KEY = "chipfinder-favorites";
 const RECENT_KEY = "chipfinder-recent";
 const RECENT_MAX = 8;
+const LANG_KEY = "chipfinder-lang";
 type ListTab = "all" | "favorites" | "recent";
+type Lang = "en" | "ar";
+
+const T = {
+  en: {
+    browse: "Browse", cities: "Cities", services: "Services", parts: "Repair parts",
+    forOwners: "For shop owners", signIn: "Sign in", signOut: "Sign out",
+    listYourShop: "List your shop", findParts: "Find parts",
+    heroBadge: (n: number, c: number) => `${n} verified shops across ${c} Iraqi cities`,
+    heroTitle: "Find the right computer shop in Iraq.",
+    heroSub: "From Baghdad and Hillah to Erbil and Basra — search local repair labs, custom build experts, and used-gear specialists.",
+    searchPlaceholder: "Search shop, service, or address… (press /)",
+    allCities: "All cities", allServices: "All services", searchBtn: "Search",
+    all: "All", favorites: "Favorites", recent: "Recent",
+    savedAccount: "Saved to your account", savedDevice: "Saved on this device · sign in to sync",
+    recentDevice: "Recently opened on this device",
+    emptyFav: "No favorites yet. Tap the heart on any shop to save it here.",
+    emptyRecent: "Shops you open will show up here.",
+    emptyAll: "No shops match those filters. Try clearing the city or service.",
+    topRated: "Top rated", citiesH: "Cities",
+    aboutTitle: "About & Contact",
+    aboutBlurb: "ChipFinder is built by Ali Raed to help you find trustworthy computer shops across Iraq.",
+    aboutPage: "About the project", contactPage: "Contact me", telegram: "Telegram", phone: "Phone",
+    footer: "Demo directory.", createdBy: "Created by",
+    langToggle: "العربية",
+  },
+  ar: {
+    browse: "تصفّح", cities: "المدن", services: "الخدمات", parts: "قطع الصيانة",
+    forOwners: "لأصحاب المحلات", signIn: "تسجيل الدخول", signOut: "تسجيل الخروج",
+    listYourShop: "أضف محلك", findParts: "ابحث عن قطع",
+    heroBadge: (n: number, c: number) => `${n} محل موثّق في ${c} مدينة عراقية`,
+    heroTitle: "اعثر على محل الكمبيوتر المناسب في العراق.",
+    heroSub: "من بغداد والحلة إلى أربيل والبصرة — ابحث عن مختبرات الصيانة وخبراء التجميع ومحلات الأجهزة المستعملة.",
+    searchPlaceholder: "ابحث عن محل أو خدمة أو عنوان… (اضغط /)",
+    allCities: "كل المدن", allServices: "كل الخدمات", searchBtn: "بحث",
+    all: "الكل", favorites: "المفضلة", recent: "الأخيرة",
+    savedAccount: "محفوظة في حسابك", savedDevice: "محفوظة على هذا الجهاز · سجّل لمزامنتها",
+    recentDevice: "آخر ما فتحته على هذا الجهاز",
+    emptyFav: "لا توجد مفضلات بعد. اضغط القلب على أي محل لحفظه هنا.",
+    emptyRecent: "المحلات التي تفتحها ستظهر هنا.",
+    emptyAll: "لا توجد محلات مطابقة. جرّب تغيير المدينة أو الخدمة.",
+    topRated: "الأعلى تقييماً", citiesH: "المدن",
+    aboutTitle: "من نحن وكيف تتواصل",
+    aboutBlurb: "ChipFinder من تطوير علي رائد لمساعدتك في العثور على محلات الكمبيوتر الموثوقة في العراق.",
+    aboutPage: "عن المشروع", contactPage: "تواصل معي", telegram: "تيليغرام", phone: "هاتف",
+    footer: "دليل تجريبي.", createdBy: "صنعه",
+    langToggle: "English",
+  },
+} as const;
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -60,7 +110,6 @@ const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
   Mosul: { lat: 36.3489, lng: 43.1577 },
   Najaf: { lat: 31.9996, lng: 44.3148 },
   Karbala: { lat: 32.6160, lng: 44.0249 },
-  Sulaymaniyah: { lat: 35.5558, lng: 45.4351 },
   Kirkuk: { lat: 35.4681, lng: 44.3922 },
   Duhok: { lat: 36.8665, lng: 42.9885 },
   Hillah: { lat: 32.4770, lng: 44.4200 },
@@ -95,6 +144,8 @@ function Index() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [listTab, setListTab] = useState<ListTab>("all");
+  const [lang, setLang] = useState<Lang>("en");
+  const t = T[lang];
   const addFavFn = useServerFn(addFavorite);
   const removeFavFn = useServerFn(removeFavorite);
   const listFavFn = useServerFn(listFavorites);
@@ -125,6 +176,17 @@ function Index() {
       lastSavedThemeRef.current = null;
     });
   }, [dark, loadedCloudPrefs, saveThemePref, user]);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(LANG_KEY) as Lang | null;
+    if (saved === "ar" || saved === "en") setLang(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+    window.localStorage.setItem(LANG_KEY, lang);
+  }, [lang]);
 
   // Load recently viewed from localStorage on mount
   useEffect(() => {
@@ -429,11 +491,11 @@ function Index() {
               <span className="font-display text-lg font-bold tracking-tight">ChipFinder Iraq</span>
             </div>
             <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
-              <a href="#browse" className="hover:text-white">Browse</a>
-              <a href="#cities" className="hover:text-white">Cities</a>
-              <a href="#services" className="hover:text-white">Services</a>
-              <Link to="/parts" className="hover:text-white">Repair parts</Link>
-              <Link to="/list-shop" className="hover:text-white">For shop owners</Link>
+              <a href="#browse" className="hover:text-white">{t.browse}</a>
+              <a href="#cities" className="hover:text-white">{t.cities}</a>
+              <a href="#services" className="hover:text-white">{t.services}</a>
+              <Link to="/parts" className="hover:text-white">{t.parts}</Link>
+              <Link to="/list-shop" className="hover:text-white">{t.forOwners}</Link>
             </nav>
             <div className="flex items-center gap-2">
               <button
@@ -441,20 +503,30 @@ function Index() {
                 className="hidden items-center gap-1.5 rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 md:flex"
               >
                 {user ? <LogOut className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
-                {user ? "Sign out" : "Sign in"}
+                {user ? t.signOut : t.signIn}
               </button>
               <Link
                 to="/list-shop"
                 className="hidden items-center gap-1.5 rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 sm:flex"
               >
-                <Store className="h-4 w-4" /> List your shop
+                <Store className="h-4 w-4" /> {t.listYourShop}
               </Link>
               <Link
                 to="/parts"
                 className="flex items-center gap-1.5 rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
               >
-                <Package className="h-4 w-4" /> Find parts
+                <Package className="h-4 w-4" /> {t.findParts}
               </Link>
+
+              <button
+                onClick={() => setLang((l) => (l === "en" ? "ar" : "en"))}
+                aria-label="Toggle language"
+                title="Toggle language"
+                className="flex h-9 items-center gap-1.5 rounded-md border border-white/30 px-2.5 text-xs font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                <Languages className="h-4 w-4" /> {t.langToggle}
+              </button>
+
 
               {/* Cool stuff menu */}
               <div ref={menuRef} className="relative">
@@ -673,13 +745,13 @@ function Index() {
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-700/20 bg-card px-3 py-1 text-xs text-blue-700">
                 <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-                {SHOPS.length} verified shops across {ALL_CITIES.length} Iraqi cities
+                {t.heroBadge(SHOPS.length, ALL_CITIES.length)}
               </span>
               <h1 className="mt-4 font-display text-4xl font-bold leading-tight tracking-tight text-foreground lg:text-5xl">
-                Find the right computer shop in Iraq.
+                {t.heroTitle}
               </h1>
               <p className="mt-3 text-base text-muted-foreground lg:text-lg">
-                From Baghdad and Hillah to Erbil and Basra — search local repair labs, custom build experts, and used-gear specialists.
+                {t.heroSub}
               </p>
             </div>
 
@@ -690,9 +762,8 @@ function Index() {
                 <input
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search shop, service, or address… (press /)"
+                  placeholder={t.searchPlaceholder}
                   id="cf-search"
-
                   className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
@@ -703,7 +774,7 @@ function Index() {
                   onChange={(e) => setCity(e.target.value)}
                   className="h-11 w-full bg-transparent text-sm outline-none"
                 >
-                  <option>All cities</option>
+                  <option value="All cities">{t.allCities}</option>
                   {ALL_CITIES.map((c) => <option key={c}>{c}</option>)}
                 </select>
               </div>
@@ -714,12 +785,12 @@ function Index() {
                   onChange={(e) => setTag(e.target.value)}
                   className="h-11 w-full bg-transparent text-sm outline-none"
                 >
-                  <option>All services</option>
-                  {ALL_TAGS.map((t) => <option key={t}>{t}</option>)}
+                  <option value="All services">{t.allServices}</option>
+                  {ALL_TAGS.map((tg) => <option key={tg}>{tg}</option>)}
                 </select>
               </div>
               <button className="h-11 rounded-lg bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-blue-600">
-                Search
+                {t.searchBtn}
               </button>
             </div>
           </div>
@@ -730,9 +801,9 @@ function Index() {
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               {([
-                { id: "all" as ListTab, label: "All", count: results.length, icon: Store },
-                { id: "favorites" as ListTab, label: "Favorites", count: favoriteShops.length, icon: Heart },
-                { id: "recent" as ListTab, label: "Recent", count: recentShops.length, icon: Clock },
+                { id: "all" as ListTab, label: t.all, count: results.length, icon: Store },
+                { id: "favorites" as ListTab, label: t.favorites, count: favoriteShops.length, icon: Heart },
+                { id: "recent" as ListTab, label: t.recent, count: recentShops.length, icon: Clock },
               ]).map((t) => {
                 const Icon = t.icon;
                 const active = listTab === t.id;
@@ -754,12 +825,12 @@ function Index() {
             </div>
             <span className="text-xs text-muted-foreground">
               {listTab === "all"
-                ? `${city === "All cities" ? "All of Iraq" : city}${tag !== "All services" ? ` · ${tag}` : ""}`
+                ? `${city === "All cities" ? (lang === "ar" ? "كل العراق" : "All of Iraq") : city}${tag !== "All services" ? ` · ${tag}` : ""}`
                 : listTab === "favorites"
                 ? user
-                  ? "Saved to your account"
-                  : "Saved on this device · sign in to sync"
-                : "Recently opened on this device"}
+                  ? t.savedAccount
+                  : t.savedDevice
+                : t.recentDevice}
             </span>
           </div>
 
@@ -771,7 +842,7 @@ function Index() {
 
               <div className="rounded-xl border bg-card p-3">
                 <h3 className="mb-2 flex items-center gap-1.5 px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  <Building2 className="h-3.5 w-3.5" /> Cities
+                  <Building2 className="h-3.5 w-3.5" /> {t.citiesH}
                 </h3>
                 <ul className="space-y-0.5">
                   <li>
@@ -781,7 +852,7 @@ function Index() {
                         city === "All cities" ? "bg-accent text-accent-foreground" : "hover:bg-muted"
                       }`}
                     >
-                      <span>All cities</span>
+                      <span>{t.allCities}</span>
                       <span className="text-xs text-muted-foreground">{SHOPS.length}</span>
                     </button>
                   </li>
@@ -811,7 +882,7 @@ function Index() {
 
                 <div className="mt-4 rounded-lg border border-blue-700/20 bg-blue-50 p-3">
                   <p className="flex items-center gap-1 text-xs font-semibold text-blue-700">
-                    <Star className="h-3.5 w-3.5 fill-blue-700" /> Top rated
+                    <Star className="h-3.5 w-3.5 fill-blue-700" /> {t.topRated}
                   </p>
                   <p className="mt-1 text-xs text-blue-700/80">
                     {[...SHOPS].sort((a, b) => b.rating - a.rating)[0].name}
@@ -824,10 +895,10 @@ function Index() {
               {visibleResults.length === 0 ? (
                 <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
                   {listTab === "favorites"
-                    ? "No favorites yet. Tap the heart on any shop to save it here."
+                    ? t.emptyFav
                     : listTab === "recent"
-                    ? "Shops you open will show up here."
-                    : "No shops match those filters. Try clearing the city or service."}
+                    ? t.emptyRecent
+                    : t.emptyAll}
                 </div>
               ) : (
                 visibleResults.map((s) => (
@@ -851,21 +922,49 @@ function Index() {
           </div>
         </section>
 
+        {/* About & Contact highlight section */}
+        <section className="border-t bg-gradient-to-b from-background to-blue-50/40">
+          <div className="mx-auto max-w-[1600px] px-4 py-10 lg:px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-700/20 bg-card px-3 py-1 text-xs font-semibold text-blue-700">
+                <Sparkles className="h-3.5 w-3.5" /> {t.aboutTitle}
+              </span>
+              <p className="mt-3 text-sm text-muted-foreground lg:text-base">{t.aboutBlurb}</p>
+            </div>
+            <div className="mx-auto mt-6 grid max-w-3xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <Link to="/about" className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-blue-500 hover:shadow-md">
+                <div className="rounded-lg bg-blue-500/10 p-2.5 text-blue-600"><Info className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.aboutPage}</p><p className="text-sm font-semibold">ChipFinder</p></div>
+              </Link>
+              <Link to="/contact" className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-blue-500 hover:shadow-md">
+                <div className="rounded-lg bg-violet-500/10 p-2.5 text-violet-600"><LifeBuoy className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.contactPage}</p><p className="text-sm font-semibold">Ali Raed</p></div>
+              </Link>
+              <a href={telegramUrl} target="_blank" rel="noreferrer" className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-blue-500 hover:shadow-md">
+                <div className="rounded-lg bg-sky-500/10 p-2.5 text-sky-600"><MessageSquare className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.telegram}</p><p className="text-sm font-semibold">@{OWNER_TELEGRAM}</p></div>
+              </a>
+              <a href={phoneTelUrl} className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-emerald-500 hover:shadow-md">
+                <div className="rounded-lg bg-emerald-500/10 p-2.5 text-emerald-600"><Phone className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.phone}</p><p className="text-sm font-semibold" dir="ltr">{OWNER_PHONE_LOCAL}</p></div>
+              </a>
+            </div>
+          </div>
+        </section>
 
         <footer id="owners" className="border-t bg-card">
           <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
-            <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
+            <p>© {new Date().getFullYear()} ChipFinder Iraq · {t.footer}</p>
             <nav className="flex flex-wrap items-center gap-4">
-              <Link to="/about" className="hover:text-foreground">About</Link>
-              <Link to="/parts" className="hover:text-foreground">Parts</Link>
-              <Link to="/list-shop" className="hover:text-foreground">List your shop</Link>
-              <Link to="/contact" className="hover:text-foreground">Contact</Link>
-
-
+              <Link to="/about" className="hover:text-foreground">{t.aboutPage}</Link>
+              <Link to="/parts" className="hover:text-foreground">{t.parts}</Link>
+              <Link to="/list-shop" className="hover:text-foreground">{t.listYourShop}</Link>
+              <Link to="/contact" className="hover:text-foreground">{t.contactPage}</Link>
             </nav>
-            <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
+            <p>{t.createdBy} <span className="font-semibold text-blue-700">Ali Raed</span></p>
           </div>
         </footer>
+
 
       </div>
     </>
