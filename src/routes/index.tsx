@@ -761,10 +761,9 @@ function Index() {
                 <Search className="h-4 w-4 text-muted-foreground" />
                 <input
                   value={query}
+                  onChange={(e) => setQuery(e.target.value)}
                   placeholder={t.searchPlaceholder}
-                  placeholder="Search shop, service, or address… (press /)"
                   id="cf-search"
-
                   className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
                 />
               </div>
