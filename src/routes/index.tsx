@@ -882,7 +882,7 @@ function Index() {
 
                 <div className="mt-4 rounded-lg border border-blue-700/20 bg-blue-50 p-3">
                   <p className="flex items-center gap-1 text-xs font-semibold text-blue-700">
-                    <Star className="h-3.5 w-3.5 fill-blue-700" /> Top rated
+                    <Star className="h-3.5 w-3.5 fill-blue-700" /> {t.topRated}
                   </p>
                   <p className="mt-1 text-xs text-blue-700/80">
                     {[...SHOPS].sort((a, b) => b.rating - a.rating)[0].name}
