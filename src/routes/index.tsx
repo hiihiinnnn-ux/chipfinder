@@ -491,11 +491,11 @@ function Index() {
               <span className="font-display text-lg font-bold tracking-tight">ChipFinder Iraq</span>
             </div>
             <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
-              <a href="#browse" className="hover:text-white">Browse</a>
-              <a href="#cities" className="hover:text-white">Cities</a>
-              <a href="#services" className="hover:text-white">Services</a>
-              <Link to="/parts" className="hover:text-white">Repair parts</Link>
-              <Link to="/list-shop" className="hover:text-white">For shop owners</Link>
+              <a href="#browse" className="hover:text-white">{t.browse}</a>
+              <a href="#cities" className="hover:text-white">{t.cities}</a>
+              <a href="#services" className="hover:text-white">{t.services}</a>
+              <Link to="/parts" className="hover:text-white">{t.parts}</Link>
+              <Link to="/list-shop" className="hover:text-white">{t.forOwners}</Link>
             </nav>
             <div className="flex items-center gap-2">
               <button
