@@ -711,44 +711,45 @@ function Index() {
                 <button onClick={() => setAuthOpen(false)} className="rounded-md px-2 py-1 text-sm text-muted-foreground hover:bg-muted">Close</button>
               </div>
 
-              <button onClick={signInWithGoogle} className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 text-sm font-semibold text-primary-foreground transition-colors hover:bg-blue-600">
-                <Mail className="h-4 w-4" /> Continue with Google
-              </button>
-
-              <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
-                <span className="h-px flex-1 bg-border" /> or phone number <span className="h-px flex-1 bg-border" />
+              <div className="mt-5 space-y-3">
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-foreground" htmlFor="email-login">Email</label>
+                  <input
+                    id="email-login"
+                    type="email"
+                    autoComplete="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="you@example.com"
+                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-semibold text-foreground" htmlFor="password-login">Password</label>
+                  <input
+                    id="password-login"
+                    type="password"
+                    autoComplete={authMode === "signin" ? "current-password" : "new-password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="At least 6 characters"
+                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
+                  />
+                </div>
+                <button
+                  onClick={authMode === "signin" ? signInEmail : signUpEmail}
+                  className="h-11 w-full rounded-lg bg-primary text-sm font-semibold text-primary-foreground transition-colors hover:bg-blue-600"
+                >
+                  {authMode === "signin" ? "Sign in" : "Create account"}
+                </button>
+                <button
+                  onClick={() => { setAuthMode(authMode === "signin" ? "signup" : "signin"); setAuthMessage(""); }}
+                  className="w-full text-xs text-muted-foreground hover:text-foreground"
+                >
+                  {authMode === "signin" ? "No account? Create one" : "Already have an account? Sign in"}
+                </button>
               </div>
 
-              {authMode === "phone" ? (
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold text-foreground" htmlFor="phone-login">Phone number</label>
-                  <input
-                    id="phone-login"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="+9647xxxxxxxxx"
-                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
-                  />
-                  <button onClick={sendPhoneCode} className="h-10 w-full rounded-lg border border-input bg-background text-sm font-semibold text-foreground transition-colors hover:bg-muted">
-                    Send SMS code
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-2">
-                  <label className="text-xs font-semibold text-foreground" htmlFor="otp-login">SMS code</label>
-                  <input
-                    id="otp-login"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value)}
-                    placeholder="123456"
-                    className="h-11 w-full rounded-lg border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring"
-                  />
-                  <button onClick={verifyPhoneCode} className="h-10 w-full rounded-lg border border-input bg-background text-sm font-semibold text-foreground transition-colors hover:bg-muted">
-                    Verify code
-                  </button>
-                  <button onClick={() => setAuthMode("phone")} className="w-full text-xs text-muted-foreground hover:text-foreground">Use a different number</button>
-                </div>
-              )}
 
               {authMessage && <p className="mt-3 rounded-lg bg-muted px-3 py-2 text-xs text-muted-foreground">{authMessage}</p>}
             </div>
