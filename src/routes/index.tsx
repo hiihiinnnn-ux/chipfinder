@@ -785,12 +785,12 @@ function Index() {
                   onChange={(e) => setTag(e.target.value)}
                   className="h-11 w-full bg-transparent text-sm outline-none"
                 >
-                  <option>All services</option>
-                  {ALL_TAGS.map((t) => <option key={t}>{t}</option>)}
+                  <option value="All services">{t.allServices}</option>
+                  {ALL_TAGS.map((tg) => <option key={tg}>{tg}</option>)}
                 </select>
               </div>
               <button className="h-11 rounded-lg bg-primary px-6 text-sm font-semibold text-primary-foreground transition-colors hover:bg-blue-600">
-                Search
+                {t.searchBtn}
               </button>
             </div>
           </div>
