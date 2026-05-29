@@ -539,7 +539,7 @@ function Index() {
                   <Menu className="h-4 w-4" />
                 </button>
                 {menuOpen && (
-                  <div className="absolute right-0 top-11 z-30 w-64 overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-xl ring-1 ring-black/5">
+                  <div className="absolute end-0 top-11 z-30 w-[min(16rem,calc(100vw-1rem))] overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-xl ring-1 ring-black/5">
                     <div className="border-b bg-gradient-to-r from-blue-50 to-card px-3 py-2.5">
                       <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-700">
                         <Sparkles className="h-3.5 w-3.5" /> Quick tools
