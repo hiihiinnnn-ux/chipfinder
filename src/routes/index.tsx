@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail, Heart, Clock } from "lucide-react";
+import { Search, MapPin, Cpu, SlidersHorizontal, Wrench, Cog, Apple, Gamepad2, HardDrive, Server, Network, Star, Building2, Package, Store, Menu, Share2, Flag, LifeBuoy, Lightbulb, Keyboard, Moon, Sun, MessageSquare, Sparkles, LogIn, LogOut, LocateFixed, History, Mail, Heart, Clock, Languages, Info, Phone } from "lucide-react";
 
 
 
