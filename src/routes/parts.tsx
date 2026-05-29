@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { Search, Cpu, ArrowLeft, Package, Store, CircleCheck, CircleAlert } from "lucide-react";
 import { PARTS, PART_CATEGORIES, PART_BRANDS, formatIQD, type Part } from "@/data/parts";
 import { SHOPS } from "@/data/shops";
+import { useLang, type Lang } from "@/lib/use-lang";
 
 export const Route = createFileRoute("/parts")({
   head: () => ({
@@ -16,7 +17,60 @@ export const Route = createFileRoute("/parts")({
   component: PartsPage,
 });
 
+const T = {
+  en: {
+    back: "Back to shops",
+    badge: (n: number, s: number) => `${n} parts indexed across ${s} shops`,
+    title: "Find repair parts for computers",
+    sub: "Search by part name, brand, or compatibility. Then we'll show you which shops across Iraq have it in stock.",
+    searchPh: "e.g. 'DDR4 16GB', 'MacBook battery', 'RTX 3060', 'HP charger'…",
+    clear: "Clear",
+    category: "Category", brand: "Brand", condition: "Condition", all: "All",
+    maxPrice: (v: string) => `Max price · ${v}`,
+    inStockOnly: "In stock only",
+    reset: "Reset filters",
+    matches: (n: number) => `${n} ${n === 1 ? "part" : "parts"} match`,
+    allCategories: "All categories",
+    empty: "No parts match those filters. Try widening the price or clearing filters.",
+    fits: "Fits:",
+    inStock: (n: number) => `${n} in stock`,
+    outOfStock: "Out of stock",
+    shopsCount: (n: number) => `${n} ${n === 1 ? "shop" : "shops"}`,
+    more: (n: number) => `+${n} more`,
+    footer: "Demo directory.", createdBy: "Created by",
+    condNew: "New", condUsed: "Used", condRefurb: "Refurbished",
+  },
+  ar: {
+    back: "الرجوع إلى المحلات",
+    badge: (n: number, s: number) => `${n} قطعة مفهرسة في ${s} محل`,
+    title: "ابحث عن قطع صيانة الكمبيوتر",
+    sub: "ابحث باسم القطعة أو الماركة أو التوافق، وسنعرض لك المحلات التي تتوفر فيها عبر العراق.",
+    searchPh: "مثلاً: 'DDR4 16GB' أو 'بطارية ماك بوك' أو 'RTX 3060' أو 'شاحن HP'…",
+    clear: "مسح",
+    category: "الفئة", brand: "الماركة", condition: "الحالة", all: "الكل",
+    maxPrice: (v: string) => `أعلى سعر · ${v}`,
+    inStockOnly: "المتوفر فقط",
+    reset: "إعادة ضبط الفلاتر",
+    matches: (n: number) => `${n} قطعة مطابقة`,
+    allCategories: "كل الفئات",
+    empty: "لا توجد قطع مطابقة. جرّب توسيع نطاق السعر أو إزالة الفلاتر.",
+    fits: "متوافق مع:",
+    inStock: (n: number) => `${n} متوفر`,
+    outOfStock: "غير متوفر",
+    shopsCount: (n: number) => `${n} محل`,
+    more: (n: number) => `+${n} المزيد`,
+    footer: "دليل تجريبي.", createdBy: "صنعه",
+    condNew: "جديد", condUsed: "مستعمل", condRefurb: "مجدّد",
+  },
+} as const;
+
 const CONDITIONS = ["All", "New", "Used", "Refurbished"] as const;
+type Condition = (typeof CONDITIONS)[number];
+const condLabel = (c: Condition, lang: Lang) => {
+  const t = T[lang];
+  return c === "All" ? t.all : c === "New" ? t.condNew : c === "Used" ? t.condUsed : t.condRefurb;
+};
+
 
 function PartsPage() {
   const [query, setQuery] = useState("");
