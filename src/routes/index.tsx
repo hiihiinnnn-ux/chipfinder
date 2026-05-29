@@ -177,16 +177,21 @@ function Index() {
     });
   }, [dark, loadedCloudPrefs, saveThemePref, user]);
 
+  const langLoadedRef = useRef(false);
   useEffect(() => {
     const saved = window.localStorage.getItem(LANG_KEY) as Lang | null;
     if (saved === "ar" || saved === "en") setLang(saved);
+    langLoadedRef.current = true;
   }, []);
 
   useEffect(() => {
     document.documentElement.setAttribute("lang", lang);
     document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
-    window.localStorage.setItem(LANG_KEY, lang);
+    if (langLoadedRef.current) {
+      window.localStorage.setItem(LANG_KEY, lang);
+    }
   }, [lang]);
+
 
   // Load recently viewed from localStorage on mount
   useEffect(() => {
