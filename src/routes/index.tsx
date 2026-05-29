@@ -852,7 +852,7 @@ function Index() {
                         city === "All cities" ? "bg-accent text-accent-foreground" : "hover:bg-muted"
                       }`}
                     >
-                      <span>All cities</span>
+                      <span>{t.allCities}</span>
                       <span className="text-xs text-muted-foreground">{SHOPS.length}</span>
                     </button>
                   </li>
