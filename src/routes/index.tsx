@@ -762,6 +762,15 @@ function Index() {
                 >
                   {authMode === "signin" ? "No account? Create one" : "Already have an account? Sign in"}
                 </button>
+                {authMode === "signin" && (
+                  <button
+                    onClick={sendPasswordReset}
+                    className="w-full text-xs text-blue-700 hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                )}
+
               </div>
 
 
