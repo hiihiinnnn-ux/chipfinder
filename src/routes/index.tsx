@@ -483,12 +483,12 @@ function Index() {
       <div className="min-h-screen overflow-x-hidden bg-background">
         {/* Header */}
         <header className="sticky top-0 z-20 border-b border-blue-700/20 bg-gradient-to-r from-steel-900 via-blue-700 to-steel-700 text-primary-foreground shadow-sm">
-          <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 lg:px-6">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white/15 ring-1 ring-white/20 backdrop-blur">
+          <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-2 px-3 py-3 sm:gap-4 sm:px-4 lg:px-6">
+            <div className="flex min-w-0 items-center gap-2">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-white/15 ring-1 ring-white/20 backdrop-blur">
                 <Cpu className="h-4 w-4" />
               </div>
-              <span className="font-display text-lg font-bold tracking-tight">ChipFinder Iraq</span>
+              <span className="truncate font-display text-base font-bold tracking-tight sm:text-lg">ChipFinder Iraq</span>
             </div>
             <nav className="hidden items-center gap-6 text-sm text-white/80 md:flex">
               <a href="#browse" className="hover:text-white">{t.browse}</a>
@@ -497,7 +497,7 @@ function Index() {
               <Link to="/parts" className="hover:text-white">{t.parts}</Link>
               <Link to="/list-shop" className="hover:text-white">{t.forOwners}</Link>
             </nav>
-            <div className="flex items-center gap-2">
+            <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
               <button
                 onClick={() => (user ? signOut() : setAuthOpen(true))}
                 className="hidden items-center gap-1.5 rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 md:flex"
@@ -513,19 +513,21 @@ function Index() {
               </Link>
               <Link
                 to="/parts"
-                className="flex items-center gap-1.5 rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
+                aria-label={t.findParts}
+                className="flex h-9 items-center gap-1.5 rounded-md bg-white px-2.5 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50 sm:px-4"
               >
-                <Package className="h-4 w-4" /> {t.findParts}
+                <Package className="h-4 w-4" /> <span className="hidden sm:inline">{t.findParts}</span>
               </Link>
 
               <button
                 onClick={() => setLang((l) => (l === "en" ? "ar" : "en"))}
                 aria-label="Toggle language"
                 title="Toggle language"
-                className="flex h-9 items-center gap-1.5 rounded-md border border-white/30 px-2.5 text-xs font-semibold text-white transition-colors hover:bg-white/10"
+                className="flex h-9 items-center gap-1 rounded-md border border-white/30 px-2 text-xs font-semibold text-white transition-colors hover:bg-white/10"
               >
-                <Languages className="h-4 w-4" /> {t.langToggle}
+                <Languages className="h-4 w-4" /> <span className="hidden xs:inline sm:inline">{t.langToggle}</span>
               </button>
+
 
 
               {/* Cool stuff menu */}
