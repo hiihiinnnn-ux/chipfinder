@@ -401,10 +401,10 @@ function Index() {
     loadSearchProfile()
       .then((profile) => {
         const prefs = profile.preferences as (typeof profile.preferences & { theme?: string | null }) | null;
-        if (prefs?.preferred_city && ALL_CITIES.includes(prefs.preferred_city)) setCity(prefs.preferred_city);
-        if (prefs?.preferred_tag && ALL_TAGS.includes(prefs.preferred_tag)) setTag(prefs.preferred_tag);
-        if (prefs?.last_query) setQuery(prefs.last_query);
-        setDetectedCity(prefs?.last_detected_city ?? null);
+        // Only restore theme preference automatically — do NOT auto-apply
+        // preferred_city / preferred_tag / last_query so the user still sees
+        // the full shop list after signing in. Saved searches remain
+        // available via the menu.
         if (prefs?.theme === "dark" || prefs?.theme === "light") {
           lastSavedThemeRef.current = prefs.theme;
           setDark(prefs.theme === "dark");
@@ -413,6 +413,7 @@ function Index() {
       })
       .catch(() => {})
       .finally(() => setLoadedCloudPrefs(true));
+
   }, [loadSearchProfile, loadedCloudPrefs, user]);
 
 
