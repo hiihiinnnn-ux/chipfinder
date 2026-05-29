@@ -922,21 +922,49 @@ function Index() {
           </div>
         </section>
 
+        {/* About & Contact highlight section */}
+        <section className="border-t bg-gradient-to-b from-background to-blue-50/40">
+          <div className="mx-auto max-w-[1600px] px-4 py-10 lg:px-6">
+            <div className="mx-auto max-w-3xl text-center">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-700/20 bg-card px-3 py-1 text-xs font-semibold text-blue-700">
+                <Sparkles className="h-3.5 w-3.5" /> {t.aboutTitle}
+              </span>
+              <p className="mt-3 text-sm text-muted-foreground lg:text-base">{t.aboutBlurb}</p>
+            </div>
+            <div className="mx-auto mt-6 grid max-w-3xl gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <Link to="/about" className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-blue-500 hover:shadow-md">
+                <div className="rounded-lg bg-blue-500/10 p-2.5 text-blue-600"><Info className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.aboutPage}</p><p className="text-sm font-semibold">ChipFinder</p></div>
+              </Link>
+              <Link to="/contact" className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-blue-500 hover:shadow-md">
+                <div className="rounded-lg bg-violet-500/10 p-2.5 text-violet-600"><LifeBuoy className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.contactPage}</p><p className="text-sm font-semibold">Ali Raed</p></div>
+              </Link>
+              <a href={telegramUrl} target="_blank" rel="noreferrer" className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-blue-500 hover:shadow-md">
+                <div className="rounded-lg bg-sky-500/10 p-2.5 text-sky-600"><MessageSquare className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.telegram}</p><p className="text-sm font-semibold">@{OWNER_TELEGRAM}</p></div>
+              </a>
+              <a href={phoneTelUrl} className="group flex items-center gap-3 rounded-xl border bg-card p-4 transition hover:border-emerald-500 hover:shadow-md">
+                <div className="rounded-lg bg-emerald-500/10 p-2.5 text-emerald-600"><Phone className="h-5 w-5" /></div>
+                <div><p className="text-xs uppercase tracking-wide text-muted-foreground">{t.phone}</p><p className="text-sm font-semibold" dir="ltr">{OWNER_PHONE_LOCAL}</p></div>
+              </a>
+            </div>
+          </div>
+        </section>
 
         <footer id="owners" className="border-t bg-card">
           <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
-            <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
+            <p>© {new Date().getFullYear()} ChipFinder Iraq · {t.footer}</p>
             <nav className="flex flex-wrap items-center gap-4">
-              <Link to="/about" className="hover:text-foreground">About</Link>
-              <Link to="/parts" className="hover:text-foreground">Parts</Link>
-              <Link to="/list-shop" className="hover:text-foreground">List your shop</Link>
-              <Link to="/contact" className="hover:text-foreground">Contact</Link>
-
-
+              <Link to="/about" className="hover:text-foreground">{t.aboutPage}</Link>
+              <Link to="/parts" className="hover:text-foreground">{t.parts}</Link>
+              <Link to="/list-shop" className="hover:text-foreground">{t.listYourShop}</Link>
+              <Link to="/contact" className="hover:text-foreground">{t.contactPage}</Link>
             </nav>
-            <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
+            <p>{t.createdBy} <span className="font-semibold text-blue-700">Ali Raed</span></p>
           </div>
         </footer>
+
 
       </div>
     </>
