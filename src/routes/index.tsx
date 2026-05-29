@@ -842,7 +842,7 @@ function Index() {
 
               <div className="rounded-xl border bg-card p-3">
                 <h3 className="mb-2 flex items-center gap-1.5 px-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  <Building2 className="h-3.5 w-3.5" /> Cities
+                  <Building2 className="h-3.5 w-3.5" /> {t.citiesH}
                 </h3>
                 <ul className="space-y-0.5">
                   <li>
