@@ -503,7 +503,7 @@ function Index() {
                 className="hidden items-center gap-1.5 rounded-md border border-white/30 px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-white/10 md:flex"
               >
                 {user ? <LogOut className="h-4 w-4" /> : <LogIn className="h-4 w-4" />}
-                {user ? "Sign out" : "Sign in"}
+                {user ? t.signOut : t.signIn}
               </button>
               <Link
                 to="/list-shop"
