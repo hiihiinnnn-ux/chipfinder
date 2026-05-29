@@ -94,7 +94,9 @@ const CATEGORY_ICONS: Record<string, typeof Wrench> = {
 };
 
 const OWNER_TELEGRAM = "i64vn";
-const OWNER_PHONE_INTL = "+9647803861785";
+  const [listTab, setListTab] = useState<ListTab>("all");
+  const [lang, setLang] = useState<Lang>("en");
+  const t = T[lang];
 const OWNER_PHONE_LOCAL = "07803861785";
 const telegramUrl = `https://t.me/${OWNER_TELEGRAM}`;
 const phoneTelUrl = `tel:${OWNER_PHONE_INTL}`;
