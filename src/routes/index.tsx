@@ -932,10 +932,7 @@ function Index() {
           <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-3 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
             <p>© {new Date().getFullYear()} ChipFinder Iraq · {t.footer}</p>
             <nav className="flex flex-wrap items-center gap-4">
-              <Link to="/about" className="hover:text-foreground">{t.aboutPage}</Link>
-              <Link to="/parts" className="hover:text-foreground">{t.parts}</Link>
               <Link to="/list-shop" className="hover:text-foreground">{t.listYourShop}</Link>
-              <Link to="/contact" className="hover:text-foreground">{t.contactPage}</Link>
             </nav>
             <p>{t.createdBy} <span className="font-semibold text-blue-700">Ali Raed</span></p>
           </div>
