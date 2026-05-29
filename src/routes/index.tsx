@@ -147,9 +147,9 @@ function Index() {
   const [dark, setDark] = useState(true);
   const [user, setUser] = useState<AppUser | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<"phone" | "otp">("phone");
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
+  const [authMode, setAuthMode] = useState<"signin" | "signup">("signin");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [authMessage, setAuthMessage] = useState("");
   const [savedSearches, setSavedSearches] = useState<SavedSearch[]>([]);
   const [detectedCity, setDetectedCity] = useState<string | null>(null);
