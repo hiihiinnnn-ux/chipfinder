@@ -13,14 +13,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { getUserSearchProfile, saveUserSearchProfile, saveUserTheme } from "@/lib/user-preferences.functions";
 import { listFavorites, addFavorite, removeFavorite } from "@/lib/favorites.functions";
+import { useLangState, type Lang } from "@/lib/use-lang";
 import type { Shop } from "@/data/shops";
 
 const FAV_KEY = "chipfinder-favorites";
 const RECENT_KEY = "chipfinder-recent";
 const RECENT_MAX = 8;
-const LANG_KEY = "chipfinder-lang";
 type ListTab = "all" | "favorites" | "recent";
-type Lang = "en" | "ar";
 
 const T = {
   en: {
@@ -144,7 +143,7 @@ function Index() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [listTab, setListTab] = useState<ListTab>("all");
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLang] = useLangState();
   const t = T[lang];
   const addFavFn = useServerFn(addFavorite);
   const removeFavFn = useServerFn(removeFavorite);
@@ -176,22 +175,6 @@ function Index() {
       lastSavedThemeRef.current = null;
     });
   }, [dark, loadedCloudPrefs, saveThemePref, user]);
-
-  const langLoadedRef = useRef(false);
-  useEffect(() => {
-    const saved = window.localStorage.getItem(LANG_KEY) as Lang | null;
-    if (saved === "ar" || saved === "en") setLang(saved);
-    langLoadedRef.current = true;
-  }, []);
-
-  useEffect(() => {
-    document.documentElement.setAttribute("lang", lang);
-    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
-    if (langLoadedRef.current) {
-      window.localStorage.setItem(LANG_KEY, lang);
-    }
-  }, [lang]);
-
 
   // Load recently viewed from localStorage on mount
   useEffect(() => {
