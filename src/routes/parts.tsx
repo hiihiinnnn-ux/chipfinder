@@ -73,10 +73,12 @@ const condLabel = (c: Condition, lang: Lang) => {
 
 
 function PartsPage() {
+  const lang = useLang();
+  const t = T[lang];
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<string>("All");
   const [brand, setBrand] = useState<string>("All");
-  const [condition, setCondition] = useState<(typeof CONDITIONS)[number]>("All");
+  const [condition, setCondition] = useState<Condition>("All");
   const [maxPrice, setMaxPrice] = useState<number>(600000);
   const [inStockOnly, setInStockOnly] = useState(false);
 
@@ -100,7 +102,6 @@ function PartsPage() {
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-background">
-      {/* Header */}
       <header className="sticky top-0 z-20 border-b border-blue-700/20 bg-gradient-to-r from-steel-900 via-blue-700 to-steel-700 text-primary-foreground shadow-sm">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-3 lg:px-6">
           <Link to="/" className="flex items-center gap-2">
@@ -113,31 +114,26 @@ function PartsPage() {
             to="/"
             className="flex items-center gap-1.5 rounded-md bg-white/10 px-3 py-1.5 text-sm text-white hover:bg-white/20"
           >
-            <ArrowLeft className="h-4 w-4" /> Back to shops
+            <ArrowLeft className="h-4 w-4" /> {t.back}
           </Link>
         </div>
       </header>
 
-      {/* Hero */}
       <section className="border-b bg-gradient-to-b from-blue-50 via-steel-100 to-background">
         <div className="mx-auto max-w-[1600px] px-4 py-8 lg:px-6 lg:py-12">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-700/20 bg-card px-3 py-1 text-xs text-blue-700">
             <Package className="h-3.5 w-3.5" />
-            {PARTS.length} parts indexed across {SHOPS.length} shops
+            {t.badge(PARTS.length, SHOPS.length)}
           </span>
-          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight lg:text-4xl">
-            Find repair parts for computers
-          </h1>
-          <p className="mt-2 max-w-2xl text-sm text-muted-foreground lg:text-base">
-            Search by part name, brand, or compatibility. Then we'll show you which shops across Iraq have it in stock.
-          </p>
+          <h1 className="mt-3 font-display text-3xl font-bold tracking-tight lg:text-4xl">{t.title}</h1>
+          <p className="mt-2 max-w-2xl text-sm text-muted-foreground lg:text-base">{t.sub}</p>
 
           <div className="mt-5 flex items-center gap-2 rounded-xl border bg-card p-2 shadow-sm">
-            <Search className="ml-2 h-4 w-4 text-muted-foreground" />
+            <Search className="ms-2 h-4 w-4 text-muted-foreground" />
             <input
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="e.g. 'DDR4 16GB', 'MacBook battery', 'RTX 3060', 'HP charger'…"
+              placeholder={t.searchPh}
               className="h-11 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
             />
             {query && (
@@ -145,47 +141,45 @@ function PartsPage() {
                 onClick={() => setQuery("")}
                 className="rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-muted"
               >
-                Clear
+                {t.clear}
               </button>
             )}
           </div>
         </div>
       </section>
 
-      {/* Body: filters + results */}
       <section className="mx-auto max-w-[1600px] px-4 py-6 lg:px-6">
         <div className="grid gap-4 lg:grid-cols-[240px_1fr]">
-          {/* Filters */}
           <aside className="space-y-4">
-            <FilterGroup title="Category">
+            <FilterGroup title={t.category}>
               <div className="flex flex-wrap gap-1.5">
-                <Chip active={category === "All"} onClick={() => setCategory("All")}>All</Chip>
+                <Chip active={category === "All"} onClick={() => setCategory("All")}>{t.all}</Chip>
                 {PART_CATEGORIES.map((c) => (
                   <Chip key={c} active={category === c} onClick={() => setCategory(c)}>{c}</Chip>
                 ))}
               </div>
             </FilterGroup>
 
-            <FilterGroup title="Brand">
+            <FilterGroup title={t.brand}>
               <select
                 value={brand}
                 onChange={(e) => setBrand(e.target.value)}
                 className="h-9 w-full rounded-md border border-input bg-card px-2 text-sm outline-none focus:ring-2 focus:ring-ring"
               >
-                <option>All</option>
+                <option value="All">{t.all}</option>
                 {PART_BRANDS.map((b) => <option key={b}>{b}</option>)}
               </select>
             </FilterGroup>
 
-            <FilterGroup title="Condition">
+            <FilterGroup title={t.condition}>
               <div className="flex flex-wrap gap-1.5">
                 {CONDITIONS.map((c) => (
-                  <Chip key={c} active={condition === c} onClick={() => setCondition(c)}>{c}</Chip>
+                  <Chip key={c} active={condition === c} onClick={() => setCondition(c)}>{condLabel(c, lang)}</Chip>
                 ))}
               </div>
             </FilterGroup>
 
-            <FilterGroup title={`Max price · ${formatIQD(maxPrice)}`}>
+            <FilterGroup title={t.maxPrice(formatIQD(maxPrice))}>
               <input
                 type="range"
                 min={10000}
@@ -204,7 +198,7 @@ function PartsPage() {
                 onChange={(e) => setInStockOnly(e.target.checked)}
                 className="accent-blue-600"
               />
-              In stock only
+              {t.inStockOnly}
             </label>
 
             <button
@@ -214,29 +208,26 @@ function PartsPage() {
               }}
               className="w-full rounded-md border border-input bg-card px-3 py-2 text-xs text-muted-foreground hover:bg-muted"
             >
-              Reset filters
+              {t.reset}
             </button>
           </aside>
 
-          {/* Results */}
           <div>
             <div className="mb-3 flex items-baseline justify-between">
-              <h2 className="font-display text-base font-semibold">
-                {results.length} {results.length === 1 ? "part" : "parts"} match
-              </h2>
+              <h2 className="font-display text-base font-semibold">{t.matches(results.length)}</h2>
               <span className="text-xs text-muted-foreground">
-                {category !== "All" ? category : "All categories"}
+                {category !== "All" ? category : t.allCategories}
                 {brand !== "All" ? ` · ${brand}` : ""}
               </span>
             </div>
 
             {results.length === 0 ? (
               <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
-                No parts match those filters. Try widening the price or clearing filters.
+                {t.empty}
               </div>
             ) : (
               <div className="grid gap-3 sm:grid-cols-2">
-                {results.map((p) => <PartCard key={p.id} part={p} />)}
+                {results.map((p) => <PartCard key={p.id} part={p} lang={lang} />)}
               </div>
             )}
           </div>
@@ -245,13 +236,14 @@ function PartsPage() {
 
       <footer className="border-t bg-card">
         <div className="mx-auto flex max-w-[1600px] flex-col items-start justify-between gap-2 px-4 py-6 text-xs text-muted-foreground md:flex-row md:items-center lg:px-6">
-          <p>© {new Date().getFullYear()} ChipFinder Iraq · Demo directory.</p>
-          <p>Created by <span className="font-semibold text-blue-700">Ali Raed</span></p>
+          <p>© {new Date().getFullYear()} ChipFinder Iraq · {t.footer}</p>
+          <p>{t.createdBy} <span className="font-semibold text-blue-700">Ali Raed</span></p>
         </div>
       </footer>
     </div>
   );
 }
+
 
 function FilterGroup({ title, children }: { title: string; children: React.ReactNode }) {
   return (
