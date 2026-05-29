@@ -895,10 +895,10 @@ function Index() {
               {visibleResults.length === 0 ? (
                 <div className="rounded-xl border border-dashed bg-card p-10 text-center text-sm text-muted-foreground">
                   {listTab === "favorites"
-                    ? "No favorites yet. Tap the heart on any shop to save it here."
+                    ? t.emptyFav
                     : listTab === "recent"
-                    ? "Shops you open will show up here."
-                    : "No shops match those filters. Try clearing the city or service."}
+                    ? t.emptyRecent
+                    : t.emptyAll}
                 </div>
               ) : (
                 visibleResults.map((s) => (
