@@ -801,9 +801,9 @@ function Index() {
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               {([
-                { id: "all" as ListTab, label: "All", count: results.length, icon: Store },
-                { id: "favorites" as ListTab, label: "Favorites", count: favoriteShops.length, icon: Heart },
-                { id: "recent" as ListTab, label: "Recent", count: recentShops.length, icon: Clock },
+                { id: "all" as ListTab, label: t.all, count: results.length, icon: Store },
+                { id: "favorites" as ListTab, label: t.favorites, count: favoriteShops.length, icon: Heart },
+                { id: "recent" as ListTab, label: t.recent, count: recentShops.length, icon: Clock },
               ]).map((t) => {
                 const Icon = t.icon;
                 const active = listTab === t.id;
