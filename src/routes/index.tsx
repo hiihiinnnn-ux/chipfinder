@@ -177,6 +177,17 @@ function Index() {
     });
   }, [dark, loadedCloudPrefs, saveThemePref, user]);
 
+  useEffect(() => {
+    const saved = window.localStorage.getItem(LANG_KEY) as Lang | null;
+    if (saved === "ar" || saved === "en") setLang(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+    window.localStorage.setItem(LANG_KEY, lang);
+  }, [lang]);
+
   // Load recently viewed from localStorage on mount
   useEffect(() => {
     try {
