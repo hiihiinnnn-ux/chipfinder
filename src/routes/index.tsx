@@ -825,12 +825,12 @@ function Index() {
             </div>
             <span className="text-xs text-muted-foreground">
               {listTab === "all"
-                ? `${city === "All cities" ? "All of Iraq" : city}${tag !== "All services" ? ` · ${tag}` : ""}`
+                ? `${city === "All cities" ? (lang === "ar" ? "كل العراق" : "All of Iraq") : city}${tag !== "All services" ? ` · ${tag}` : ""}`
                 : listTab === "favorites"
                 ? user
-                  ? "Saved to your account"
-                  : "Saved on this device · sign in to sync"
-                : "Recently opened on this device"}
+                  ? t.savedAccount
+                  : t.savedDevice
+                : t.recentDevice}
             </span>
           </div>
 
