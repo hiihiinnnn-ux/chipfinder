@@ -63,6 +63,13 @@ const T = {
     all: "الكل", favorites: "المفضلة", recent: "الأخيرة",
     savedAccount: "محفوظة في حسابك", savedDevice: "محفوظة على هذا الجهاز · سجّل لمزامنتها",
     recentDevice: "آخر ما فتحته على هذا الجهاز",
+    emptyFav: "لا توجد مفضلات بعد. اضغط القلب على أي محل لحفظه هنا.",
+    emptyRecent: "المحلات التي تفتحها ستظهر هنا.",
+    emptyAll: "لا توجد محلات مطابقة. جرّب تغيير المدينة أو الخدمة.",
+    topRated: "الأعلى تقييماً", citiesH: "المدن",
+    aboutTitle: "من نحن وكيف تتواصل",
+    aboutBlurb: "ChipFinder من تطوير علي رائد لمساعدتك في العثور على محلات الكمبيوتر الموثوقة في العراق.",
+    aboutPage: "عن المشروع", contactPage: "تواصل معي", telegram: "تيليغرام", phone: "هاتف",
     footer: "دليل تجريبي.", createdBy: "صنعه",
     langToggle: "English",
     menuQuickTools: "أدوات سريعة", menuQuickToolsSub: "إضافات مفيدة للمستخدمين المتقدمين",
@@ -73,13 +80,6 @@ const T = {
     menuShortcuts: "اختصارات", menuShortcutsHint: "للبحث · ", menuShortcutsHint2: "لإغلاق القائمة",
   },
 
-    topRated: "الأعلى تقييماً", citiesH: "المدن",
-    aboutTitle: "من نحن وكيف تتواصل",
-    aboutBlurb: "ChipFinder من تطوير علي رائد لمساعدتك في العثور على محلات الكمبيوتر الموثوقة في العراق.",
-    aboutPage: "عن المشروع", contactPage: "تواصل معي", telegram: "تيليغرام", phone: "هاتف",
-    footer: "دليل تجريبي.", createdBy: "صنعه",
-    langToggle: "English",
-  },
 } as const;
 
 
