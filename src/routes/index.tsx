@@ -18,7 +18,57 @@ import type { Shop } from "@/data/shops";
 const FAV_KEY = "chipfinder-favorites";
 const RECENT_KEY = "chipfinder-recent";
 const RECENT_MAX = 8;
+const LANG_KEY = "chipfinder-lang";
 type ListTab = "all" | "favorites" | "recent";
+type Lang = "en" | "ar";
+
+const T = {
+  en: {
+    browse: "Browse", cities: "Cities", services: "Services", parts: "Repair parts",
+    forOwners: "For shop owners", signIn: "Sign in", signOut: "Sign out",
+    listYourShop: "List your shop", findParts: "Find parts",
+    heroBadge: (n: number, c: number) => `${n} verified shops across ${c} Iraqi cities`,
+    heroTitle: "Find the right computer shop in Iraq.",
+    heroSub: "From Baghdad and Hillah to Erbil and Basra — search local repair labs, custom build experts, and used-gear specialists.",
+    searchPlaceholder: "Search shop, service, or address… (press /)",
+    allCities: "All cities", allServices: "All services", searchBtn: "Search",
+    all: "All", favorites: "Favorites", recent: "Recent",
+    savedAccount: "Saved to your account", savedDevice: "Saved on this device · sign in to sync",
+    recentDevice: "Recently opened on this device",
+    emptyFav: "No favorites yet. Tap the heart on any shop to save it here.",
+    emptyRecent: "Shops you open will show up here.",
+    emptyAll: "No shops match those filters. Try clearing the city or service.",
+    topRated: "Top rated", citiesH: "Cities",
+    aboutTitle: "About & Contact",
+    aboutBlurb: "ChipFinder is built by Ali Raed to help you find trustworthy computer shops across Iraq.",
+    aboutPage: "About the project", contactPage: "Contact me", telegram: "Telegram", phone: "Phone",
+    footer: "Demo directory.", createdBy: "Created by",
+    langToggle: "العربية",
+  },
+  ar: {
+    browse: "تصفّح", cities: "المدن", services: "الخدمات", parts: "قطع الصيانة",
+    forOwners: "لأصحاب المحلات", signIn: "تسجيل الدخول", signOut: "تسجيل الخروج",
+    listYourShop: "أضف محلك", findParts: "ابحث عن قطع",
+    heroBadge: (n: number, c: number) => `${n} محل موثّق في ${c} مدينة عراقية`,
+    heroTitle: "اعثر على محل الكمبيوتر المناسب في العراق.",
+    heroSub: "من بغداد والحلة إلى أربيل والبصرة — ابحث عن مختبرات الصيانة وخبراء التجميع ومحلات الأجهزة المستعملة.",
+    searchPlaceholder: "ابحث عن محل أو خدمة أو عنوان… (اضغط /)",
+    allCities: "كل المدن", allServices: "كل الخدمات", searchBtn: "بحث",
+    all: "الكل", favorites: "المفضلة", recent: "الأخيرة",
+    savedAccount: "محفوظة في حسابك", savedDevice: "محفوظة على هذا الجهاز · سجّل لمزامنتها",
+    recentDevice: "آخر ما فتحته على هذا الجهاز",
+    emptyFav: "لا توجد مفضلات بعد. اضغط القلب على أي محل لحفظه هنا.",
+    emptyRecent: "المحلات التي تفتحها ستظهر هنا.",
+    emptyAll: "لا توجد محلات مطابقة. جرّب تغيير المدينة أو الخدمة.",
+    topRated: "الأعلى تقييماً", citiesH: "المدن",
+    aboutTitle: "من نحن وكيف تتواصل",
+    aboutBlurb: "ChipFinder من تطوير علي رائد لمساعدتك في العثور على محلات الكمبيوتر الموثوقة في العراق.",
+    aboutPage: "عن المشروع", contactPage: "تواصل معي", telegram: "تيليغرام", phone: "هاتف",
+    footer: "دليل تجريبي.", createdBy: "صنعه",
+    langToggle: "English",
+  },
+} as const;
+
 
 export const Route = createFileRoute("/")({
   head: () => ({
