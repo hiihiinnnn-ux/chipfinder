@@ -10,7 +10,7 @@ import { ShopCard } from "@/components/ShopCard";
 import { ShopMap } from "@/components/ShopMap";
 import { Splash } from "@/components/Splash";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable/index";
+
 import { getUserSearchProfile, saveUserSearchProfile, saveUserTheme } from "@/lib/user-preferences.functions";
 import { listFavorites, addFavorite, removeFavorite } from "@/lib/favorites.functions";
 import { useLangState, type Lang } from "@/lib/use-lang";
