@@ -144,6 +144,8 @@ function Index() {
   const [favorites, setFavorites] = useState<Set<string>>(new Set());
   const [recentIds, setRecentIds] = useState<string[]>([]);
   const [listTab, setListTab] = useState<ListTab>("all");
+  const [lang, setLang] = useState<Lang>("en");
+  const t = T[lang];
   const addFavFn = useServerFn(addFavorite);
   const removeFavFn = useServerFn(removeFavorite);
   const listFavFn = useServerFn(listFavorites);
