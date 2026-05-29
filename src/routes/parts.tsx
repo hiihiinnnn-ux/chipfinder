@@ -267,9 +267,11 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
   );
 }
 
-function PartCard({ part }: { part: Part }) {
+function PartCard({ part, lang }: { part: Part; lang: Lang }) {
+  const t = T[lang];
   const shops = SHOPS.filter((s) => part.shopIds.includes(s.id));
   const inStock = part.inStock > 0;
+  const condText = part.condition === "New" ? t.condNew : part.condition === "Refurbished" ? t.condRefurb : t.condUsed;
 
   return (
     <article className="rounded-xl border bg-card p-4 transition-colors hover:border-blue-700/40">
@@ -279,29 +281,29 @@ function PartCard({ part }: { part: Part }) {
           <h3 className="mt-0.5 truncate font-display text-base font-semibold">{part.name}</h3>
           <p className="text-xs text-muted-foreground">{part.brand}</p>
         </div>
-        <div className="text-right">
+        <div className="text-end">
           <p className="font-display text-sm font-bold">{formatIQD(part.price)}</p>
           <span className={`mt-1 inline-block rounded-full px-2 py-0.5 text-[10px] font-medium ${
             part.condition === "New" ? "bg-blue-100 text-blue-700" :
             part.condition === "Refurbished" ? "bg-steel-200 text-steel-900" :
             "bg-muted text-muted-foreground"
           }`}>
-            {part.condition}
+            {condText}
           </span>
         </div>
       </div>
 
       <p className="mt-2 line-clamp-2 text-xs text-muted-foreground">
-        <span className="font-medium text-foreground">Fits:</span> {part.compatibility}
+        <span className="font-medium text-foreground">{t.fits}</span> {part.compatibility}
       </p>
 
       <div className="mt-3 flex items-center justify-between border-t pt-3 text-xs">
         <span className={`flex items-center gap-1 font-medium ${inStock ? "text-blue-700" : "text-muted-foreground"}`}>
           {inStock ? <CircleCheck className="h-3.5 w-3.5" /> : <CircleAlert className="h-3.5 w-3.5" />}
-          {inStock ? `${part.inStock} in stock` : "Out of stock"}
+          {inStock ? t.inStock(part.inStock) : t.outOfStock}
         </span>
         <span className="flex items-center gap-1 text-muted-foreground">
-          <Store className="h-3.5 w-3.5" /> {shops.length} {shops.length === 1 ? "shop" : "shops"}
+          <Store className="h-3.5 w-3.5" /> {t.shopsCount(shops.length)}
         </span>
       </div>
 
@@ -313,10 +315,11 @@ function PartCard({ part }: { part: Part }) {
             </span>
           ))}
           {shops.length > 3 && (
-            <span className="text-[10px] text-muted-foreground">+{shops.length - 3} more</span>
+            <span className="text-[10px] text-muted-foreground">{t.more(shops.length - 3)}</span>
           )}
         </div>
       )}
     </article>
   );
 }
+
