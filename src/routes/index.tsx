@@ -518,6 +518,16 @@ function Index() {
                 <Package className="h-4 w-4" /> Find parts
               </Link>
 
+              <button
+                onClick={() => setLang((l) => (l === "en" ? "ar" : "en"))}
+                aria-label="Toggle language"
+                title="Toggle language"
+                className="flex h-9 items-center gap-1.5 rounded-md border border-white/30 px-2.5 text-xs font-semibold text-white transition-colors hover:bg-white/10"
+              >
+                <Languages className="h-4 w-4" /> {t.langToggle}
+              </button>
+
+
               {/* Cool stuff menu */}
               <div ref={menuRef} className="relative">
                 <button
