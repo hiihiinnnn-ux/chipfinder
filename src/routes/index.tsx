@@ -43,7 +43,14 @@ const T = {
     aboutPage: "About the project", contactPage: "Contact me", telegram: "Telegram", phone: "Phone",
     footer: "Demo directory.", createdBy: "Created by",
     langToggle: "العربية",
+    menuQuickTools: "Quick tools", menuQuickToolsSub: "Handy extras for power users",
+    menuAbout: "About", menuSurprise: "Surprise me — random shop", menuShare: "Share ChipFinder",
+    menuUseCity: "Use my city", menuLight: "Light mode", menuDark: "Dark mode",
+    menuSignInSave: "Sign in to save searches", menuSaveSearch: "Save this search", menuRecent: "Recent",
+    menuSuggest: "Suggest a shop", menuReport: "Report an issue", menuContactHelp: "Contact & help",
+    menuShortcuts: "Shortcuts", menuShortcutsHint: "to search · ", menuShortcutsHint2: "closes menu",
   },
+
   ar: {
     browse: "تصفّح", cities: "المدن", services: "الخدمات", parts: "قطع الصيانة",
     forOwners: "لأصحاب المحلات", signIn: "تسجيل الدخول", signOut: "تسجيل الخروج",
