@@ -774,7 +774,7 @@ function Index() {
                   onChange={(e) => setCity(e.target.value)}
                   className="h-11 w-full bg-transparent text-sm outline-none"
                 >
-                  <option>All cities</option>
+                  <option value="All cities">{t.allCities}</option>
                   {ALL_CITIES.map((c) => <option key={c}>{c}</option>)}
                 </select>
               </div>
