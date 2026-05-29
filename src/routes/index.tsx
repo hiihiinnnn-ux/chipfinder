@@ -333,7 +333,21 @@ function Index() {
       options: { emailRedirectTo: redirectUrl },
     });
     if (error) setAuthMessage(error.message);
-    else setAuthMessage("Account created! Check your email to confirm, then sign in.");
+    else { setAuthOpen(false); setMenuOpen(false); setPassword(""); }
+  };
+
+  const sendPasswordReset = async () => {
+    setAuthMessage("");
+    const cleanEmail = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setAuthMessage("Enter your email above, then tap Forgot password.");
+      return;
+    }
+    const { error } = await supabase.auth.resetPasswordForEmail(cleanEmail, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    if (error) setAuthMessage(error.message);
+    else setAuthMessage("Reset link sent. Check your email.");
   };
 
   const signOut = async () => {
@@ -748,6 +762,15 @@ function Index() {
                 >
                   {authMode === "signin" ? "No account? Create one" : "Already have an account? Sign in"}
                 </button>
+                {authMode === "signin" && (
+                  <button
+                    onClick={sendPasswordReset}
+                    className="w-full text-xs text-blue-700 hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                )}
+
               </div>
 
 
