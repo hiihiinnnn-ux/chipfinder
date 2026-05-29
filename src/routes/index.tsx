@@ -515,7 +515,7 @@ function Index() {
                 to="/parts"
                 className="flex items-center gap-1.5 rounded-md bg-white px-4 py-2 text-sm font-semibold text-blue-700 transition-colors hover:bg-blue-50"
               >
-                <Package className="h-4 w-4" /> Find parts
+                <Package className="h-4 w-4" /> {t.findParts}
               </Link>
 
               <button
