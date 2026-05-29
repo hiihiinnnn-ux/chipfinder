@@ -112,7 +112,18 @@ const CITY_COORDS: Record<string, { lat: number; lng: number }> = {
   Mosul: { lat: 36.3489, lng: 43.1577 },
   Najaf: { lat: 31.9996, lng: 44.3148 },
   Karbala: { lat: 32.6160, lng: 44.0249 },
-  Sulaymaniyah: { lat: 35.5558, lng: 45.4351 },
+  }, []);
+
+  useEffect(() => {
+    const saved = window.localStorage.getItem(LANG_KEY) as Lang | null;
+    if (saved === "ar" || saved === "en") setLang(saved);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("lang", lang);
+    document.documentElement.setAttribute("dir", lang === "ar" ? "rtl" : "ltr");
+    window.localStorage.setItem(LANG_KEY, lang);
+  }, [lang]);
   Kirkuk: { lat: 35.4681, lng: 44.3922 },
   Duhok: { lat: 36.8665, lng: 42.9885 },
   Hillah: { lat: 32.4770, lng: 44.4200 },
