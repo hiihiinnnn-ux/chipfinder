@@ -745,13 +745,14 @@ function Index() {
             <div className="max-w-2xl">
               <span className="inline-flex items-center gap-1.5 rounded-full border border-blue-700/20 bg-card px-3 py-1 text-xs text-blue-700">
                 <span className="h-1.5 w-1.5 rounded-full bg-blue-600" />
-                {SHOPS.length} verified shops across {ALL_CITIES.length} Iraqi cities
+                {t.heroBadge(SHOPS.length, ALL_CITIES.length)}
               </span>
               <h1 className="mt-4 font-display text-4xl font-bold leading-tight tracking-tight text-foreground lg:text-5xl">
-                Find the right computer shop in Iraq.
+                {t.heroTitle}
               </h1>
               <p className="mt-3 text-base text-muted-foreground lg:text-lg">
-                From Baghdad and Hillah to Erbil and Basra — search local repair labs, custom build experts, and used-gear specialists.
+                {t.heroSub}
+              </p>
               </p>
             </div>
 
