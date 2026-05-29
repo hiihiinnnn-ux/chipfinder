@@ -43,7 +43,14 @@ const T = {
     aboutPage: "About the project", contactPage: "Contact me", telegram: "Telegram", phone: "Phone",
     footer: "Demo directory.", createdBy: "Created by",
     langToggle: "العربية",
+    menuQuickTools: "Quick tools", menuQuickToolsSub: "Handy extras for power users",
+    menuAbout: "About", menuSurprise: "Surprise me — random shop", menuShare: "Share ChipFinder",
+    menuUseCity: "Use my city", menuLight: "Light mode", menuDark: "Dark mode",
+    menuSignInSave: "Sign in to save searches", menuSaveSearch: "Save this search", menuRecent: "Recent",
+    menuSuggest: "Suggest a shop", menuReport: "Report an issue", menuContactHelp: "Contact & help",
+    menuShortcuts: "Shortcuts", menuShortcutsHint: "to search · ", menuShortcutsHint2: "closes menu",
   },
+
   ar: {
     browse: "تصفّح", cities: "المدن", services: "الخدمات", parts: "قطع الصيانة",
     forOwners: "لأصحاب المحلات", signIn: "تسجيل الدخول", signOut: "تسجيل الخروج",
@@ -65,7 +72,14 @@ const T = {
     aboutPage: "عن المشروع", contactPage: "تواصل معي", telegram: "تيليغرام", phone: "هاتف",
     footer: "دليل تجريبي.", createdBy: "صنعه",
     langToggle: "English",
+    menuQuickTools: "أدوات سريعة", menuQuickToolsSub: "إضافات مفيدة للمستخدمين المتقدمين",
+    menuAbout: "عن المشروع", menuSurprise: "فاجئني — محل عشوائي", menuShare: "شارك ChipFinder",
+    menuUseCity: "استخدم مدينتي", menuLight: "الوضع الفاتح", menuDark: "الوضع الداكن",
+    menuSignInSave: "سجّل الدخول لحفظ عمليات البحث", menuSaveSearch: "احفظ هذا البحث", menuRecent: "الأخيرة",
+    menuSuggest: "اقترح محلاً", menuReport: "أبلغ عن مشكلة", menuContactHelp: "التواصل والمساعدة",
+    menuShortcuts: "اختصارات", menuShortcutsHint: "للبحث · ", menuShortcutsHint2: "لإغلاق القائمة",
   },
+
 } as const;
 
 
@@ -532,29 +546,29 @@ function Index() {
                   <div className="absolute end-0 top-11 z-30 w-[min(16rem,calc(100vw-1rem))] overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-xl ring-1 ring-black/5">
                     <div className="border-b bg-gradient-to-r from-blue-50 to-card px-3 py-2.5">
                       <p className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-blue-700">
-                        <Sparkles className="h-3.5 w-3.5" /> Quick tools
+                        <Sparkles className="h-3.5 w-3.5" /> {t.menuQuickTools}
                       </p>
-                      <p className="mt-0.5 text-[11px] text-muted-foreground">Handy extras for power users</p>
+                      <p className="mt-0.5 text-[11px] text-muted-foreground">{t.menuQuickToolsSub}</p>
                     </div>
                     <ul className="p-1 text-sm">
                       <li>
                         <Link to="/about" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <Info className="h-4 w-4 text-blue-600" /> About
+                          <Info className="h-4 w-4 text-blue-600" /> {t.menuAbout}
                         </Link>
                       </li>
                       <li>
                         <button onClick={surpriseMe} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
-                          <Lightbulb className="h-4 w-4 text-amber-500" /> Surprise me — random shop
+                          <Lightbulb className="h-4 w-4 text-amber-500" /> {t.menuSurprise}
                         </button>
                       </li>
                       <li>
                         <button onClick={shareSite} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
-                          <Share2 className="h-4 w-4 text-blue-600" /> Share ChipFinder
+                          <Share2 className="h-4 w-4 text-blue-600" /> {t.menuShare}
                         </button>
                       </li>
                       <li>
                         <button onClick={useMyLocation} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
-                          <LocateFixed className="h-4 w-4 text-emerald-600" /> Use my city
+                          <LocateFixed className="h-4 w-4 text-emerald-600" /> {t.menuUseCity}
                         </button>
                       </li>
                       <li>
@@ -563,32 +577,32 @@ function Index() {
                           className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted"
                         >
                           {dark ? <Sun className="h-4 w-4 text-amber-500" /> : <Moon className="h-4 w-4 text-slate-700" />}
-                          {dark ? "Light mode" : "Dark mode"}
+                          {dark ? t.menuLight : t.menuDark}
                         </button>
                       </li>
                       <li className="my-1 border-t" />
                       {user ? (
                         <li>
                           <button onClick={signOut} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
-                            <LogOut className="h-4 w-4 text-rose-600" /> Sign out
+                            <LogOut className="h-4 w-4 text-rose-600" /> {t.signOut}
                           </button>
                         </li>
                       ) : (
                         <li>
                           <button onClick={() => { setAuthOpen(true); setMenuOpen(false); }} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
-                            <LogIn className="h-4 w-4 text-blue-600" /> Sign in to save searches
+                            <LogIn className="h-4 w-4 text-blue-600" /> {t.menuSignInSave}
                           </button>
                         </li>
                       )}
                       <li>
                         <button onClick={saveCurrentSearch} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 text-left hover:bg-muted">
-                          <History className="h-4 w-4 text-violet-600" /> Save this search
+                          <History className="h-4 w-4 text-violet-600" /> {t.menuSaveSearch}
                         </button>
                       </li>
                       {user && savedSearches.length > 0 && (
                         <li className="px-2.5 py-2">
                           <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                            <History className="h-3.5 w-3.5" /> Recent
+                            <History className="h-3.5 w-3.5" /> {t.menuRecent}
                           </p>
                           <div className="space-y-1">
                             {savedSearches.slice(0, 3).map((saved) => (
@@ -602,22 +616,22 @@ function Index() {
                       <li className="my-1 border-t" />
                       <li>
                         <Link to="/list-shop" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <Store className="h-4 w-4 text-emerald-600" /> List your shop
+                          <Store className="h-4 w-4 text-emerald-600" /> {t.listYourShop}
                         </Link>
                       </li>
                       <li>
                         <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <MessageSquare className="h-4 w-4 text-blue-600" /> Suggest a shop
+                          <MessageSquare className="h-4 w-4 text-blue-600" /> {t.menuSuggest}
                         </Link>
                       </li>
                       <li>
                         <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <Flag className="h-4 w-4 text-rose-600" /> Report an issue
+                          <Flag className="h-4 w-4 text-rose-600" /> {t.menuReport}
                         </Link>
                       </li>
                       <li>
                         <Link to="/contact" onClick={() => setMenuOpen(false)} className="flex w-full items-center gap-2.5 rounded-md px-2.5 py-2 hover:bg-muted">
-                          <LifeBuoy className="h-4 w-4 text-violet-600" /> Contact & help
+                          <LifeBuoy className="h-4 w-4 text-violet-600" /> {t.menuContactHelp}
                         </Link>
                       </li>
 
@@ -625,11 +639,12 @@ function Index() {
                       <li className="my-1 border-t" />
                       <li className="px-2.5 py-2 text-[11px] text-muted-foreground">
                         <p className="mb-1 flex items-center gap-1.5 font-semibold text-foreground">
-                          <Keyboard className="h-3.5 w-3.5" /> Shortcuts
+                          <Keyboard className="h-3.5 w-3.5" /> {t.menuShortcuts}
                         </p>
-                        <p>Press <kbd className="rounded border bg-muted px-1">{"/"}</kbd> to search · <kbd className="rounded border bg-muted px-1">Esc</kbd> closes menu</p>
+                        <p><kbd className="rounded border bg-muted px-1">{"/"}</kbd> {t.menuShortcutsHint}<kbd className="rounded border bg-muted px-1">Esc</kbd> {t.menuShortcutsHint2}</p>
 
                       </li>
+
                     </ul>
                   </div>
                 )}
