@@ -753,7 +753,6 @@ function Index() {
               <p className="mt-3 text-base text-muted-foreground lg:text-lg">
                 {t.heroSub}
               </p>
-              </p>
             </div>
 
             {/* Search controls */}
