@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as PartsRouteImport } from './routes/parts'
 import { Route as ListShopRouteImport } from './routes/list-shop'
 import { Route as ContactRouteImport } from './routes/contact'
@@ -16,6 +17,11 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CitiesCityRouteImport } from './routes/cities.$city'
 
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PartsRoute = PartsRouteImport.update({
   id: '/parts',
   path: '/parts',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/list-shop': typeof ListShopRoute
   '/parts': typeof PartsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/cities/$city': typeof CitiesCityRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/list-shop': typeof ListShopRoute
   '/parts': typeof PartsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/cities/$city': typeof CitiesCityRoute
 }
 export interface FileRoutesById {
@@ -70,6 +78,7 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/list-shop': typeof ListShopRoute
   '/parts': typeof PartsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/cities/$city': typeof CitiesCityRoute
 }
 export interface FileRouteTypes {
@@ -80,9 +89,17 @@ export interface FileRouteTypes {
     | '/contact'
     | '/list-shop'
     | '/parts'
+    | '/reset-password'
     | '/cities/$city'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/list-shop' | '/parts' | '/cities/$city'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/list-shop'
+    | '/parts'
+    | '/reset-password'
+    | '/cities/$city'
   id:
     | '__root__'
     | '/'
@@ -90,6 +107,7 @@ export interface FileRouteTypes {
     | '/contact'
     | '/list-shop'
     | '/parts'
+    | '/reset-password'
     | '/cities/$city'
   fileRoutesById: FileRoutesById
 }
@@ -99,11 +117,19 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   ListShopRoute: typeof ListShopRoute
   PartsRoute: typeof PartsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   CitiesCityRoute: typeof CitiesCityRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/parts': {
       id: '/parts'
       path: '/parts'
@@ -155,8 +181,19 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   ListShopRoute: ListShopRoute,
   PartsRoute: PartsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   CitiesCityRoute: CitiesCityRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
