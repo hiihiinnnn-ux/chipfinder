@@ -295,40 +295,45 @@ function Index() {
     document.getElementById("browse")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const signInWithGoogle = async () => {
+  const signInEmail = async () => {
     setAuthMessage("");
-    const result = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
-      extraParams: { prompt: "select_account" },
-    });
-    if (result.error) setAuthMessage("Google sign-in did not finish. Please try again.");
-  };
-
-  const sendPhoneCode = async () => {
-    setAuthMessage("");
-    const cleanPhone = phone.trim();
-    if (!/^\+[1-9]\d{7,14}$/.test(cleanPhone)) {
-      setAuthMessage("Use international format, like +9647xxxxxxxxx.");
+    const cleanEmail = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setAuthMessage("Please enter a valid email address.");
       return;
     }
-    const { error } = await supabase.auth.signInWithOtp({ phone: cleanPhone });
-    if (error) setAuthMessage(error.message);
-    else {
-      setAuthMode("otp");
-      setAuthMessage("Code sent. Check your SMS messages.");
+    if (password.length < 6) {
+      setAuthMessage("Password must be at least 6 characters.");
+      return;
     }
-  };
-
-  const verifyPhoneCode = async () => {
-    setAuthMessage("");
-    const { error } = await supabase.auth.verifyOtp({ phone: phone.trim(), token: otp.trim(), type: "sms" });
+    const { error } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
     if (error) setAuthMessage(error.message);
     else {
       setAuthOpen(false);
       setMenuOpen(false);
-      setOtp("");
-      setAuthMode("phone");
+      setPassword("");
     }
+  };
+
+  const signUpEmail = async () => {
+    setAuthMessage("");
+    const cleanEmail = email.trim();
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
+      setAuthMessage("Please enter a valid email address.");
+      return;
+    }
+    if (password.length < 6) {
+      setAuthMessage("Password must be at least 6 characters.");
+      return;
+    }
+    const redirectUrl = `${window.location.origin}/`;
+    const { error } = await supabase.auth.signUp({
+      email: cleanEmail,
+      password,
+      options: { emailRedirectTo: redirectUrl },
+    });
+    if (error) setAuthMessage(error.message);
+    else setAuthMessage("Account created! Check your email to confirm, then sign in.");
   };
 
   const signOut = async () => {
