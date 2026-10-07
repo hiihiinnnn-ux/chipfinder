@@ -39,7 +39,7 @@ Live site: https://chipfinder.space · Preview: https://id-preview--b2bb571a-a53
   `@theme` tokens rather than a legacy `tailwind.config.js`.
 - **shadcn/ui + Radix primitives** for interface parts, **Lucide** for icons,
   **sonner** for notifications, **Zod** for form validation.
-- **Lovable Cloud** (Supabase) for authentication and the database. App logic
+- **Lovable Cloud** for authentication and the database. App logic
   talks to it through `createServerFn` server functions, not edge functions.
 - **Vite 7** as the build tool; **Nitro** for the deployable output.
 
