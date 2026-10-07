@@ -127,7 +127,7 @@ key to the repo.
 ## About the data
 
 The shops and parts are **sample listings kept in `src/data/`** — 70 shops
-across 14 Iraqi cities (Baghdad and Hillah have the most) and 33 parts. They
+across 14 Iraqi cities (Baghdad and Hillah have the most) and 32 parts. They
 are real-looking but are not a live feed, and prices, phone numbers and stock
 levels are placeholders. Adding a shop means adding a row to `src/data/shops.ts`
 (or approving a `/list-shop` submission once one exists); nothing is scraped
