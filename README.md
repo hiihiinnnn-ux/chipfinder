@@ -6,7 +6,7 @@ People use it to find a shop near them by city, service or keyword, look up
 replacement parts, and get directions. Shop owners can submit their business to
 be listed. Built and maintained by **Ali Raed**.
 
-Live site: https://chipfinder.space · Preview: https://id-preview--b2bb571a-a53b-431d-a161-68e4cae0890b.lovable.app
+Live site: https://chipfinder.space 
 
 ---
 
@@ -133,11 +133,4 @@ levels are placeholders. Adding a shop means adding a row to `src/data/shops.ts`
 (or approving a `/list-shop` submission once one exists); nothing is scraped
 or synced automatically.
 
-## Notes and next steps
 
-- The submitted shop form currently stores nothing — there is no approval
-  queue or admin page yet.
-- Real map tiles, live opening hours, reviews and an owner-editing flow are
-  the natural next additions.
-- The Lovable badge is hidden on the published deployment; hiding it requires
-  an active paid plan, and so does the custom domain.
