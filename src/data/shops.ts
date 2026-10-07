@@ -63,9 +63,31 @@ export const SHOPS: Shop[] = [
   { id: "44", name: "Babylon Used Parts", city: "Hillah", address: "Al-Nadir Quarter, side market", rating: 4.2, reviews: 124, tags: ["Used Gear", "Parts"], hours: "Sat–Thu 9–7", phone: "+964 784 765 8901", x: 0.55, y: 0.54 },
   { id: "45", name: "Hillah Esports Arena Shop", city: "Hillah", address: "Al-Jamiyin St, near university gate", rating: 4.8, reviews: 287, tags: ["Gaming", "Custom Builds", "Parts"], hours: "Daily 12–12", phone: "+964 785 876 9012", x: 0.54, y: 0.53 },
   { id: "46", name: "Mesopotamia Workstations", city: "Hillah", address: "Industrial zone, north Hillah", rating: 4.6, reviews: 145, tags: ["Workstations", "Custom Builds", "Networking"], hours: "Sat–Thu 9–6", phone: "+964 786 987 0123", x: 0.54, y: 0.51 },
-
-
-
+  // Expansion batch
+  { id: "47", name: "Hillah Smart Repair", city: "Hillah", address: "Al-Bakerli Quarter, main street", rating: 4.6, reviews: 151, tags: ["Repairs", "Apple", "Parts"], hours: "Sat–Thu 10–9", phone: "+964 787 101 2020", x: 0.54, y: 0.53 },
+  { id: "48", name: "Babylon Gaming PCs", city: "Hillah", address: "Al-Thawra Quarter, near Hillah mall", rating: 4.7, reviews: 203, tags: ["Gaming", "Custom Builds"], hours: "Daily 12–11", phone: "+964 788 202 3030", x: 0.55, y: 0.52 },
+  { id: "49", name: "Al-Kifl Road Computers", city: "Hillah", address: "Kifl Rd, south Hillah", rating: 4.3, reviews: 98, tags: ["Used Gear", "Repairs"], hours: "Sat–Thu 9–8", phone: "+964 789 303 4040", x: 0.54, y: 0.55 },
+  { id: "50", name: "Hillah Laptop Clinic", city: "Hillah", address: "Al-Akrameen Quarter", rating: 4.6, reviews: 172, tags: ["Repairs", "Parts"], hours: "Sat–Thu 10–9", phone: "+964 780 404 5050", x: 0.53, y: 0.53 },
+  { id: "51", name: "Euphrates Network Solutions", city: "Hillah", address: "Al-Shawi St, near the river", rating: 4.5, reviews: 119, tags: ["Networking", "Workstations"], hours: "Sat–Thu 9–6", phone: "+964 781 505 6060", x: 0.55, y: 0.54 },
+  { id: "52", name: "Hillah Monitor & Parts", city: "Hillah", address: "Al-Jumhuri St, electronics row", rating: 4.4, reviews: 140, tags: ["Parts", "Used Gear"], hours: "Sat–Thu 9–8", phone: "+964 782 606 7070", x: 0.55, y: 0.53 },
+  { id: "53", name: "Al-Hashimiya Tech", city: "Hillah", address: "Hashimiya Rd, north Babil", rating: 4.4, reviews: 87, tags: ["Repairs", "Used Gear"], hours: "Sat–Thu 10–7", phone: "+964 783 707 8080", x: 0.53, y: 0.51 },
+  { id: "54", name: "Babil Pro Builds", city: "Hillah", address: "60 St, near Babil Governorate", rating: 4.9, reviews: 256, tags: ["Custom Builds", "Workstations", "Gaming"], hours: "Daily 10–11", phone: "+964 784 808 9090", x: 0.54, y: 0.52 },
+  { id: "55", name: "Karrada GPU House", city: "Baghdad", address: "Karrada, Arasat St", rating: 4.8, reviews: 344, tags: ["Gaming", "Parts", "Custom Builds"], hours: "Daily 11–11", phone: "+964 770 909 1010", x: 0.56, y: 0.47 },
+  { id: "56", name: "New Baghdad PC Repair", city: "Baghdad", address: "Baghdad Al-Jadida, main market", rating: 4.4, reviews: 176, tags: ["Repairs", "Used Gear"], hours: "Sat–Thu 9–8", phone: "+964 771 010 2121", x: 0.60, y: 0.46 },
+  { id: "57", name: "Sadr City Electronics", city: "Baghdad", address: "Sadr City, Jamila market", rating: 4.2, reviews: 230, tags: ["Used Gear", "Parts"], hours: "Sat–Thu 8–7", phone: "+964 772 121 3232", x: 0.60, y: 0.43 },
+  { id: "58", name: "Jamia Mac & PC", city: "Baghdad", address: "Al-Jamia district, Al-Rubaie St", rating: 4.6, reviews: 189, tags: ["Apple", "Repairs"], hours: "Sat–Thu 10–9", phone: "+964 773 232 4343", x: 0.51, y: 0.46 },
+  { id: "59", name: "Erbil Gaming Zone", city: "Erbil", address: "Gulan St, near Majidi Mall", rating: 4.7, reviews: 288, tags: ["Gaming", "Custom Builds"], hours: "Daily 11–11", phone: "+964 750 343 5454", x: 0.62, y: 0.19 },
+  { id: "60", name: "Ankawa Computers", city: "Erbil", address: "Ankawa main road", rating: 4.5, reviews: 141, tags: ["Repairs", "Apple", "Networking"], hours: "Sat–Thu 10–9", phone: "+964 751 454 6565", x: 0.61, y: 0.17 },
+  { id: "61", name: "Basra Gulf Tech", city: "Basra", address: "Al-Manawi, Al-Watan St", rating: 4.6, reviews: 207, tags: ["Repairs", "Parts", "Networking"], hours: "Sat–Thu 10–9", phone: "+964 772 565 7676", x: 0.69, y: 0.84 },
+  { id: "62", name: "Najaf PC Builders", city: "Najaf", address: "Al-Kufa Rd", rating: 4.6, reviews: 160, tags: ["Custom Builds", "Gaming"], hours: "Daily 10–10", phone: "+964 776 676 8787", x: 0.50, y: 0.63 },
+  { id: "63", name: "Karbala Tech Plaza", city: "Karbala", address: "Al-Hussein St, Plaza building", rating: 4.5, reviews: 134, tags: ["Parts", "Used Gear", "Repairs"], hours: "Sat–Thu 9–9", phone: "+964 777 787 9898", x: 0.52, y: 0.59 },
+  { id: "64", name: "Sulaymaniyah Net Shop", city: "Sulaymaniyah", address: "Sarchnar, Bakhtiari St", rating: 4.6, reviews: 150, tags: ["Networking", "Repairs"], hours: "Sat–Thu 10–8", phone: "+964 778 898 0909", x: 0.75, y: 0.29 },
+  { id: "65", name: "Mosul Rebuild Computers", city: "Mosul", address: "Al-Zuhur, Left Bank", rating: 4.5, reviews: 121, tags: ["Repairs", "Used Gear"], hours: "Sat–Thu 9–8", phone: "+964 774 909 1212", x: 0.49, y: 0.19 },
+  { id: "66", name: "Kirkuk Gaming Hub", city: "Kirkuk", address: "Al-Qadisiya St", rating: 4.4, reviews: 97, tags: ["Gaming", "Parts"], hours: "Daily 12–10", phone: "+964 779 010 2323", x: 0.60, y: 0.31 },
+  { id: "67", name: "Diwaniyah Digital", city: "Diwaniyah", address: "Al-Iskan St, city center", rating: 4.5, reviews: 113, tags: ["Repairs", "Parts"], hours: "Sat–Thu 10–8", phone: "+964 780 121 3434", x: 0.57, y: 0.62 },
+  { id: "68", name: "Kut Computer Center", city: "Kut", address: "Al-Hawra St, near the barrage", rating: 4.4, reviews: 102, tags: ["Repairs", "Used Gear"], hours: "Sat–Thu 9–8", phone: "+964 781 232 4545", x: 0.66, y: 0.55 },
+  { id: "69", name: "Ramadi Tech Store", city: "Ramadi", address: "20th St, city center", rating: 4.3, reviews: 89, tags: ["Repairs", "Parts"], hours: "Sat–Thu 9–7", phone: "+964 782 343 5656", x: 0.40, y: 0.46 },
+  { id: "70", name: "Nasiriyah PC World", city: "Nasiriyah", address: "Al-Habboubi Sq", rating: 4.5, reviews: 118, tags: ["Custom Builds", "Repairs"], hours: "Sat–Thu 10–9", phone: "+964 783 454 6767", x: 0.64, y: 0.72 },
 ];
 
 export const ALL_CITIES = Array.from(new Set(SHOPS.map((s) => s.city))).sort();
